@@ -1047,7 +1047,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Fallback
+   Responsive Mobile & Phone View
    -------------------------------------------------------------------------- */
 @media (max-height: 560px) or (max-width: 991px) {
     html, body {
@@ -1063,12 +1063,56 @@ body {
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+    .hero-particle,
+    .hero-cursor-spotlight,
+    .auth-3d-asset {
+        display: none !important;
+    }
+    .hero-ecg-track {
+        height: 40px !important;
+    }
+    .auth-card-container,
+    .auth-card-container.auth-card-wide {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
     .auth-glass-card {
-        padding: 20px 16px 18px;
-        border-radius: 20px;
+        padding: 22px 18px 20px !important;
+        border-radius: 20px !important;
     }
     .auth-card-title {
-        font-size: 1.3rem;
+        font-size: 1.25rem !important;
+    }
+    .auth-card-subtitle {
+        font-size: 0.82rem !important;
+        line-height: 1.45 !important;
+    }
+    .medical-input-control {
+        font-size: 16px !important; /* Prevents mobile browser auto-zoom */
+        padding: 10px 12px 10px 40px !important;
+    }
+    .google-auth-btn {
+        padding: 10px 16px !important;
+        font-size: 0.88rem !important;
+    }
+    .auth-submit-btn {
+        padding: 12px 20px !important;
+        font-size: 0.94rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-page-hero {
+        padding: 12px 10px 24px !important;
+    }
+    .auth-glass-card {
+        padding: 18px 14px 16px !important;
+    }
+    .auth-pulse-badge {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 1.2rem !important;
     }
 }

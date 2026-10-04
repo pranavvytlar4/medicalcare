@@ -962,3 +962,37 @@ body.admin-body {
         transform: scale(1) translateY(0);
     }
 }
+
+/* Phone view adjustments for Doctor & Admin Dashboards */
+@media (max-width: 768px) {
+    .admin-stat-card {
+        padding: 14px 12px !important;
+        border-radius: 16px !important;
+    }
+    .admin-stat-num {
+        font-size: 1.45rem !important;
+    }
+    .admin-topbar {
+        padding: 10px 14px !important;
+    }
+    .admin-user-pill {
+        padding: 4px !important;
+    }
+    .admin-user-avatar {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 0.85rem !important;
+    }
+    .role-segmented-pill {
+        width: 100% !important;
+        margin-top: 10px !important;
+        justify-content: stretch !important;
+    }
+    .role-pill-btn {
+        flex: 1 1 33.33% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 6px 6px !important;
+        font-size: 0.72rem !important;
+    }
+}
