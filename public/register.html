@@ -23,15 +23,15 @@
     <!-- Medical Care Sticky Navbar (Matching Website) -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="brand-logo" href="index.html">
+            <a class="brand-logo" href="./">
                 <span class="brand-badge-dot"><i class="bi bi-heart-pulse-fill"></i></span>
                 <span>Medical <span class="brand-highlight">Care</span></span>
             </a>
             <div id="navbarAuthSection" class="ms-auto d-flex align-items-center gap-2">
-                <a href="index.html" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold text-secondary d-none d-sm-inline-flex align-items-center">
+                <a href="./" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold text-secondary d-none d-sm-inline-flex align-items-center">
                     <i class="bi bi-house-door me-1"></i> Home
                 </a>
-                <a href="login.html" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
+                <a href="login" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
                 </a>
             </div>
@@ -236,7 +236,7 @@
                 <div class="auth-card-footer">
                     <p class="auth-switch-text">
                         Already part of our community?
-                        <a href="login.html" class="auth-switch-link ms-1">Sign in here &rarr;</a>
+                        <a href="login" class="auth-switch-link ms-1">Sign in here &rarr;</a>
                     </p>
                 </div>
 
@@ -442,11 +442,11 @@
                             setTimeout(() => {
                                 const u = result.user;
                                 if (u && u.role === 'Admin') {
-                                    window.location.href = 'admin/index.html';
+                                    window.location.href = 'admin/';
                                 } else if (u && (u.role === 'Doctor' || u.doctorAccess === true)) {
-                                    window.location.href = 'doctor/index.html';
+                                    window.location.href = 'doctor/';
                                 } else {
-                                    window.location.href = 'dashboard.html';
+                                    window.location.href = 'dashboard';
                                 }
                             }, 1000);
                         }

@@ -56,6 +56,7 @@ app.use(
 
 // Serve Static Frontend Files
 const staticOptions = {
+    extensions: ['html'],
     setHeaders: (res, filePath) => {
         if (filePath.endsWith('.html') || filePath.endsWith('.js') || filePath.endsWith('.css')) {
             res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -65,6 +66,12 @@ const staticOptions = {
         }
     }
 };
+
+// Redirect /index.html to clean root URL /
+app.get('/index.html', (req, res) => {
+    res.redirect(301, '/');
+});
+
 app.use(express.static(path.join(__dirname, 'public'), staticOptions));
 app.use('/image-slider-login', express.static(path.join(__dirname, 'public', 'image-slider-login'), staticOptions));
 app.use('/project', express.static(path.join(__dirname, 'public', 'project'), staticOptions));

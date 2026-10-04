@@ -462,11 +462,11 @@
                 const u = data.user;
                 const prefix = resolvePrefix();
                 if (u && u.role === 'Admin') {
-                    window.location.href = prefix + 'admin/index.html';
+                    window.location.href = prefix + 'admin/';
                 } else if (u && (u.role === 'Doctor' || u.doctorAccess)) {
-                    window.location.href = prefix + 'doctor/index.html';
+                    window.location.href = prefix + 'doctor/';
                 } else {
-                    window.location.href = prefix + 'dashboard.html';
+                    window.location.href = prefix + 'dashboard';
                 }
             }, 500);
 

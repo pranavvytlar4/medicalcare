@@ -176,8 +176,10 @@ const apiFetch = async (url, options = {}) => {
         // If unauthorized token expired
         if (response.status === 401) {
             clearAuthSession();
-            if (!window.location.pathname.includes('login.html') && !window.location.pathname.includes('register.html')) {
-                window.location.href = getPrefix() + 'login.html?session_expired=1';
+            const currentPath = window.location.pathname;
+            const isAuthPage = currentPath.includes('login') || currentPath.includes('register');
+            if (!isAuthPage) {
+                window.location.href = getPrefix() + 'login?session_expired=1';
             }
         }
 
@@ -201,7 +203,7 @@ const logout = async () => {
         console.warn('Logout network error:', error);
     } finally {
         clearAuthSession();
-        window.location.href = getPrefix() + 'login.html';
+        window.location.href = getPrefix() + 'login';
     }
 };
 
@@ -394,7 +396,7 @@ const requireAdmin = async () => {
         const prefix = getPrefix();
         showToast('Access Restricted: This section requires Administrator permissions.', 'danger');
         setTimeout(() => {
-            window.location.href = `${prefix}dashboard.html`;
+            window.location.href = `${prefix}dashboard`;
         }, 1200);
         return false;
     }
@@ -419,7 +421,7 @@ const requireDoctor = async () => {
         const prefix = getPrefix();
         showToast('Doctor Console is reserved for Doctor accounts. Please use the Admin Dashboard.', 'warning');
         setTimeout(() => {
-            window.location.href = `${prefix}admin/index.html`;
+            window.location.href = `${prefix}admin/`;
         }, 1200);
         return false;
     }
@@ -428,7 +430,7 @@ const requireDoctor = async () => {
         const prefix = getPrefix();
         showToast('Access Denied: You do not have permission to access the Doctor Panel. Permission must be granted by an Admin.', 'danger');
         setTimeout(() => {
-            window.location.href = `${prefix}dashboard.html`;
+            window.location.href = `${prefix}dashboard`;
         }, 1200);
         return false;
     }
@@ -458,14 +460,14 @@ const renderNavbarAuth = () => {
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-4 p-2 border" style="min-width: 240px;">
                         <li><h6 class="dropdown-header text-muted small pb-1">${user.email}</h6></li>
-                        <li><a class="dropdown-item rounded-2 py-2" href="${prefix}dashboard.html"><i class="bi bi-grid-fill me-2 text-primary"></i>Dashboard</a></li>
+                        <li><a class="dropdown-item rounded-2 py-2" href="${prefix}dashboard"><i class="bi bi-grid-fill me-2 text-primary"></i>Dashboard</a></li>
                         ${isUserDoctor ? `
-                            <li><a class="dropdown-item rounded-2 py-2 fw-bold text-success bg-success-subtle mb-1" href="${prefix}doctor/index.html"><i class="bi bi-hospital me-2"></i>Doctor Console</a></li>
+                            <li><a class="dropdown-item rounded-2 py-2 fw-bold text-success bg-success-subtle mb-1" href="${prefix}doctor/"><i class="bi bi-hospital me-2"></i>Doctor Console</a></li>
                         ` : ''}
                         ${isUserAdmin ? `
-                            <li><a class="dropdown-item rounded-2 py-2 fw-bold text-primary bg-primary-subtle mb-1" href="${prefix}admin/index.html"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
+                            <li><a class="dropdown-item rounded-2 py-2 fw-bold text-primary bg-primary-subtle mb-1" href="${prefix}admin/"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
                         ` : ''}
-                        <li><a class="dropdown-item rounded-2 py-2" href="${prefix}appointment/appointments.html"><i class="bi bi-calendar2-check me-2 text-primary"></i>My Appointments</a></li>
+                        <li><a class="dropdown-item rounded-2 py-2" href="${prefix}appointment/appointments"><i class="bi bi-calendar2-check me-2 text-primary"></i>My Appointments</a></li>
                         <li><hr class="dropdown-divider my-1"></li>
                         <li>
                             <button id="logoutBtn" class="dropdown-item rounded-2 py-2 text-danger d-flex align-items-center gap-2" type="button">
@@ -514,10 +516,10 @@ const renderNavbarAuth = () => {
     } else {
         authContainer.innerHTML = `
             <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
-                <a href="${prefix}login.html" class="secondary-button btn-sm px-3 py-1 text-nowrap" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
+                <a href="${prefix}login" class="secondary-button btn-sm px-3 py-1 text-nowrap" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
                     <i class="bi bi-box-arrow-in-right"></i> SIGN IN
                 </a>
-                <a href="${prefix}appointment/book.html" class="primary-button btn-sm px-3 py-1 text-nowrap" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
+                <a href="${prefix}appointment/book" class="primary-button btn-sm px-3 py-1 text-nowrap" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
                     BOOK VISIT <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -532,7 +534,7 @@ const requireAuth = () => {
     const user = getCurrentUser();
     if (!user || !getToken()) {
         const prefix = getPrefix();
-        window.location.href = `${prefix}login.html?redirect=1`;
+        window.location.href = `${prefix}login?redirect=1`;
         return false;
     }
     return true;
