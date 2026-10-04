@@ -128,15 +128,15 @@
 
                 <!-- Sign In Form -->
                 <form id="loginForm" novalidate>
-                    <!-- Email Field -->
+                    <!-- Email or Mobile Number Field -->
                     <div class="medical-form-group">
                         <label for="loginEmail" class="medical-form-label">
-                            <span>Email Address</span>
+                            <span>Email Address or Mobile Number</span>
                             <span class="req-star">*</span>
                         </label>
                         <div class="medical-input-box">
-                            <span class="medical-input-icon"><i class="bi bi-envelope"></i></span>
-                            <input type="email" class="medical-input-control" id="loginEmail" name="email" placeholder="name@example.com" required autocomplete="email">
+                            <span class="medical-input-icon"><i class="bi bi-person-badge"></i></span>
+                            <input type="text" class="medical-input-control" id="loginEmail" name="email" placeholder="name@example.com or 10-digit mobile" required autocomplete="username">
                         </div>
                         <div class="invalid-feedback text-start"></div>
                     </div>
@@ -205,7 +205,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/validation.js"></script>
     <script src="js/auth.js?v=13.0"></script>
-    <script src="js/google-=10.0"></script>
+    <script src="js/google-auth.js?v=11.0"></script>
     <script src="js/otp/otp-bundle.js?v=7.0"></script>
     <script>
         // 1. Password Visibility Toggle

@@ -104,8 +104,12 @@ const validateRegistration = ({ name, email, phone, password, confirmPassword })
 const validateLogin = ({ email, password }) => {
     const errors = {};
 
-    if (!email || !EMAIL_REGEX.test(email.trim())) {
-        errors.email = 'Please enter a valid email address.';
+    const cleanInput = (email || '').trim();
+    const isEmailValid = EMAIL_REGEX.test(cleanInput);
+    const isPhoneValid = PHONE_REGEX.test(cleanInput.replace(/[^\d]/g, ''));
+
+    if (!cleanInput || (!isEmailValid && !isPhoneValid)) {
+        errors.email = 'Please enter a valid email address or 10-digit mobile number.';
     }
 
     if (!password || password.trim().length === 0) {
