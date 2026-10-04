@@ -1065,7 +1065,7 @@ body {
         display: none !important;
     }
     .hero-ecg-track {
-        height: 40px !important;
+        display: none !important;
     }
     .auth-card-container,
     .auth-card-container.auth-card-wide {
