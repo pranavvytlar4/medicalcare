@@ -1,17 +1,1 @@
-[
-  {
-    "_id": "doc_satyasiva",
-    "name": "Dr. Satya Siva",
-    "specialization": "General Physician",
-    "department": "Internal Medicine",
-    "hospital": "AIIMS New Delhi",
-    "phone": "+91 98888 77777",
-    "email": "satyasivaa9@gmail.com",
-    "image": "/uploads/doctors/doc_1791059710105_imagesjpg.jpg",
-    "experience": "5+ Yrs Exp",
-    "availability": "Mon - Sat (09:00 AM - 05:00 PM)",
-    "consultationFee": "₹500",
-    "bio": "",
-    "createdAt": "2026-10-03T18:00:00.000Z"
-  }
-]
+[]

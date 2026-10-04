@@ -3,76 +3,10 @@
     "id": "mem_admin_pranav",
     "name": "Pranav Vaitla",
     "email": "pranavvaitla2@gmail.com",
-    "phone": "",
+    "phone": "9876543210",
     "passwordHash": "$2a$10$6iZEejBK7FIXGBeU8dStgO1N2LxrbSlfRKdX5K2iLtnfHo1Ha8Bga",
     "role": "Admin",
     "doctorAccess": false,
-    "createdAt": "2026-01-01T00:00:00.000Z",
-    "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKrZNA9niAOwhMojv6l9L7LRyZmTBNM0jq_7bLF-pW9KIK4_D_y=s96-c"
-  },
-  {
-    "id": "goog_1790970041125",
-    "name": "Pranav Vytla",
-    "email": "vytlapranav@gmail.com",
-    "phone": "",
-    "passwordHash": "$2a$10$f3T6kMn4NWh9YbO9T8qXfO/9TlH0chqeeRp2TZffoAq/tU9.aVGnK",
-    "role": "Patient",
-    "avatar": "https://lh3.googleusercontent.com/a/ACg8ocL7MNxavdIAHpcDKgIfRz2jPcr2ZmE6nsWzjdo4URVaVpzwAw=s96-c",
-    "doctorAccess": false
-  },
-  {
-    "id": "goog_1790970855224",
-    "name": "Dr. Satya Siva",
-    "email": "satyasivaa9@gmail.com",
-    "phone": "+91 98888 77777",
-    "passwordHash": "$2a$10$L8VJsgDUflgCsKjrd.1uo.LPCr0nEYjaj6P/m9Xhg4KHPFcSjyDdy",
-    "role": "Doctor",
-    "avatar": "/uploads/doctors/doc_1791059710105_imagesjpg.jpg",
-    "doctorAccess": true
-  },
-  {
-    "id": "usr_1791111375993",
-    "name": "Emma Watson",
-    "email": "verifytest_1791111359730@gmail.com",
-    "phone": "9876543210",
-    "passwordHash": "$2a$10$/U/6NvSk9WKeTWV.Zfhd2.0pT2fB7VnFBEPL3iWZVoEDGV.154wGO",
-    "role": "Patient",
-    "doctorAccess": false
-  },
-  {
-    "id": "usr_1791111444595",
-    "name": "Emma Watson",
-    "email": "verifytest_1791111434618@gmail.com",
-    "phone": "9876543210",
-    "passwordHash": "$2a$10$NnaZ9LkiAxwa2aDC1MUipeh8gYMRvOp/3S0/KHqTvKZQyX4kHpgiS",
-    "role": "Patient",
-    "doctorAccess": false
-  },
-  {
-    "id": "usr_1791111478390",
-    "name": "Emma Watson",
-    "email": "verifytest_1791111467987@gmail.com",
-    "phone": "9876543210",
-    "passwordHash": "$2a$10$E/Cwpa8F74Y5HMfmH7K2xOruysh4HuBySwY049TXylxq5UoKLp2su",
-    "role": "Patient",
-    "doctorAccess": false
-  },
-  {
-    "id": "usr_1791111579652",
-    "name": "Emma Watson",
-    "email": "verifytest_1791111569307@gmail.com",
-    "phone": "9876543210",
-    "passwordHash": "$2a$10$Jiiyk.X64Pk5D57dz3b5S.jyFdEW6Ue/G25C4TqdiNaDGtVoaE0u2",
-    "role": "Patient",
-    "doctorAccess": false
-  },
-  {
-    "id": "usr_1791111711191",
-    "name": "Emma Watson",
-    "email": "verifytest_1791111702391@gmail.com",
-    "phone": "9876543210",
-    "passwordHash": "$2a$10$RxoIa/dYtzGvkPSKbmYI2eDO7c9wrOtVZ5sMgDiTTbfyTcd24Hnka",
-    "role": "Patient",
-    "doctorAccess": false
+    "createdAt": "2026-01-01T00:00:00.000Z"
   }
 ]
