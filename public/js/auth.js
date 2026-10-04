@@ -479,32 +479,61 @@ const renderNavbarAuth = () => {
             </div>
         `;
 
-        // Direct click toggle for bulletproof dropdown activation
+        // Direct click toggle for bulletproof dropdown activation across all devices
         const userBtn = document.getElementById('userNavDropdown');
         const userWrapper = document.getElementById('userDropdownWrapper');
         const userMenu = userWrapper?.querySelector('.dropdown-menu');
 
         if (userBtn && userWrapper && userMenu) {
-            userBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const isOpen = userWrapper.classList.contains('show') || userMenu.classList.contains('show');
-                if (isOpen) {
-                    userWrapper.classList.remove('show', 'hover-open');
-                    userMenu.classList.remove('show');
-                    userBtn.setAttribute('aria-expanded', 'false');
-                } else {
+            const toggleUserDropdown = (forceState) => {
+                const isCurrentlyOpen = userWrapper.classList.contains('show') || userMenu.classList.contains('show');
+                const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
+
+                if (shouldOpen) {
                     userWrapper.classList.add('show');
                     userMenu.classList.add('show');
                     userBtn.setAttribute('aria-expanded', 'true');
+                    userBtn.classList.add('show');
+
+                    // On mobile (< 992px), enforce direct styles so no external rule or cache can ever suppress it
+                    if (window.innerWidth < 992) {
+                        userMenu.style.setProperty('display', 'block', 'important');
+                        userMenu.style.setProperty('visibility', 'visible', 'important');
+                        userMenu.style.setProperty('opacity', '1', 'important');
+                        userMenu.style.setProperty('pointer-events', 'auto', 'important');
+                        userMenu.style.setProperty('transform', 'none', 'important');
+                        userMenu.style.setProperty('position', 'static', 'important');
+                        userMenu.style.setProperty('float', 'none', 'important');
+                        userMenu.style.setProperty('width', '100%', 'important');
+                    }
+                } else {
+                    userWrapper.classList.remove('show', 'hover-open');
+                    userMenu.classList.remove('show');
+                    userBtn.setAttribute('aria-expanded', 'false');
+                    userBtn.classList.remove('show');
+
+                    if (window.innerWidth < 992) {
+                        userMenu.style.setProperty('display', 'none', 'important');
+                        userMenu.style.removeProperty('visibility');
+                        userMenu.style.removeProperty('opacity');
+                        userMenu.style.removeProperty('pointer-events');
+                        userMenu.style.removeProperty('transform');
+                        userMenu.style.removeProperty('position');
+                        userMenu.style.removeProperty('float');
+                        userMenu.style.removeProperty('width');
+                    }
                 }
+            };
+
+            userBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleUserDropdown();
             });
 
             document.addEventListener('click', (e) => {
                 if (!userWrapper.contains(e.target)) {
-                    userWrapper.classList.remove('show', 'hover-open');
-                    userMenu.classList.remove('show');
-                    userBtn.setAttribute('aria-expanded', 'false');
+                    toggleUserDropdown(false);
                 }
             });
         }
@@ -515,7 +544,7 @@ const renderNavbarAuth = () => {
         }
     } else {
         authContainer.innerHTML = `
-            <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
+            <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap auth-logged-out-buttons">
                 <a href="${prefix}login" class="secondary-button btn-sm px-3 py-1 text-nowrap" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
                     <i class="bi bi-box-arrow-in-right"></i> SIGN IN
                 </a>
@@ -975,6 +1004,9 @@ if (document.readyState === 'loading') {
 document.addEventListener('click', (e) => {
     const mainNav = document.getElementById('mainNavbar');
     if (!mainNav || !mainNav.classList.contains('show')) return;
+
+    // Never collapse when interacting with dropdown toggles or user dropdown wrapper
+    if (e.target.closest('#userNavDropdown, #userDropdownWrapper, .dropdown-toggle')) return;
 
     const clickedItem = e.target.closest('.navbar-nav .nav-link:not(.dropdown-toggle), .navbar .dropdown-item');
     if (clickedItem) {

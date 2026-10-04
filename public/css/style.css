@@ -2837,8 +2837,13 @@ a:hover {
     #navbarAuthSection > div {
         width: 100% !important;
         display: flex !important;
+        flex-direction: column !important;
         gap: 8px !important;
         align-items: stretch !important;
+    }
+
+    #navbarAuthSection > div.auth-logged-out-buttons {
+        flex-direction: row !important;
     }
 
     /* Logged Out Buttons: Balanced Split */
@@ -2857,6 +2862,7 @@ a:hover {
     #userDropdownWrapper {
         width: 100% !important;
         position: relative !important;
+        display: block !important;
     }
 
     #userNavDropdown {
@@ -2872,7 +2878,10 @@ a:hover {
         border: 1px solid #cbd5e1 !important;
     }
 
-    #userDropdownWrapper .dropdown-menu {
+    .navbar .dropdown-menu,
+    .navbar-nav .dropdown-menu,
+    #userDropdownWrapper .dropdown-menu,
+    #navbarAuthSection .dropdown-menu {
         position: static !important;
         float: none !important;
         display: none !important;
@@ -2890,19 +2899,40 @@ a:hover {
         pointer-events: auto !important;
     }
 
+    .navbar .dropdown-menu.show,
+    .navbar .dropdown.show > .dropdown-menu,
+    .navbar-nav .dropdown-menu.show,
+    .navbar-nav .dropdown.show > .dropdown-menu,
     #userDropdownWrapper.show .dropdown-menu,
-    #userDropdownWrapper .dropdown-menu.show {
+    #userDropdownWrapper .dropdown-menu.show,
+    #navbarAuthSection .dropdown-menu.show,
+    #navbarAuthSection .dropdown.show > .dropdown-menu {
         display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
         animation: mobileMenuDrop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    #userDropdownWrapper .dropdown-item {
-        padding: 9px 12px !important;
+    #userDropdownWrapper .dropdown-item,
+    #navbarAuthSection .dropdown-item {
+        padding: 10px 14px !important;
         border-radius: 10px !important;
-        font-size: 0.88rem !important;
+        font-size: 0.90rem !important;
         font-weight: 600 !important;
+        color: #1e293b !important;
         display: flex !important;
         align-items: center !important;
+        gap: 8px !important;
+        margin-bottom: 2px !important;
+        background: transparent !important;
+    }
+
+    #userDropdownWrapper .dropdown-item:hover,
+    #userDropdownWrapper .dropdown-item:focus {
+        background: #eff6ff !important;
+        color: #2563eb !important;
     }
 
     /* Hide 3D floating banners that overlap text on phones and tablets */
