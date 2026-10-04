@@ -199,7 +199,17 @@ const renderRecentAppointments = (list) => {
     if (!tbody) return;
 
     if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">No recent appointments found.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="5" class="adm-empty-cell text-center py-4">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-calendar-x text-primary fs-3"></i>
+                    </div>
+                    <div class="fw-bold text-dark small mb-1">No Recent Appointments</div>
+                    <div class="text-muted" style="font-size: 0.78rem;">Recent clinic visits will appear here.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
@@ -210,12 +220,31 @@ const renderRecentAppointments = (list) => {
         const statusBadge = getStatusBadge(status);
 
         return `
-            <tr>
-                <td class="fw-bold text-dark">${patientName}</td>
-                <td><span class="text-primary fw-semibold">${docName}</span></td>
-                <td><i class="bi bi-calendar3 me-1 text-muted"></i>${apt.appointmentDate || apt.date || 'TBD'} <small class="text-muted">(${apt.appointmentTime || apt.time || '10:00 AM'})</small></td>
-                <td>${statusBadge}</td>
+            <tr class="adm-card-row">
                 <td>
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                        <span class="fw-bold text-dark">${patientName}</span>
+                        <div class="d-md-none">${statusBadge}</div>
+                    </div>
+                    <div class="small text-primary fw-semibold d-md-none mb-1">
+                        <i class="bi bi-person-badge me-1"></i>${docName}
+                    </div>
+                </td>
+                <td class="d-none d-md-table-cell"><span class="text-primary fw-semibold">${docName}</span></td>
+                <td>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="small text-muted">
+                            <i class="bi bi-calendar3 me-1 text-primary"></i>${apt.appointmentDate || apt.date || 'TBD'} <small class="text-muted">(${apt.appointmentTime || apt.time || '10:00 AM'})</small>
+                        </span>
+                        <div class="d-md-none">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill py-0 px-2" onclick="viewAppointmentDetails('${apt._id}')" style="font-size: 0.78rem;">
+                                <i class="bi bi-eye"></i> View
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td class="d-none d-md-table-cell">${statusBadge}</td>
+                <td class="d-none d-md-table-cell text-end">
                     <button class="btn btn-sm btn-outline-primary rounded-pill py-0 px-2" onclick="viewAppointmentDetails('${apt._id}')">
                         <i class="bi bi-eye"></i> View
                     </button>
@@ -230,18 +259,37 @@ const renderRecentUsers = (list) => {
     if (!tbody) return;
 
     if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-4">No recent users found.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="4" class="adm-empty-cell text-center py-4">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-people text-success fs-3"></i>
+                    </div>
+                    <div class="fw-bold text-dark small mb-1">No Recent Users</div>
+                    <div class="text-muted" style="font-size: 0.78rem;">Newly registered patients will appear here.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
     tbody.innerHTML = list.map(u => {
         const roleBadge = u.role === 'Admin' ? '<span class="badge bg-danger">Admin</span>' : u.role === 'Doctor' ? '<span class="badge bg-info text-dark">Doctor</span>' : '<span class="badge bg-primary">Patient</span>';
         return `
-            <tr>
-                <td class="fw-bold">${u.name}</td>
-                <td class="text-muted small">${u.email}</td>
-                <td>${roleBadge}</td>
-                <td class="small text-muted">${new Date(u.createdAt || Date.now()).toLocaleDateString()}</td>
+            <tr class="adm-card-row">
+                <td>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="fw-bold text-dark">${u.name}</span>
+                        <div class="d-md-none">${roleBadge}</div>
+                    </div>
+                </td>
+                <td class="text-muted small">
+                    <i class="bi bi-envelope text-primary me-1 d-md-none"></i>${u.email}
+                </td>
+                <td class="d-none d-md-table-cell">${roleBadge}</td>
+                <td class="small text-muted">
+                    <i class="bi bi-calendar-check text-muted me-1 d-md-none"></i>${new Date(u.createdAt || Date.now()).toLocaleDateString()}
+                </td>
             </tr>
         `;
     }).join('');
@@ -832,7 +880,17 @@ const renderAppointments = (list) => {
     if (!tbody) return;
 
     if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted">No appointments found matching your criteria.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="6" class="adm-empty-cell text-center py-5">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-calendar-x text-primary fs-1"></i>
+                    </div>
+                    <div class="fw-bold text-dark fs-6 mb-1">No Appointments Found</div>
+                    <div class="text-muted small">No patient appointments found matching your criteria.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
@@ -844,24 +902,63 @@ const renderAppointments = (list) => {
         const currentStatus = apt.status || 'Confirmed';
 
         return `
-            <tr>
-                <td>
-                    <div class="fw-bold text-dark">${patientName}</div>
-                    <small class="text-muted"><i class="bi bi-telephone me-1"></i>${patientPhone}</small>
+            <tr class="adm-card-row adm-apt-row">
+                <td class="adm-td-primary">
+                    <div class="adm-apt-header-mobile d-flex align-items-start justify-content-between gap-2 mb-2 pb-2 border-bottom">
+                        <div>
+                            <div class="fw-bold text-dark fs-6">${patientName}</div>
+                            <div class="small text-muted">
+                                <a href="tel:${patientPhone}" class="text-decoration-none text-muted">
+                                    <i class="bi bi-telephone text-primary me-1"></i>${patientPhone}
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 shadow-sm d-inline-flex align-items-center gap-1 d-md-none" 
+                                onclick="deleteAppointment('${apt._id}')" 
+                                title="Cancel/Delete Appointment">
+                            <i class="bi bi-trash3-fill"></i>
+                            <span class="small">Delete</span>
+                        </button>
+                    </div>
                 </td>
-                <td>
-                    <div class="fw-semibold text-primary">${docName}</div>
-                    <small class="text-muted">${docDept}</small>
+                <td class="adm-td-doctor">
+                    <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
+                        <div class="adm-doc-avatar-sm bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; flex-shrink: 0;">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <div>
+                            <div class="fw-semibold text-primary lh-sm">${docName}</div>
+                            <small class="text-muted">${docDept || 'Specialist'}</small>
+                        </div>
+                    </div>
                 </td>
-                <td>
-                    <div class="fw-semibold text-dark">${apt.appointmentDate || apt.date || 'TBD'}</div>
-                    <small class="text-muted">${apt.appointmentTime || apt.time || '10:00 AM'}</small>
+                <td class="adm-td-schedule">
+                    <div class="adm-card-pill bg-light rounded-3 p-2 mb-2 mb-md-0 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-calendar3 text-primary"></i>
+                            <span class="fw-semibold text-dark small">${apt.appointmentDate || apt.date || 'TBD'}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <i class="bi bi-clock text-muted"></i>
+                            <span class="text-muted small">${apt.appointmentTime || apt.time || '10:00 AM'}</span>
+                        </div>
+                    </div>
                 </td>
-                <td><small class="text-muted">${apt.reason || apt.notes || 'General Checkup'}</small></td>
-                <td>
-                    ${renderStatusDropdown(apt._id, currentStatus)}
+                <td class="adm-td-reason">
+                    <div class="small text-muted mb-2 mb-md-0">
+                        <i class="bi bi-card-text me-1 text-secondary"></i>
+                        <span>${apt.reason || apt.notes || 'General Checkup'}</span>
+                    </div>
                 </td>
-                <td class="text-end">
+                <td class="adm-td-status">
+                    <div class="d-flex align-items-center justify-content-between pt-2 border-top border-md-0 pt-md-0">
+                        <span class="small fw-bold text-uppercase text-secondary d-md-none" style="font-size: 0.70rem; letter-spacing: 0.5px;">Status</span>
+                        <div class="text-end text-md-start">
+                            ${renderStatusDropdown(apt._id, currentStatus)}
+                        </div>
+                    </div>
+                </td>
+                <td class="adm-td-actions text-end d-none d-md-table-cell">
                     <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteAppointment('${apt._id}')" title="Cancel/Delete Appointment">
                         <i class="bi bi-trash"></i>
                     </button>
@@ -955,7 +1052,17 @@ const renderDonors = (list) => {
     if (!tbody) return;
 
     if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-muted">No blood donors registered or matching criteria.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="6" class="adm-empty-cell text-center py-5">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-droplet-half text-danger fs-1"></i>
+                    </div>
+                    <div class="fw-bold text-dark fs-6 mb-1">No Blood Donors Found</div>
+                    <div class="text-muted small">No blood donors registered or matching criteria.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
@@ -966,19 +1073,53 @@ const renderDonors = (list) => {
             : '<span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-1">Unavailable</span>';
 
         return `
-            <tr>
-                <td class="fw-bold text-dark">${d.name}</td>
-                <td><span class="badge bg-danger rounded-pill px-3 py-1 fs-6">${d.bloodGroup}</span></td>
-                <td><i class="bi bi-geo-alt me-1 text-danger"></i>${d.location}</td>
-                <td><i class="bi bi-telephone me-1 text-muted"></i>${d.phone}</td>
-                <td>${availBadge}</td>
-                <td class="text-end">
-                    <button class="btn btn-sm btn-outline-primary rounded-pill me-1" onclick="toggleDonorAvailability('${d._id}', '${isAvail ? 'Unavailable' : 'Available'}')">
-                        ${isAvail ? 'Set Inactive' : 'Set Active'}
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteDonor('${d._id}', '${d.name}')">
-                        <i class="bi bi-trash"></i>
-                    </button>
+            <tr class="adm-card-row adm-donor-row">
+                <td class="adm-td-donor-name">
+                    <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger rounded-pill px-3 py-1 fw-bold fs-6 shadow-sm">${d.bloodGroup}</span>
+                            <div>
+                                <div class="fw-bold text-dark fs-6">${d.name}</div>
+                                <div class="small text-muted d-md-none">
+                                    <i class="bi bi-geo-alt-fill text-danger me-1"></i>${d.location || 'Location Not Specified'}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-md-none">
+                            ${availBadge}
+                        </div>
+                    </div>
+                </td>
+                <td class="adm-td-donor-group d-none d-md-table-cell">
+                    <span class="badge bg-danger rounded-pill px-3 py-1 fs-6">${d.bloodGroup}</span>
+                </td>
+                <td class="adm-td-donor-city d-none d-md-table-cell">
+                    <i class="bi bi-geo-alt me-1 text-danger"></i>${d.location}
+                </td>
+                <td class="adm-td-donor-phone">
+                    <div class="d-flex align-items-center justify-content-between py-1">
+                        <a href="tel:${d.phone}" class="text-decoration-none text-dark small fw-semibold">
+                            <i class="bi bi-telephone-fill text-primary me-2"></i>${d.phone}
+                        </a>
+                        <span class="d-md-none">
+                            <a href="tel:${d.phone}" class="btn btn-sm btn-outline-primary rounded-pill px-2 py-0" style="font-size: 0.78rem;">
+                                <i class="bi bi-telephone"></i> Call
+                            </a>
+                        </span>
+                    </div>
+                </td>
+                <td class="adm-td-donor-status d-none d-md-table-cell">
+                    ${availBadge}
+                </td>
+                <td class="adm-td-donor-actions text-end pt-2 border-top border-md-0 pt-md-0">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1" onclick="toggleDonorAvailability('${d._id}', '${isAvail ? 'Unavailable' : 'Available'}')">
+                            ${isAvail ? 'Set Inactive' : 'Set Active'}
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" onclick="deleteDonor('${d._id}', '${d.name}')" title="Delete Donor">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -1085,18 +1226,56 @@ const renderMedicines = (list) => {
     if (!tbody) return;
 
     if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-muted">No patient medicine schedules logged.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="6" class="adm-empty-cell text-center py-5">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-capsule text-warning fs-1"></i>
+                    </div>
+                    <div class="fw-bold text-dark fs-6 mb-1">No Medicine Reminders</div>
+                    <div class="text-muted small">No patient medicine schedules logged yet.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
     tbody.innerHTML = list.map(m => `
-        <tr>
-            <td class="fw-bold text-dark"><i class="bi bi-capsule me-2 text-warning"></i>${m.medicineName || m.name}</td>
-            <td><span class="badge bg-light text-dark border">${m.dosage || '1 dose'}</span></td>
-            <td>${m.frequency || 'Daily'}</td>
-            <td><i class="bi bi-clock me-1 text-muted"></i>${m.time || '08:00 AM'}</td>
-            <td><small class="text-muted">${m.instructions || 'Take as advised'}</small></td>
-            <td class="text-end">
+        <tr class="adm-card-row adm-med-row">
+            <td class="adm-td-med-name">
+                <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-warning-subtle text-warning p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
+                            <i class="bi bi-capsule fs-6"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark fs-6">${m.medicineName || m.name}</div>
+                            <span class="badge bg-light text-dark border small">${m.dosage || '1 dose'}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 d-md-none" onclick="deleteMedicine('${m._id}')" title="Delete Medicine">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </td>
+            <td class="adm-td-med-dosage d-none d-md-table-cell">
+                <span class="badge bg-light text-dark border">${m.dosage || '1 dose'}</span>
+            </td>
+            <td class="adm-td-med-frequency">
+                <div class="d-flex align-items-center justify-content-between small text-muted mb-1">
+                    <span><i class="bi bi-repeat me-1 text-primary"></i>${m.frequency || 'Daily'}</span>
+                    <span><i class="bi bi-clock me-1 text-warning"></i>${m.time || '08:00 AM'}</span>
+                </div>
+            </td>
+            <td class="adm-td-med-time d-none d-md-table-cell">
+                <i class="bi bi-clock me-1 text-muted"></i>${m.time || '08:00 AM'}
+            </td>
+            <td class="adm-td-med-instructions">
+                <div class="small text-muted bg-light p-2 rounded-2 mt-1">
+                    <i class="bi bi-info-circle me-1 text-primary"></i>${m.instructions || 'Take as advised'}
+                </div>
+            </td>
+            <td class="adm-td-med-actions d-none d-md-table-cell text-end">
                 <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteMedicine('${m._id}')">
                     <i class="bi bi-trash"></i>
                 </button>
@@ -1147,7 +1326,17 @@ const renderWellness = (list) => {
     if (!tbody) return;
 
     if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-muted">No mental wellness diary entries recorded.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="6" class="adm-empty-cell text-center py-5">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-emoji-smile text-info fs-1"></i>
+                    </div>
+                    <div class="fw-bold text-dark fs-6 mb-1">No Mental Wellness Logs</div>
+                    <div class="text-muted small">No mental wellness diary entries recorded yet.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
@@ -1156,15 +1345,39 @@ const renderWellness = (list) => {
         const moodBadge = mood.toLowerCase().includes('happy') ? '<span class="badge bg-success-subtle text-success rounded-pill px-3 py-1">😊 ' + mood + '</span>' :
                           mood.toLowerCase().includes('calm') ? '<span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1">😌 ' + mood + '</span>' :
                           '<span class="badge bg-warning-subtle text-warning rounded-pill px-3 py-1">😐 ' + mood + '</span>';
+        const entryDate = w.date || new Date(w.createdAt || Date.now()).toLocaleDateString();
 
         return `
-            <tr>
-                <td>${moodBadge}</td>
-                <td><span class="badge bg-light text-dark border">${w.energyLevel || 'Moderate'}</span></td>
-                <td><i class="bi bi-moon-stars me-1 text-primary"></i>${w.sleepHours || 7} hrs</td>
-                <td><small class="text-muted">${w.notes || 'No comments'}</small></td>
-                <td><small class="text-muted">${w.date || new Date(w.createdAt).toLocaleDateString()}</small></td>
-                <td class="text-end">
+            <tr class="adm-card-row adm-wellness-row">
+                <td class="adm-td-well-mood">
+                    <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                        <div class="d-flex align-items-center gap-2">
+                            ${moodBadge}
+                            <span class="badge bg-light text-dark border small">${w.energyLevel || 'Moderate'} Energy</span>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 d-md-none" onclick="deleteWellness('${w._id}')" title="Delete Log">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </td>
+                <td class="adm-td-well-energy d-none d-md-table-cell">
+                    <span class="badge bg-light text-dark border">${w.energyLevel || 'Moderate'}</span>
+                </td>
+                <td class="adm-td-well-sleep">
+                    <div class="d-flex align-items-center justify-content-between small text-muted mb-1">
+                        <span><i class="bi bi-moon-stars me-1 text-primary"></i>${w.sleepHours || 7} hrs sleep</span>
+                        <span class="d-md-none"><i class="bi bi-calendar-event me-1 text-muted"></i>${entryDate}</span>
+                    </div>
+                </td>
+                <td class="adm-td-well-notes">
+                    <div class="small text-muted bg-light p-2 rounded-2 my-1">
+                        <i class="bi bi-journal-text me-1 text-secondary"></i>${w.notes || 'No comments'}
+                    </div>
+                </td>
+                <td class="adm-td-well-date d-none d-md-table-cell">
+                    <small class="text-muted">${entryDate}</small>
+                </td>
+                <td class="adm-td-well-actions d-none d-md-table-cell text-end">
                     <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteWellness('${w._id}')">
                         <i class="bi bi-trash"></i>
                     </button>
@@ -1216,20 +1429,56 @@ const renderMedicalRecords = (list) => {
     if (!tbody) return;
 
     if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-muted">No medical clinical records available.</td></tr>`;
+        tbody.innerHTML = `
+            <tr class="adm-empty-row">
+                <td colspan="6" class="adm-empty-cell text-center py-5">
+                    <div class="adm-empty-icon-wrap mb-2">
+                        <i class="bi bi-folder2-open text-success fs-1"></i>
+                    </div>
+                    <div class="fw-bold text-dark fs-6 mb-1">No Medical Records Found</div>
+                    <div class="text-muted small">No clinical diagnostic records available yet.</div>
+                </td>
+            </tr>
+        `;
         return;
     }
 
     tbody.innerHTML = list.map(r => {
         const patientName = r.patient ? (r.patient.name || r.patient.email) : 'Patient';
         return `
-            <tr>
-                <td class="fw-bold text-dark">${patientName}</td>
-                <td class="fw-semibold text-primary"><i class="bi bi-journal-medical me-2"></i>${r.diagnosis}</td>
-                <td>${r.doctorName || 'Attending Physician'}</td>
-                <td><small class="text-muted">${r.hospital || 'AIIMS'}</small></td>
-                <td><small class="text-muted">${r.treatment || 'Prescribed regimen'}</small></td>
-                <td class="text-end">
+            <tr class="adm-card-row adm-record-row">
+                <td class="adm-td-rec-patient">
+                    <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                        <div>
+                            <div class="fw-bold text-dark fs-6">${patientName}</div>
+                            <div class="fw-semibold text-primary small d-md-none">
+                                <i class="bi bi-journal-medical me-1"></i>${r.diagnosis}
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 d-md-none" onclick="deleteMedicalRecord('${r._id}')" title="Delete Record">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </td>
+                <td class="adm-td-rec-diagnosis d-none d-md-table-cell">
+                    <div class="fw-semibold text-primary"><i class="bi bi-journal-medical me-2"></i>${r.diagnosis}</div>
+                </td>
+                <td class="adm-td-rec-doctor">
+                    <div class="small text-muted mb-1">
+                        <i class="bi bi-person-badge text-primary me-1"></i>${r.doctorName || 'Attending Physician'}
+                        <span class="mx-1">•</span>
+                        <i class="bi bi-building text-secondary me-1"></i>${r.hospital || 'AIIMS'}
+                    </div>
+                </td>
+                <td class="adm-td-rec-hospital d-none d-md-table-cell">
+                    <small class="text-muted">${r.hospital || 'AIIMS'}</small>
+                </td>
+                <td class="adm-td-rec-treatment">
+                    <div class="small text-muted bg-light p-2 rounded-2 mt-1">
+                        <i class="bi bi-prescription2 text-success me-1"></i>${r.treatment || 'Prescribed regimen'}
+                    </div>
+                </td>
+                <td class="adm-td-rec-actions d-none d-md-table-cell text-end">
                     <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteMedicalRecord('${r._id}')">
                         <i class="bi bi-trash"></i>
                     </button>

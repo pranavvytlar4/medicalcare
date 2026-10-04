@@ -967,6 +967,51 @@ body.admin-body {
     }
 }
 
+/* Status Badge Button & Dropdown Styling */
+.status-badge-btn {
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    padding: 5px 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s ease !important;
+}
+
+.status-dropdown-menu {
+    border-radius: 14px !important;
+    padding: 6px !important;
+    min-width: 175px !important;
+    z-index: 1060 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.status-dropdown-menu .dropdown-item {
+    border-radius: 8px !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    padding: 7px 10px !important;
+}
+
+.adm-empty-cell {
+    padding: 40px 16px !important;
+    text-align: center !important;
+}
+
+.adm-empty-icon-wrap {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* =========================================================================
    Comprehensive Phone View Responsiveness for Admin Panel
    ========================================================================= */
@@ -1055,35 +1100,41 @@ body.admin-body {
         color: #94a3b8 !important;
     }
 
-    /* Transform Users Table into Clean Native Mobile Cards */
-    #tab-users .table-responsive {
+    /* Transform All Admin Tables into Clean Native Mobile Cards */
+    .table-responsive {
         border: none !important;
         overflow-x: visible !important;
+        overflow-y: visible !important;
         min-height: auto !important;
         padding: 10px 10px 14px !important;
         background: #f8fafc !important;
         border-radius: 0 0 18px 18px !important;
+        width: 100% !important;
+        min-width: 0 !important;
     }
 
-    #tab-users .adm-table {
+    .adm-table {
         min-width: 0 !important;
         width: 100% !important;
         display: block !important;
+        border: none !important;
     }
 
-    #tab-users .adm-table thead {
+    .adm-table thead {
         display: none !important;
     }
 
-    #tab-users .adm-table tbody {
+    .adm-table tbody {
         display: flex !important;
         flex-direction: column !important;
         gap: 12px !important;
         width: 100% !important;
     }
 
-    #tab-users .adm-table tbody tr.adm-user-row {
+    .adm-table tbody tr.adm-user-row,
+    .adm-table tbody tr.adm-card-row {
         display: block !important;
+        width: 100% !important;
         background: #ffffff !important;
         border: 1px solid #e2e8f0 !important;
         border-radius: 18px !important;
@@ -1092,16 +1143,41 @@ body.admin-body {
         transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     }
 
-    #tab-users .adm-table tbody tr.adm-user-row:hover {
+    .adm-table tbody tr.adm-user-row:hover,
+    .adm-table tbody tr.adm-card-row:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08) !important;
     }
 
-    #tab-users .adm-table td {
+    .adm-table td {
         display: block !important;
         padding: 0 !important;
         border: none !important;
         width: 100% !important;
+    }
+
+    /* Universal Clean Centered Empty State for Phone View */
+    .adm-table tbody tr.adm-empty-row,
+    .adm-table tbody tr:has(td[colspan]) {
+        display: block !important;
+        width: 100% !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .adm-table tbody td.adm-empty-cell,
+    .adm-table tbody td[colspan] {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding: 34px 16px !important;
+        background: #ffffff !important;
+        border: 2px dashed #cbd5e1 !important;
+        border-radius: 18px !important;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
     }
 
     #tab-users .adm-user-header-wrap {
@@ -1236,24 +1312,32 @@ body.admin-body {
         border-radius: 0 9999px 9999px 0 !important;
     }
 
-    /* 6. General Table Responsiveness for All Tabs (Appointments, Donors, Medicines, Records) */
-    .table-responsive {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        position: relative !important;
-    }
-    
-    .table-responsive > .adm-table:not(.adm-user-table) {
-        min-width: 720px !important;
+    /* 6. Mobile Card Elements Polish & Touch Ergonomics */
+    .adm-card-pill {
+        border: 1px solid #e2e8f0 !important;
+        background: #f8fafc !important;
     }
 
-    /* Custom subtle touch scrollbar for smooth swiping */
-    .table-responsive::-webkit-scrollbar {
-        height: 6px !important;
+    .adm-card-row small,
+    .adm-card-row .small {
+        font-size: 0.82rem !important;
     }
-    .table-responsive::-webkit-scrollbar-thumb {
-        background: #cbd5e1 !important;
+
+    .adm-card-row .badge {
+        font-weight: 600 !important;
+    }
+
+    .status-badge-btn {
         border-radius: 9999px !important;
+        font-weight: 600 !important;
+        font-size: 0.8rem !important;
+        padding: 6px 14px !important;
+    }
+
+    .status-dropdown-menu {
+        border-radius: 14px !important;
+        padding: 6px !important;
+        min-width: 180px !important;
     }
 
     /* 7. Modal Responsiveness on Mobile View */
