@@ -338,13 +338,15 @@ body.admin-body {
     position: relative;
 }
 
+.admin-search-wrap input.form-control,
 .admin-search-wrap input {
     background-color: #f8fafc;
     border: 1px solid var(--adm-border-color);
-    border-radius: 9999px;
-    padding: 8px 18px 8px 40px;
+    border-radius: 9999px !important;
+    padding: 8px 18px 8px 42px !important;
     font-size: 0.88rem;
     transition: all 0.2s ease;
+    width: 100%;
 }
 
 .admin-search-wrap input:focus {
@@ -355,10 +357,12 @@ body.admin-body {
 
 .admin-search-wrap i {
     position: absolute;
-    left: 14px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--adm-text-muted);
+    pointer-events: none;
+    z-index: 2;
 }
 
 .admin-user-pill {
@@ -963,36 +967,238 @@ body.admin-body {
     }
 }
 
-/* Phone view adjustments for Doctor & Admin Dashboards */
+/* =========================================================================
+   Comprehensive Phone View Responsiveness for Admin Panel
+   ========================================================================= */
 @media (max-width: 768px) {
+    .admin-main {
+        padding: 12px 10px 30px !important;
+    }
+
+    .admin-topbar {
+        padding: 10px 12px !important;
+        gap: 8px !important;
+    }
+
+    #adminSectionTitle {
+        font-size: 0.95rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: calc(100vw - 110px) !important;
+    }
+
+    .admin-user-pill {
+        padding: 2px !important;
+    }
+
+    .admin-user-avatar {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.85rem !important;
+    }
+
     .admin-stat-card {
         padding: 14px 12px !important;
         border-radius: 16px !important;
     }
+
     .admin-stat-num {
         font-size: 1.45rem !important;
     }
-    .admin-topbar {
-        padding: 10px 14px !important;
+
+    /* Panel and Controls */
+    .adm-panel {
+        border-radius: 18px !important;
+        margin-bottom: 16px !important;
+        box-shadow: 0 2px 12px rgba(11, 19, 42, 0.04) !important;
     }
-    .admin-user-pill {
-        padding: 4px !important;
+
+    .adm-panel-header {
+        padding: 16px 14px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
     }
-    .admin-user-avatar {
-        width: 34px !important;
-        height: 34px !important;
-        font-size: 0.85rem !important;
+
+    .adm-panel-title {
+        font-size: 1.05rem !important;
+        line-height: 1.3 !important;
     }
-    .role-segmented-pill {
+
+    .adm-panel-controls,
+    .adm-panel-header > .d-flex {
         width: 100% !important;
-        margin-top: 10px !important;
-        justify-content: stretch !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
     }
-    .role-pill-btn {
+
+    .admin-search-wrap {
+        flex: 1 1 auto !important;
+        max-width: none !important;
+        width: 100% !important;
+        position: relative !important;
+    }
+
+    .admin-search-wrap input.form-control,
+    .admin-search-wrap input {
+        font-size: 15px !important;
+        padding: 8px 14px 8px 40px !important;
+        border-radius: 9999px !important;
+        width: 100% !important;
+    }
+
+    .admin-search-wrap i {
+        left: 14px !important;
+        font-size: 0.92rem !important;
+        color: #94a3b8 !important;
+    }
+
+    /* Transform Users Table into Clean Native Mobile Cards */
+    #tab-users .table-responsive {
+        border: none !important;
+        overflow-x: visible !important;
+        min-height: auto !important;
+        padding: 10px 10px 14px !important;
+        background: #f8fafc !important;
+        border-radius: 0 0 18px 18px !important;
+    }
+
+    #tab-users .adm-table {
+        min-width: 0 !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    #tab-users .adm-table thead {
+        display: none !important;
+    }
+
+    #tab-users .adm-table tbody {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+
+    #tab-users .adm-table tbody tr.adm-user-row {
+        display: block !important;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 18px !important;
+        padding: 14px 14px !important;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    #tab-users .adm-table tbody tr.adm-user-row:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08) !important;
+    }
+
+    #tab-users .adm-table td {
+        display: block !important;
+        padding: 0 !important;
+        border: none !important;
+        width: 100% !important;
+    }
+
+    #tab-users .adm-user-header-wrap {
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 8px !important;
+        border-bottom: 1px dashed #e2e8f0 !important;
+    }
+
+    #tab-users .adm-user-name {
+        font-size: 0.98rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        display: flex !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+
+    #tab-users .adm-user-phone {
+        font-size: 0.8rem !important;
+        color: #64748b !important;
+        margin-top: 3px !important;
+    }
+
+    #tab-users .adm-user-email-wrap {
+        display: flex !important;
+        align-items: center !important;
+        font-size: 0.84rem !important;
+        color: #334155 !important;
+        margin-bottom: 6px !important;
+        word-break: break-all !important;
+    }
+
+    #tab-users .adm-user-date-wrap {
+        display: flex !important;
+        align-items: center !important;
+        font-size: 0.78rem !important;
+        color: #64748b !important;
+        margin-bottom: 10px !important;
+    }
+
+    #tab-users .adm-user-role-wrap {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        padding: 9px 10px !important;
+    }
+
+    #tab-users .adm-user-role-label {
+        font-size: 0.70rem !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        color: #64748b !important;
+        margin-bottom: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+    }
+
+    #tab-users .role-segmented-pill {
+        width: 100% !important;
+        margin: 0 !important;
+        display: flex !important;
+        padding: 3px !important;
+        gap: 4px !important;
+        background: #e2e8f0 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 9999px !important;
+    }
+
+    #tab-users .role-pill-btn {
         flex: 1 1 33.33% !important;
+        display: inline-flex !important;
+        align-items: center !important;
         justify-content: center !important;
+        gap: 5px !important;
+        padding: 7px 4px !important;
+        font-size: 0.78rem !important;
+        font-weight: 700 !important;
+        border-radius: 9999px !important;
         text-align: center !important;
-        padding: 6px 6px !important;
-        font-size: 0.72rem !important;
+        white-space: nowrap !important;
+        line-height: 1.2 !important;
+    }
+
+    /* General Table Responsiveness for Other Tabs (Doctors, Appointments, Donors, etc.) */
+    .table-responsive {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .table-responsive > .adm-table:not(.adm-user-table) {
+        min-width: 680px !important;
     }
 }

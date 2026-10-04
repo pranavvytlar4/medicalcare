@@ -105,15 +105,16 @@ window.switchTab = function switchTab(tabName) {
     // Update section title badge
     const headerTitle = document.getElementById('adminSectionTitle');
     if (headerTitle) {
+        const isMobile = window.innerWidth <= 768;
         const titles = {
-            'dashboard': 'Platform Overview & KPI Metrics',
-            'doctors': 'Specialist Doctors Directory & Management',
-            'appointments': 'Hospital Consultations & Appointments',
-            'donors': 'Blood Donor Registry & Lifesaving Network',
-            'medicines': 'Patient Medication Reminders',
-            'wellness': 'Mental Wellness & Mood Journals',
-            'records': 'Patient Clinical Records & Diagnoses',
-            'users': 'Registered User Accounts & Access Roles'
+            'dashboard': isMobile ? 'Platform Overview' : 'Platform Overview & KPI Metrics',
+            'doctors': isMobile ? 'Specialist Doctors' : 'Specialist Doctors Directory & Management',
+            'appointments': isMobile ? 'Consultations' : 'Hospital Consultations & Appointments',
+            'donors': isMobile ? 'Blood Donors' : 'Blood Donor Registry & Lifesaving Network',
+            'medicines': isMobile ? 'Medication Reminders' : 'Patient Medication Reminders',
+            'wellness': isMobile ? 'Mental Wellness' : 'Mental Wellness & Mood Journals',
+            'records': isMobile ? 'Clinical Records' : 'Patient Clinical Records & Diagnoses',
+            'users': isMobile ? 'User Accounts & Roles' : 'Registered User Accounts & Access Roles'
         };
         headerTitle.textContent = titles[tabName] || 'Admin Center';
     }
@@ -1377,17 +1378,56 @@ const renderUsers = (list) => {
         const safeName = String(u.name || 'User').replace(/['"<>]/g, '');
 
         return `
-            <tr>
-                <td>
-                    <div class="fw-bold text-dark">${safeName} ${isCurrent ? '<span class="badge bg-secondary-subtle text-secondary ms-1">You</span>' : ''}</div>
-                    <small class="text-muted">${(u.phone && String(u.phone).trim() && String(u.phone).trim() !== 'Not specified') ? String(u.phone).trim() : '<span class="text-secondary fst-italic">No phone added</span>'}</small>
+            <tr class="adm-user-row">
+                <td class="adm-user-col-name">
+                    <div class="adm-user-header-wrap">
+                        <div>
+                            <div class="adm-user-name fw-bold text-dark">
+                                ${safeName}
+                                ${isCurrent ? '<span class="badge bg-secondary-subtle text-secondary border ms-1">You</span>' : ''}
+                            </div>
+                            <div class="adm-user-phone small text-muted">
+                                <i class="bi bi-telephone text-primary me-1 d-md-none"></i>
+                                ${(u.phone && String(u.phone).trim() && String(u.phone).trim() !== 'Not specified') ? String(u.phone).trim() : '<span class="text-secondary fst-italic">No phone added</span>'}
+                            </div>
+                        </div>
+                        <div class="adm-user-mobile-action d-md-none">
+                            ${isCurrent ? `
+                                <span class="badge bg-secondary-subtle text-secondary border rounded-pill px-2 py-1 small fw-semibold">
+                                    <i class="bi bi-shield-check text-primary me-1"></i> Active Admin
+                                </span>
+                            ` : `
+                                <button class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 fw-bold shadow-sm d-inline-flex align-items-center gap-1" 
+                                        onclick="deleteUserAccount('${u._id}', '${safeName}')"
+                                        title="Permanently delete user account">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </button>
+                            `}
+                        </div>
+                    </div>
                 </td>
-                <td class="text-dark small">${u.email}</td>
-                <td>
-                    ${renderRoleSelector(u._id, safeName, u.role)}
+                <td class="adm-user-col-email text-dark small">
+                    <div class="adm-user-email-wrap">
+                        <i class="bi bi-envelope text-primary me-1 d-md-none"></i>
+                        <span>${u.email}</span>
+                    </div>
                 </td>
-                <td class="small text-muted">${new Date(u.createdAt || Date.now()).toLocaleDateString()}</td>
-                <td class="text-end">
+                <td class="adm-user-col-role">
+                    <div class="adm-user-role-wrap">
+                        <div class="adm-user-role-label d-md-none">
+                            <i class="bi bi-shield-lock text-primary"></i> Assigned Role
+                        </div>
+                        ${renderRoleSelector(u._id, safeName, u.role)}
+                    </div>
+                </td>
+                <td class="adm-user-col-date small text-muted">
+                    <div class="adm-user-date-wrap">
+                        <i class="bi bi-calendar3 text-primary me-1 d-md-none"></i>
+                        <span class="d-md-none text-muted fw-semibold me-1">Joined:</span>
+                        <span>${new Date(u.createdAt || Date.now()).toLocaleDateString()}</span>
+                    </div>
+                </td>
+                <td class="adm-user-col-actions text-end d-none d-md-table-cell">
                     ${isCurrent ? `
                         <span class="badge bg-secondary-subtle text-secondary border rounded-pill px-3 py-1 fw-semibold">
                             <i class="bi bi-person-check-fill me-1"></i> Active Admin
