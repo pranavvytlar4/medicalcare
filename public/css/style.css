@@ -2987,12 +2987,22 @@ a:hover {
     }
 
     .hero-ecg-track {
-        display: none !important;
+        display: block !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 48px !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+        opacity: 0.9 !important;
+        overflow: hidden !important;
     }
 
     .home-banner-section {
-        padding: 44px 16px 40px !important;
+        padding: 44px 16px 72px !important;
         min-height: auto !important;
+        position: relative !important;
     }
 
     .heading-banner {
@@ -3419,8 +3429,9 @@ a:hover {
 
     /* 3. Homepage Hero Banner on Phone */
     .home-banner-section {
-        padding: 38px 16px 42px !important;
+        padding: 38px 16px 72px !important;
         min-height: auto !important;
+        position: relative !important;
     }
 
     .heading-banner {
