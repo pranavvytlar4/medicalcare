@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Medical Care Health Portal</title>
+    <!-- Google Fonts: Lato & Plus Jakarta Sans (Exact Match to Website) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS & Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css?v=30.0">
+    <link rel="stylesheet" href="css/auth-split.css?v=2.0">
+    <link rel="stylesheet" href="js/otp/otp-bundle.css?v=7.0">
+    <link rel="stylesheet" href="css/otp-modal.css?v=7.0">
+</head>
+<body>
+
+    <!-- Medical Care Sticky Navbar (Matching Website) -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="brand-logo" href="index.html">
+                <span class="brand-badge-dot"><i class="bi bi-heart-pulse-fill"></i></span>
+                <span>Medical <span class="brand-highlight">Care</span></span>
+            </a>
+            <div id="navbarAuthSection" class="ms-auto d-flex align-items-center gap-2">
+                <a href="index.html" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold text-secondary d-none d-sm-inline-flex align-items-center">
+                    <i class="bi bi-house-door me-1"></i> Home
+                </a>
+                <a href="register.html" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
+                    <i class="bi bi-person-plus-fill me-1"></i> Register
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dynamic Hero Atmosphere -->
+    <main class="auth-page-hero" id="authPageHero">
+        <!-- Interactive Mouse Cursor Spotlight -->
+        <div class="hero-cursor-spotlight" id="heroCursorSpotlight"></div>
+
+        <!-- Ambient Dynamic Aurora Glow Orbs -->
+        <div class="hero-aurora-orb orb-1"></div>
+        <div class="hero-aurora-orb orb-2"></div>
+        <div class="hero-aurora-orb orb-3"></div>
+
+
+
+        <!-- Decorative Floating Medical Particles -->
+        <div class="hero-particle" style="top: 15%; left: 14%; animation-delay: 0s;">✦</div>
+        <div class="hero-particle" style="top: 22%; right: 16%; animation-delay: 1.4s; font-size: 1.3rem;">✚</div>
+        <div class="hero-particle" style="bottom: 24%; left: 18%; animation-delay: 0.9s; font-size: 1.3rem;">✚</div>
+        <div class="hero-particle" style="bottom: 22%; right: 15%; animation-delay: 2.1s;">✦</div>
+        <div class="hero-particle" style="top: 60%; left: 10%; animation-delay: 3.2s; font-size: 0.75rem;">●</div>
+        <div class="hero-particle" style="top: 45%; right: 12%; animation-delay: 1.8s; font-size: 0.75rem;">●</div>
+
+        <!-- Animated Ambient ECG Pulse Line along the bottom -->
+        <div class="hero-ecg-track">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="hero-ecg-svg">
+                <defs>
+                    <linearGradient id="ecgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"></stop>
+                        <stop offset="25%" stop-color="#06b6d4" stop-opacity="1"></stop>
+                        <stop offset="50%" stop-color="#2563eb" stop-opacity="1"></stop>
+                        <stop offset="75%" stop-color="#8b5cf6" stop-opacity="1"></stop>
+                        <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.3"></stop>
+                    </linearGradient>
+                </defs>
+                <path d="M 0,60 L 140,60 C 148,60 154,52 162,52 C 170,52 174,60 182,60 C 188,60 191,66 196,66 C 201,66 204,16 210,16 C 216,16 219,104 225,104 C 231,104 235,36 243,36 C 251,36 257,72 264,72 C 270,72 274,60 285,60 L 540,60 C 548,60 554,52 562,52 C 570,52 574,60 582,60 C 588,60 591,66 596,66 C 601,66 604,16 610,16 C 616,16 619,104 625,104 C 631,104 635,36 643,36 C 651,36 657,72 664,72 C 670,72 674,60 685,60 L 940,60 C 948,60 954,52 962,52 C 970,52 974,60 982,60 C 988,60 991,66 996,66 C 1001,66 1004,16 1010,16 C 1016,16 1019,104 1025,104 C 1031,104 1035,36 1043,36 C 1051,36 1057,72 1064,72 C 1070,72 1074,60 1085,60 L 1200,60" class="ecg-line"></path>
+            </svg>
+        </div>
+
+        <!-- Main Auth Layout (Medical App.gif on Left + 700px Login Box on Right) -->
+        <div class="auth-main-layout">
+            <!-- Left Side: Ultra-HD Crystal-Clear Medical Care Illustration with Ambient Float -->
+            <div class="auth-left-showcase">
+                <div class="auth-gif-wrapper">
+                    <picture>
+                        <source srcset="images/medical-app-hd.webp" type="image/webp">
+                        <img src="images/medical-app-hd.png" alt="Medical Care Digital Platform" class="auth-medical-img">
+                    </picture>
+                </div>
+            </div>
+
+            <!-- Right Side: The Login Box (Unchanged 700px Size!) -->
+            <div class="auth-card-container">
+            <div class="auth-glass-card" id="authGlassCard">
+                <!-- Flowing Animated Gradient Accent Strip -->
+                <div class="auth-card-top-bar"></div>
+
+                <!-- Card Header with Sonar Pulse Emblem -->
+                <div class="auth-card-header">
+                    <div class="auth-pulse-emblem-wrap">
+                        <div class="auth-pulse-badge">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                    </div>
+
+                    <h2 class="auth-card-title">
+                        Welcome Back to <span class="gradient-text-shimmer">Medical Care</span>
+                    </h2>
+                    <p class="auth-card-subtitle" id="portalSubtitle">
+                        Sign in to check your upcoming visits, doctor advice, and family health updates
+                    </p>
+                </div>
+
+                <!-- Notification Alert -->
+                <div id="loginAlert" class="alert d-none mb-3" role="alert"></div>
+
+                <!-- Official Google Identity Services Container -->
+                <div id="googleGsiButtonContainer" class="w-100 mb-2 d-flex justify-content-center"></div>
+
+                <!-- Google One-Click Sign-In Fallback Button -->
+                <button type="button" id="googleSignInBtn" class="google-auth-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                    </svg>
+                    <span>Continue with Google</span>
+                </button>
+
+                <!-- Clean Divider -->
+                <div class="auth-separator">
+                    <span class="auth-separator-line"></span>
+                    <span class="auth-separator-text">or continue with email</span>
+                    <span class="auth-separator-line"></span>
+                </div>
+
+                <!-- Sign In Form -->
+                <form id="loginForm" novalidate>
+                    <!-- Email Field -->
+                    <div class="medical-form-group">
+                        <label for="loginEmail" class="medical-form-label">
+                            <span>Email Address</span>
+                            <span class="req-star">*</span>
+                        </label>
+                        <div class="medical-input-box">
+                            <span class="medical-input-icon"><i class="bi bi-envelope"></i></span>
+                            <input type="email" class="medical-input-control" id="loginEmail" name="email" placeholder="name@example.com" required autocomplete="email">
+                        </div>
+                        <div class="invalid-feedback text-start"></div>
+                    </div>
+
+                    <!-- Password Field with Eye Toggle -->
+                    <div class="medical-form-group">
+                        <label for="loginPassword" class="medical-form-label">
+                            <span>Password</span>
+                            <span class="req-star">*</span>
+                        </label>
+                        <div class="medical-input-box">
+                            <span class="medical-input-icon"><i class="bi bi-lock"></i></span>
+                            <input type="password" class="medical-input-control" id="loginPassword" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                            <button type="button" class="medical-pw-toggle" id="toggleLoginPasswordBtn" aria-label="Toggle password visibility">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback text-start"></div>
+                    </div>
+
+                    <!-- Aux Row: Remember & Forgot Password -->
+                    <div class="auth-aux-row">
+                        <div class="form-check text-start mb-0">
+                            <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
+                            <label class="form-check-label text-secondary small user-select-none" for="rememberMeCheck">
+                                Keep me signed in
+                            </label>
+                        </div>
+                        <a href="#" class="auth-forgot-link" id="forgotPasswordBtn">Forgot password?</a>
+                    </div>
+
+                    <!-- Inline OTP & Password Reset Panel (Directly Below Password Field) -->
+                    <div id="inlineOtpSection" class="inline-otp-section" style="display: none;"></div>
+
+                    <!-- Primary Shimmer CTA Button -->
+                    <button type="submit" id="loginSubmitBtn" class="auth-submit-btn">
+                        <span class="btn-text d-inline-flex align-items-center">
+                            <span>Sign In to Your Account</span>
+                            <i class="bi bi-arrow-right ms-2 btn-arrow"></i>
+                        </span>
+                        <span class="shimmer-light"></span>
+                    </button>
+                </form>
+
+                <!-- Card Footer & Quick Switcher -->
+                <div class="auth-card-footer">
+                    <p class="auth-switch-text">
+                        New to Medical Care?
+                        <a href="register.html" class="auth-switch-link ms-1">Create your account here &rarr;</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <!-- Medical Care Footer -->
+    <footer class="curemed-footer text-center mt-auto">
+        <div class="container">
+            <p class="small text-secondary mb-0">&copy; 2026 Medical Care Healthcare System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/auth.js?v=8.0"></script>
+    <script src="js/google-auth.js?v=3.0"></script>
+    <script src="js/otp/otp-bundle.js?v=7.0"></script>
+    <script>
+        // 1. Password Visibility Toggle
+        const toggleLoginBtn = document.getElementById('toggleLoginPasswordBtn');
+        const loginPasswordInput = document.getElementById('loginPassword');
+        if (toggleLoginBtn && loginPasswordInput) {
+            toggleLoginBtn.addEventListener('click', () => {
+                const isPassword = loginPasswordInput.getAttribute('type') === 'password';
+                loginPasswordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                const icon = toggleLoginBtn.querySelector('i');
+                if (icon) {
+                    icon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+                }
+                toggleLoginBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+            });
+        }
+
+        // 3. Keep card rock-solid and stationary (No mouse tilting/movement)
+        const glassCard = document.getElementById('authGlassCard');
+        if (glassCard) {
+            glassCard.style.transform = 'none';
+        }
+
+        // 4. Forgot password helper (Inline OTP directly below password)
+        document.getElementById('forgotPasswordBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const emailInput = document.getElementById('loginEmail');
+            const email = emailInput?.value.trim();
+            if (!email || !email.includes('@')) {
+                const box = emailInput?.closest('.medical-input-box');
+                if (box) box.classList.add('is-invalid');
+                const feedback = box?.parentElement?.querySelector('.invalid-feedback');
+                if (feedback) {
+                    feedback.textContent = 'Please enter your Gmail address first to receive the OTP code.';
+                    feedback.style.display = 'block';
+                }
+                emailInput?.focus();
+                return;
+            }
+
+            const box = emailInput?.closest('.medical-input-box');
+            if (box) box.classList.remove('is-invalid');
+            const feedback = box?.parentElement?.querySelector('.invalid-feedback');
+            if (feedback) feedback.style.display = 'none';
+
+            if (window.CodeSlotsOtp && typeof window.CodeSlotsOtp.toggle === 'function') {
+                window.CodeSlotsOtp.toggle(email);
+            } else if (window.CodeSlotsOtp && typeof window.CodeSlotsOtp.open === 'function') {
+                window.CodeSlotsOtp.open(email);
+            }
+        });
+
+        // 5. Clear validation error on input
+        ['loginEmail', 'loginPassword'].forEach(id => {
+            document.getElementById(id)?.addEventListener('input', (e) => {
+                const box = e.target.closest('.medical-input-box');
+                if (box) box.classList.remove('is-invalid');
+                const feedback = box?.parentElement?.querySelector('.invalid-feedback');
+                if (feedback) feedback.style.display = 'none';
+            });
+        });
+
+        // 6. Form Submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const alertBox = document.getElementById('loginAlert');
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            alertBox.classList.add('d-none');
+
+            const email = e.target.email.value.trim();
+            const password = e.target.password.value;
+
+            const { isValid, errors } = window.Validator.validateLogin({ email, password });
+
+            if (!isValid) {
+                Object.entries(errors).forEach(([field, msg]) => {
+                    const input = e.target[field];
+                    if (input) {
+                        const box = input.closest('.medical-input-box');
+                        if (box) box.classList.add('is-invalid');
+                        const feedback = box?.parentElement?.querySelector('.invalid-feedback');
+                        if (feedback) {
+                            feedback.textContent = msg;
+                            feedback.style.display = 'block';
+                        }
+                    }
+                });
+                return;
+            }
+
+            try {
+                submitBtn.disabled = true;
+                submitBtn.querySelector('.btn-text').innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Authenticating...';
+
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-text').innerHTML = '<span>Sign In to Medical Care</span><i class="bi bi-arrow-right ms-2 btn-arrow"></i>';
+
+                if (!response.ok) {
+                    alertBox.className = 'alert alert-danger';
+                    alertBox.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i> ${data.message || 'Login failed'}`;
+                    alertBox.classList.remove('d-none');
+                    return;
+                }
+
+                window.Auth.login(data.token, data.user);
+                alertBox.className = 'alert alert-success';
+                alertBox.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i> Welcome back, ${data.user.name}! Redirecting...`;
+                alertBox.classList.remove('d-none');
+
+                setTimeout(() => {
+                    const u = data.user;
+                    if (u && u.role === 'Admin') {
+                        window.location.href = 'admin/index.html';
+                    } else if (u && (u.role === 'Doctor' || u.doctorAccess === true)) {
+                        window.location.href = 'doctor/index.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                }, 900);
+            } catch (err) {
+                console.error(err);
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-text').innerHTML = '<span>Sign In to Medical Care</span><i class="bi bi-arrow-right ms-2 btn-arrow"></i>';
+                alertBox.className = 'alert alert-danger';
+                alertBox.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i> An unexpected network error occurred. Please try again.';
+                alertBox.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

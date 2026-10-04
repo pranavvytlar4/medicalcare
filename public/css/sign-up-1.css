@@ -1,0 +1,474 @@
+/* ==========================================================================
+   Sign Up 1 Component Stylesheet (Vanilla HTML & CSS)
+   Faithful conversion of shadcn sign-up-1 component
+   ========================================================================== */
+
+:root {
+  --su-bg: #f4f4f5;
+  --su-card: #ffffff;
+  --su-card-foreground: #09090b;
+  --su-muted: #f4f4f5;
+  --su-muted-foreground: #71717a;
+  --su-border: #e4e4e7;
+  --su-primary: #18181b;
+  --su-primary-foreground: #fafafa;
+  --su-primary-hover: #27272a;
+  --su-secondary: #f4f4f5;
+  --su-secondary-foreground: #18181b;
+  --su-secondary-hover: #e4e4e7;
+  --su-input: #e4e4e7;
+  --su-ring: rgba(24, 24, 27, 0.15);
+  --su-accent-link: #2563eb;
+
+  /* Elevated Shadows */
+  --su-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --su-shadow-elevated-sm: 0 1px 1px 0.5px rgb(41 41 41 / 0.04),
+    0 3px 3px -1.5px rgb(41 41 41 / 0.02),
+    0 6px 6px -3px rgb(41 41 41 / 0.04),
+    0 0 0 1px rgb(41 41 41 / 0.04),
+    inset 0 -1px 1px -0.5px rgb(51 51 51 / 0.06);
+  --su-shadow-elevated-lg: 0 1px 1px 0.5px rgb(41 41 41 / 0.04),
+    0 3px 3px -1.5px rgb(41 41 41 / 0.02),
+    0 6px 6px -3px rgb(41 41 41 / 0.04),
+    0 12px 12px -6px rgb(41 41 41 / 0.04),
+    0 24px 24px -12px rgb(41 41 41 / 0.04),
+    0 0 0 1px rgb(41 41 41 / 0.04),
+    inset 0 -1px 1px -0.5px rgb(51 51 51 / 0.06);
+
+  /* Radius */
+  --su-radius-md: 10px;
+  --su-radius-xl: 14px;
+  --su-radius-3xl: 24px;
+  --su-radius-4xl: 32px;
+}
+
+/* Page / Wrapper centering */
+.signup-page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  padding: 1.5rem;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--su-card-foreground);
+  box-sizing: border-box;
+}
+
+/* Main Outer Container: max-w-xl on mobile, max-w-4xl & bg-muted on lg */
+.su-container {
+  width: 100%;
+  max-width: 36rem; /* 576px */
+  border-radius: var(--su-radius-4xl);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .su-container {
+    max-width: 56rem; /* 896px */
+    background-color: var(--su-muted);
+    padding: 0.25rem;
+  }
+}
+
+/* Grid Layout: 1 column on mobile, 2 columns on lg */
+.su-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .su-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Left Column: Form Card */
+.su-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-radius: var(--su-radius-3xl);
+  background-color: var(--su-card);
+  padding: 1.75rem;
+  box-shadow: var(--su-shadow-elevated-lg);
+  border: 1px solid var(--su-border);
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .su-card {
+    padding: 2rem;
+  }
+}
+
+/* Header Section */
+.su-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Fancy Button (Icon logo button) */
+.su-fancy-logo-btn {
+  width: 3.5rem; /* 56px */
+  height: 3.5rem;
+  border-radius: var(--su-radius-xl);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--su-primary);
+  color: var(--su-primary-foreground);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: var(--su-shadow-elevated-sm);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.su-fancy-logo-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.su-fancy-logo-btn svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+/* Titles */
+.su-title-block {
+  text-align: center;
+}
+
+.su-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.25rem 0;
+  color: var(--su-card-foreground);
+}
+
+.su-subtitle {
+  font-size: 0.95rem;
+  color: var(--su-muted-foreground);
+  margin: 0;
+}
+
+/* Social Buttons Row */
+.su-socials {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.su-social-btn {
+  flex: 1;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--su-radius-md);
+  background-color: var(--su-secondary);
+  color: var(--su-secondary-foreground);
+  border: 1px solid var(--su-border);
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.15s ease, border-color 0.18s ease;
+}
+
+.su-social-btn:hover {
+  background-color: var(--su-secondary-hover);
+  border-color: #d4d4d8;
+  transform: translateY(-1px);
+}
+
+.su-social-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Alerts */
+.su-alert {
+  padding: 0.75rem 1rem;
+  border-radius: var(--su-radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: none;
+  margin-bottom: 0.5rem;
+}
+
+.su-alert-success {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.su-alert-error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Divider "or with" */
+.su-divider {
+  position: relative;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--su-muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0.25rem 0;
+}
+
+.su-divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: var(--su-border);
+  z-index: 1;
+}
+
+.su-divider-text {
+  position: relative;
+  background-color: var(--su-card);
+  padding: 0 0.65rem;
+  z-index: 2;
+}
+
+/* Form */
+.su-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Field & Label */
+.su-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.su-field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--su-card-foreground);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.su-req-star {
+  color: var(--su-accent-link);
+}
+
+/* Inputs */
+.su-input {
+  width: 100%;
+  height: 2.6rem;
+  border-radius: var(--su-radius-md);
+  border: 1px solid var(--su-input);
+  background-color: transparent;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.925rem;
+  color: var(--su-card-foreground);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+}
+
+.su-input:focus {
+  border-color: var(--su-primary);
+  box-shadow: 0 0 0 3px var(--su-ring);
+}
+
+.su-input::placeholder {
+  color: #a1a1aa;
+}
+
+/* Input Group (for password with toggle button) */
+.su-input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.su-input-group .su-input {
+  padding-right: 2.75rem;
+}
+
+.su-input-addon-btn {
+  position: absolute;
+  right: 0.35rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--su-muted-foreground);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.su-input-addon-btn:hover {
+  color: var(--su-card-foreground);
+  background-color: var(--su-muted);
+}
+
+.su-input-addon-btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* Submit Button */
+.su-submit-btn {
+  width: 100%;
+  height: 2.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--su-radius-md);
+  background-color: var(--su-primary);
+  color: var(--su-primary-foreground);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--su-shadow-elevated-sm);
+  transition: background-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+  margin-top: 0.35rem;
+  font-family: inherit;
+}
+
+.su-submit-btn:hover {
+  background-color: var(--su-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.su-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Footer Link */
+.su-footer-text {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--su-muted-foreground);
+  margin: 0;
+}
+
+.su-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--su-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.su-link-btn:hover {
+  color: var(--su-accent-link);
+}
+
+/* Right Column: Testimonial & Quote (Hidden on mobile, flex on desktop) */
+.su-testimonial-col {
+  display: none;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .su-testimonial-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+  }
+}
+
+.su-testimonial-content {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.su-quote-text {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: #27272a;
+  margin: 0;
+  font-weight: 400;
+}
+
+.su-quote-highlight {
+  font-weight: 600;
+  color: var(--su-accent-link);
+}
+
+/* Author Avatar Row */
+.su-author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.su-avatar {
+  width: 2.65rem; /* 42px */
+  height: 2.65rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #e4e4e7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #52525b;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.su-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.su-author-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.su-author-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--su-card-foreground);
+  margin: 0 0 2px 0;
+}
+
+.su-author-role {
+  font-size: 0.8rem;
+  color: var(--su-muted-foreground);
+  margin: 0;
+}

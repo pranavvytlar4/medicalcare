@@ -1,0 +1,971 @@
+{
+	"info": {
+		"_postman_id": "8f3b2361-9f9e-4c7a-8b83-20a671234abc",
+		"name": "All-in-One Medical Care REST APIs",
+		"description": "Comprehensive Postman API collection for testing the All-in-One Medical Care web platform.\n\nServices:\n1. Hospital Appointment\n2. Blood Donor\n3. Medicine Reminder\n4. Mental Wellness\n5. Medical Records\n+ User Authentication & Session Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "appointmentId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "donorId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "medicineId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "wellnessId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "recordId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"phone\": \"9876543210\",\n    \"password\": \"password123\",\n    \"role\": \"Patient\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registers a new user in the system with role (Patient, Doctor, Admin). Password is automatically hashed with bcrypt."
+					},
+					"response": [
+						{
+							"name": "Successful Registration",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"phone\": \"9876543210\",\n    \"password\": \"password123\",\n    \"role\": \"Patient\"\n}"
+								},
+								"url": "{{baseUrl}}/api/auth/register"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Registration successful\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n    \"user\": {\n        \"_id\": \"661a1b2c3d4e5f6789012345\",\n        \"name\": \"John Doe\",\n        \"email\": \"john@example.com\",\n        \"phone\": \"9876543210\",\n        \"role\": \"Patient\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"patient@medicalcare.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Authenticates user credentials, generates JWT token, and establishes server-side session."
+					},
+					"response": [
+						{
+							"name": "Successful Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"patient@medicalcare.com\",\n    \"password\": \"password123\"\n}"
+								},
+								"url": "{{baseUrl}}/api/auth/login"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n    \"user\": {\n        \"_id\": \"661a1b2c3d4e5f6789012345\",\n        \"name\": \"Alex Patient\",\n        \"email\": \"patient@medicalcare.com\",\n        \"phone\": \"9876543211\",\n        \"role\": \"Patient\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Current User Profile (me)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Retrieves the authenticated user profile using JWT authorization token."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Destroys the server session and logs out user."
+					},
+					"response": [
+						{
+							"name": "Successful Logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": "{{baseUrl}}/api/auth/logout"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User logged out successfully\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "2. Hospital Appointment",
+			"item": [
+				{
+					"name": "Get Doctors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/doctors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"doctors"
+							]
+						},
+						"description": "Returns list of all hospital doctors and their medical specialties."
+					},
+					"response": [
+						{
+							"name": "Doctors List",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"count\": 4,\n    \"data\": [\n        {\n            \"_id\": \"661a1b2c3d4e5f6789012350\",\n            \"name\": \"Dr. Sarah Johnson\",\n            \"specialization\": \"Cardiologist\",\n            \"department\": \"Cardiology\",\n            \"phone\": \"9876543201\",\n            \"email\": \"sarah.johnson@hospital.com\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('appointmentId', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"doctor\": \"661a1b2c3d4e5f6789012350\",\n    \"appointmentDate\": \"2026-10-15\",\n    \"appointmentTime\": \"10:00 AM\",\n    \"reason\": \"Routine cardiovascular health checkup\",\n    \"status\": \"Pending\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						},
+						"description": "Books a new hospital consultation appointment."
+					},
+					"response": [
+						{
+							"name": "Created Appointment",
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Appointment booked successfully\",\n    \"data\": {\n        \"_id\": \"661a1b2c3d4e5f6789012360\",\n        \"patient\": \"661a1b2c3d4e5f6789012345\",\n        \"doctor\": \"661a1b2c3d4e5f6789012350\",\n        \"appointmentDate\": \"2026-10-15\",\n        \"appointmentTime\": \"10:00 AM\",\n        \"reason\": \"Routine cardiovascular health checkup\",\n        \"status\": \"Pending\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Appointments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						},
+						"description": "Retrieves appointments for logged in patient (or all if doctor/admin)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Appointment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"appointmentDate\": \"2026-10-16\",\n    \"appointmentTime\": \"11:30 AM\",\n    \"status\": \"Confirmed\",\n    \"reason\": \"Rescheduled cardiovascular checkup\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{appointmentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointmentId}}"
+							]
+						},
+						"description": "Updates appointment schedule, status, or visit notes."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Appointment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{appointmentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointmentId}}"
+							]
+						},
+						"description": "Cancels and deletes an appointment."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Blood Donor",
+			"item": [
+				{
+					"name": "Create Donor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('donorId', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"David Miller\",\n    \"age\": 29,\n    \"bloodGroup\": \"O+\",\n    \"phone\": \"9876543220\",\n    \"location\": \"Downtown Medical Center, New York\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/donors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"donors"
+							]
+						},
+						"description": "Registers a voluntary blood donor in the directory."
+					},
+					"response": [
+						{
+							"name": "Created Donor",
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Blood donor registered successfully\",\n    \"data\": {\n        \"_id\": \"661a1b2c3d4e5f6789012370\",\n        \"name\": \"David Miller\",\n        \"age\": 29,\n        \"bloodGroup\": \"O+\",\n        \"phone\": \"9876543220\",\n        \"location\": \"Downtown Medical Center, New York\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Donors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/donors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"donors"
+							]
+						},
+						"description": "Lists all registered blood donors with optional bloodGroup filter query."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Donor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"David Miller\",\n    \"age\": 30,\n    \"bloodGroup\": \"O+\",\n    \"phone\": \"9876543229\",\n    \"location\": \"North Wing Clinic, New York\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/donors/{{donorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"donors",
+								"{{donorId}}"
+							]
+						},
+						"description": "Updates donor contact or location details."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Donor",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/donors/{{donorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"donors",
+								"{{donorId}}"
+							]
+						},
+						"description": "Removes a donor record."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Medicine Reminder",
+			"item": [
+				{
+					"name": "Create Medicine",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('medicineId', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"medicineName\": \"Amoxicillin\",\n    \"dosage\": \"500mg, 1 capsule with food\",\n    \"date\": \"2026-10-01\",\n    \"time\": \"08:00 AM\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/medicines",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"medicines"
+							]
+						},
+						"description": "Adds a new dosage reminder for the patient."
+					},
+					"response": [
+						{
+							"name": "Created Medicine",
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Medicine reminder added successfully\",\n    \"data\": {\n        \"_id\": \"661a1b2c3d4e5f6789012380\",\n        \"user\": \"661a1b2c3d4e5f6789012345\",\n        \"medicineName\": \"Amoxicillin\",\n        \"dosage\": \"500mg, 1 capsule with food\",\n        \"date\": \"2026-10-01\",\n        \"time\": \"08:00 AM\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Medicines",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/medicines",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"medicines"
+							]
+						},
+						"description": "Retrieves all medicine reminders for logged-in user."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Medicine",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"medicineName\": \"Amoxicillin\",\n    \"dosage\": \"500mg, 1 capsule with water after lunch\",\n    \"date\": \"2026-10-05\",\n    \"time\": \"01:00 PM\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/medicines/{{medicineId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"medicines",
+								"{{medicineId}}"
+							]
+						},
+						"description": "Modifies dosage schedule and notes."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Medicine",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/medicines/{{medicineId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"medicines",
+								"{{medicineId}}"
+							]
+						},
+						"description": "Deletes a medicine reminder entry."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Mental Wellness",
+			"item": [
+				{
+					"name": "Create Wellness Record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('wellnessId', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mood\": \"Calm\",\n    \"status\": \"Relaxed and focused\",\n    \"notes\": \"Practiced 20 minutes mindfulness meditation in the morning\",\n    \"date\": \"2026-10-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/wellness",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wellness"
+							]
+						},
+						"description": "Logs daily mood, wellness status, and personal wellness notes."
+					},
+					"response": [
+						{
+							"name": "Created Wellness Record",
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Wellness record added successfully\",\n    \"data\": {\n        \"_id\": \"661a1b2c3d4e5f6789012390\",\n        \"user\": \"661a1b2c3d4e5f6789012345\",\n        \"mood\": \"Calm\",\n        \"status\": \"Relaxed and focused\",\n        \"notes\": \"Practiced 20 minutes mindfulness meditation in the morning\",\n        \"date\": \"2026-10-01\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Wellness Records",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/wellness",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wellness"
+							]
+						},
+						"description": "Retrieves wellness log history for authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Wellness Record",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mood\": \"Happy & Peaceful\",\n    \"status\": \"Great energy\",\n    \"notes\": \"Went for an evening walk and felt very refreshed.\",\n    \"date\": \"2026-10-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/wellness/{{wellnessId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wellness",
+								"{{wellnessId}}"
+							]
+						},
+						"description": "Updates mood or wellness notes entry."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Wellness Record",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/wellness/{{wellnessId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wellness",
+								"{{wellnessId}}"
+							]
+						},
+						"description": "Deletes a wellness journal record."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Medical Records",
+			"item": [
+				{
+					"name": "Create Medical Record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('recordId', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"doctor\": \"Dr. Sarah Johnson\",\n    \"diagnosis\": \"Mild Acute Bronchitis\",\n    \"medicalHistory\": \"No chronic pulmonary illness; seasonal dust allergy\",\n    \"prescription\": \"Azithromycin 250mg 1 tab OD x 5 days, Levocetirizine 5mg at bedtime\",\n    \"date\": \"2026-10-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/records",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"records"
+							]
+						},
+						"description": "Stores patient clinical history, diagnosis, and prescription details."
+					},
+					"response": [
+						{
+							"name": "Created Medical Record",
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Medical record created successfully\",\n    \"data\": {\n        \"_id\": \"661a1b2c3d4e5f6789012399\",\n        \"patient\": \"661a1b2c3d4e5f6789012345\",\n        \"doctor\": \"Dr. Sarah Johnson\",\n        \"diagnosis\": \"Mild Acute Bronchitis\",\n        \"medicalHistory\": \"No chronic pulmonary illness; seasonal dust allergy\",\n        \"prescription\": \"Azithromycin 250mg 1 tab OD x 5 days, Levocetirizine 5mg at bedtime\",\n        \"date\": \"2026-10-01\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Medical Records",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/records",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"records"
+							]
+						},
+						"description": "Retrieves medical records for current user (or all if doctor/admin)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Medical Record",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"doctor\": \"Dr. Sarah Johnson\",\n    \"diagnosis\": \"Mild Acute Bronchitis - Recovered\",\n    \"medicalHistory\": \"Seasonal dust allergy\",\n    \"prescription\": \"Continue deep breathing exercises, review in 2 weeks if cough persists.\",\n    \"date\": \"2026-10-08\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/records/{{recordId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"records",
+								"{{recordId}}"
+							]
+						},
+						"description": "Updates diagnosis, clinical notes, or prescription directions."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Medical Record",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/records/{{recordId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"records",
+								"{{recordId}}"
+							]
+						},
+						"description": "Removes a medical record entry."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

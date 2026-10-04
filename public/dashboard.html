@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Care | Dashboard</title>
+    <!-- Google Fonts: Lato & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <style>
+        /* Bulletproof Stat Badges & Header Styling */
+        .stat-card {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            border-radius: 18px !important;
+            border: 1px solid #e2e8f0 !important;
+            background: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(11, 19, 42, 0.04) !important;
+            transition: all 0.25s ease !important;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.1) !important;
+        }
+        .stat-icon-badge {
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            min-height: 52px !important;
+            max-width: 52px !important;
+            max-height: 52px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto 10px auto !important;
+            flex-shrink: 0 !important;
+        }
+        .stat-icon-badge i {
+            font-size: 1.45rem !important;
+            line-height: 1 !important;
+        }
+        .dashboard-welcome-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 20px !important;
+            padding: 24px 30px !important;
+            box-shadow: 0 4px 20px rgba(11, 19, 42, 0.05) !important;
+            margin-bottom: 24px !important;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Medical Care Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-3 px-xl-4">
+            <a class="brand-logo flex-shrink-0" href="index.html">
+                <span class="brand-badge-dot"><i class="bi bi-heart-pulse-fill"></i></span>
+                <span>Medical <span class="brand-highlight">Care</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <i class="bi bi-list fs-2 text-dark"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-nowrap" href="index.html#servicesSection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu shadow-lg rounded-4 p-2 border-0" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="appointment/doctors.html"><i class="bi bi-calendar2-check text-primary me-2"></i>Hospital Appointment</a></li>
+                            <li><a class="dropdown-item" href="donor/donors.html"><i class="bi bi-droplet-half text-danger me-2"></i>Blood Donor Network</a></li>
+                            <li><a class="dropdown-item" href="medicine/medicines.html"><i class="bi bi-capsule text-success me-2"></i>Medicine Reminder</a></li>
+                            <li><a class="dropdown-item" href="wellness/records.html"><i class="bi bi-heart-pulse text-warning me-2"></i>Mental Wellness</a></li>
+                            <li><a class="dropdown-item" href="medical/records.html"><i class="bi bi-file-earmark-medical text-info me-2"></i>Medical Records</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap" href="index.html#aboutUsSection">About Us</a>
+                    </li>
+                </ul>
+                <div id="navbarAuthSection" class="d-flex align-items-center gap-2 flex-shrink-0"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <main class="container py-4" style="margin-top: 8px;">
+        <!-- Medical Care Header & User Greeting Card -->
+        <div class="dashboard-welcome-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <h2 class="page-title mb-1">
+                        Welcome back, <span id="dashUserName" class="text-primary">User</span>!
+                    </h2>
+                    <p class="page-subtitle mb-0">
+                        Current Date: <strong id="dashClock" class="text-dark">Today</strong>
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                    <a href="appointment/book.html" class="primary-button text-nowrap">
+                        <i class="bi bi-calendar-plus"></i> Book Visit
+                    </a>
+                    <a href="medical/add.html" class="secondary-button text-nowrap">
+                        <i class="bi bi-plus-circle"></i> Add Record
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doctor Dashboard Quick Access Banner (Only shown to Doctors/Admins) -->
+        <div id="doctorBannerSection" class="d-none mb-4">
+            <div class="card border-0 rounded-4 shadow-sm p-3 p-md-4" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color: white;">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-white text-teal d-flex align-items-center justify-content-center shadow-sm" style="width: 52px; height: 52px; min-width: 52px; color: #0d9488;">
+                            <i class="bi bi-hospital fs-3"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Doctor Schedule & Patients</h5>
+                            <p class="mb-0 small text-white-50">Review today's appointments, confirm patient visits, and send reminders.</p>
+                        </div>
+                    </div>
+                    <a href="doctor/index.html" class="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm d-flex align-items-center gap-2" style="color: #0f766e;">
+                        <span>Open Doctor Schedule</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Care Stat Counters -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="stat-card p-3 h-100" style="display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important;">
+                    <div class="stat-icon-badge bg-primary-subtle text-primary" style="width: 52px !important; height: 52px !important; min-width: 52px !important; min-height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 10px auto !important; flex-shrink: 0 !important;">
+                        <i class="bi bi-calendar-check fs-4"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-dark lh-1 mb-1" id="statAppointments">0</div>
+                    <div class="small fw-bold text-muted text-uppercase">Appointments</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="stat-card p-3 h-100" style="display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important;">
+                    <div class="stat-icon-badge bg-danger-subtle text-danger" style="width: 52px !important; height: 52px !important; min-width: 52px !important; min-height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 10px auto !important; flex-shrink: 0 !important;">
+                        <i class="bi bi-droplet-half fs-4"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-dark lh-1 mb-1" id="statDonors">0</div>
+                    <div class="small fw-bold text-muted text-uppercase">Blood Donors</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="stat-card p-3 h-100" style="display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important;">
+                    <div class="stat-icon-badge bg-warning-subtle text-warning" style="width: 52px !important; height: 52px !important; min-width: 52px !important; min-height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 10px auto !important; flex-shrink: 0 !important;">
+                        <i class="bi bi-capsule fs-4"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-dark lh-1 mb-1" id="statMedicines">0</div>
+                    <div class="small fw-bold text-muted text-uppercase">Medicines</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="stat-card p-3 h-100" style="display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important;">
+                    <div class="stat-icon-badge" style="background:#ede9fe; color:#7c3aed; width: 52px !important; height: 52px !important; min-width: 52px !important; min-height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 10px auto !important; flex-shrink: 0 !important;">
+                        <i class="bi bi-emoji-smile fs-4"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-dark lh-1 mb-1" id="statWellness">0</div>
+                    <div class="small fw-bold text-muted text-uppercase">Mood Logs</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="stat-card p-3 h-100" style="display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important;">
+                    <div class="stat-icon-badge bg-success-subtle text-success" style="width: 52px !important; height: 52px !important; min-width: 52px !important; min-height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 10px auto !important; flex-shrink: 0 !important;">
+                        <i class="bi bi-folder2-open fs-4"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-dark lh-1 mb-1" id="statRecords">0</div>
+                    <div class="small fw-bold text-muted text-uppercase">Records</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="stat-card p-3 h-100" style="display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important;">
+                    <div class="stat-icon-badge bg-info-subtle text-info" style="width: 52px !important; height: 52px !important; min-width: 52px !important; min-height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto 10px auto !important; flex-shrink: 0 !important;">
+                        <i class="bi bi-person-lines-fill fs-4"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-dark lh-1 mb-1" id="statDoctors">0</div>
+                    <div class="small fw-bold text-muted text-uppercase">Doctors</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Services & Tools -->
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h4 class="fw-bold mb-0">Your Everyday Health Tools</h4>
+            <span class="text-muted small">Compassionate tools to keep you and your family feeling your best</span>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Service: Hospital Appointment -->
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-inline-flex p-3 rounded-4 bg-primary text-white">
+                            <i class="bi bi-hospital fs-4"></i>
+                        </div>
+                        <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-bold">APPOINTMENTS</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Doctor Consultations</h5>
+                    <p class="text-muted small flex-grow-1 mb-3">
+                        Find a doctor you trust, schedule visits that fit your family's routine, and walk in with total confidence.
+                    </p>
+                    <div class="d-flex flex-column gap-2 pt-3 border-top mt-auto">
+                        <a href="appointment/doctors.html" class="btn btn-outline-primary btn-sm rounded-pill text-start d-flex justify-content-between align-items-center px-3 py-2">
+                            <span><i class="bi bi-person-lines-fill me-2"></i> Meet Our Doctors</span>
+                            <i class="bi bi-chevron-right small"></i>
+                        </a>
+                        <a href="appointment/book.html" class="primary-button btn-sm justify-content-between py-2">
+                            <span><i class="bi bi-calendar-plus me-2"></i> Book a Visit</span>
+                            <i class="bi bi-arrow-right small"></i>
+                        </a>
+                        <a href="appointment/appointments.html" class="secondary-button btn-sm justify-content-between py-2">
+                            <span><i class="bi bi-calendar2-week me-2"></i> My Appointments</span>
+                            <i class="bi bi-chevron-right small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service: Blood Donor -->
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-inline-flex p-3 rounded-4 bg-danger text-white">
+                            <i class="bi bi-heart-pulse-fill fs-4"></i>
+                        </div>
+                        <span class="badge bg-danger-subtle text-danger rounded-pill px-3 py-1 fw-bold">BLOOD NETWORK</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Volunteer Blood Donors</h5>
+                    <p class="text-muted small flex-grow-1 mb-3">
+                        In urgent moments, help is just a phone call away. Find kindhearted donors nearby, or sign up as a lifesaver today.
+                    </p>
+                    <div class="d-flex flex-column gap-2 pt-3 border-top mt-auto">
+                        <a href="donor/register.html" class="btn btn-danger btn-sm rounded-pill text-start d-flex justify-content-between align-items-center px-3 py-2 text-white">
+                            <span><i class="bi bi-droplet-half me-2"></i> Become a Donor</span>
+                            <i class="bi bi-arrow-right small"></i>
+                        </a>
+                        <a href="donor/donors.html" class="secondary-button btn-sm justify-content-between py-2">
+                            <span><i class="bi bi-people me-2"></i> Find Donors Nearby</span>
+                            <i class="bi bi-chevron-right small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service: Medicine Reminder -->
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-inline-flex p-3 rounded-4 bg-warning text-dark">
+                            <i class="bi bi-capsule fs-4"></i>
+                        </div>
+                        <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-3 py-1 fw-bold">DAILY CARE</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Gentle Medicine Reminders</h5>
+                    <p class="text-muted small flex-grow-1 mb-3">
+                        Stay comfortably on schedule with daily prescriptions and vitamins. Friendly alerts ensure no doses are missed.
+                    </p>
+                    <div class="d-flex flex-column gap-2 pt-3 border-top mt-auto">
+                        <a href="medicine/add.html" class="btn btn-warning text-dark btn-sm rounded-pill text-start d-flex justify-content-between align-items-center px-3 py-2 fw-semibold">
+                            <span><i class="bi bi-plus-circle me-2"></i> Add a Medicine</span>
+                            <i class="bi bi-arrow-right small"></i>
+                        </a>
+                        <a href="medicine/medicines.html" class="secondary-button btn-sm justify-content-between py-2">
+                            <span><i class="bi bi-clock-history me-2"></i> View Schedule</span>
+                            <i class="bi bi-chevron-right small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service: Mental Wellness -->
+            <div class="col-md-6 col-lg-6">
+                <div class="custom-card p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-inline-flex p-3 rounded-4 text-white" style="background:#7c3aed;">
+                            <i class="bi bi-emoji-smile fs-4"></i>
+                        </div>
+                        <span class="badge rounded-pill px-3 py-1 fw-bold" style="background:#ede9fe; color:#7c3aed;">PEACE OF MIND</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Mind &amp; Mood Journal</h5>
+                    <p class="text-muted small flex-grow-1 mb-3">
+                        Take a gentle minute to check in with yourself, write down your feelings, and nurture your mental well-being over time.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2 pt-3 border-top mt-auto">
+                        <a href="wellness/add.html" class="primary-button btn-sm flex-fill py-2" style="background:#7c3aed;">
+                            <i class="bi bi-plus-circle me-1"></i> Log Today's Mood
+                        </a>
+                        <a href="wellness/records.html" class="secondary-button btn-sm flex-fill py-2">
+                            <i class="bi bi-journal-text me-1"></i> Open Mood Journal
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service: Medical Records -->
+            <div class="col-md-12 col-lg-6">
+                <div class="custom-card p-4 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-inline-flex p-3 rounded-4 bg-success text-white">
+                            <i class="bi bi-journal-medical fs-4"></i>
+                        </div>
+                        <span class="badge bg-success-subtle text-success rounded-pill px-3 py-1 fw-bold">SAFE &amp; ORGANIZED</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Safe Health History &amp; Records</h5>
+                    <p class="text-muted small flex-grow-1 mb-3">
+                        No more lost paper reports. Keep past diagnoses, lab summaries, and prescriptions privately organized right in your pocket.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2 pt-3 border-top mt-auto">
+                        <a href="medical/add.html" class="btn btn-success btn-sm rounded-pill flex-fill py-2 fw-semibold">
+                            <i class="bi bi-file-earmark-plus me-1"></i> Add Record
+                        </a>
+                        <a href="medical/records.html" class="secondary-button btn-sm flex-fill py-2">
+                            <i class="bi bi-folder2-open me-1"></i> Access Records
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Medical Care Footer -->
+    <footer class="curemed-footer">
+        <div class="container text-center py-2">
+            <p class="small text-secondary mb-0">&copy; 2026 Medical Care Clinic. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/auth.js?v=7.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!window.Auth.requireAuth()) return;
+
+            const user = window.Auth.getCurrentUser();
+            if (user) {
+                document.getElementById('dashUserName').textContent = user.name;
+            }
+
+
+            const now = new Date();
+            document.getElementById('dashClock').textContent = now.toLocaleDateString(undefined, {
+                weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+            });
+
+            try {
+                const [aptRes, donorRes, medRes, wellRes, recRes, docRes] = await Promise.allSettled([
+                    window.Auth.apiFetch('/api/appointments'),
+                    window.Auth.apiFetch('/api/donors'),
+                    window.Auth.apiFetch('/api/medicines'),
+                    window.Auth.apiFetch('/api/wellness'),
+                    window.Auth.apiFetch('/api/records'),
+                    window.Auth.apiFetch('/api/doctors')
+                ]);
+
+                if (aptRes.status === 'fulfilled' && aptRes.value.response.ok) {
+                    document.getElementById('statAppointments').textContent = aptRes.value.data.count || aptRes.value.data.data.length || 0;
+                }
+                if (donorRes.status === 'fulfilled' && donorRes.value.response.ok) {
+                    document.getElementById('statDonors').textContent = donorRes.value.data.count || donorRes.value.data.data.length || 0;
+                }
+                if (medRes.status === 'fulfilled' && medRes.value.response.ok) {
+                    document.getElementById('statMedicines').textContent = medRes.value.data.count || medRes.value.data.data.length || 0;
+                }
+                if (wellRes.status === 'fulfilled' && wellRes.value.response.ok) {
+                    document.getElementById('statWellness').textContent = wellRes.value.data.count || wellRes.value.data.data.length || 0;
+                }
+                if (recRes.status === 'fulfilled' && recRes.value.response.ok) {
+                    document.getElementById('statRecords').textContent = recRes.value.data.count || recRes.value.data.data.length || 0;
+                }
+                if (docRes.status === 'fulfilled' && docRes.value.response.ok) {
+                    document.getElementById('statDoctors').textContent = docRes.value.data.count || docRes.value.data.data.length || 0;
+                }
+
+                if (window.Auth && window.Auth.isDoctor && window.Auth.isDoctor()) {
+                    const docBanner = document.getElementById('doctorBannerSection');
+                    if (docBanner) docBanner.classList.remove('d-none');
+                }
+            } catch (err) {
+                console.warn('Dashboard stats error:', err);
+            }
+
+            // Lively listener for role updates without page reload
+            window.addEventListener('medical_care_role_updated', (e) => {
+                const user = e.detail?.user || (window.Auth ? window.Auth.getCurrentUser() : null);
+                if (user) {
+                    const nameEl = document.getElementById('dashUserName');
+                    if (nameEl) nameEl.textContent = user.name;
+                }
+                const docBanner = document.getElementById('doctorBannerSection');
+                if (docBanner && window.Auth && window.Auth.isDoctor) {
+                    if (window.Auth.isDoctor()) {
+                        docBanner.classList.remove('d-none');
+                    } else {
+                        docBanner.classList.add('d-none');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Medical Care - Inline Message & 6 CodeSlots directly below Password
+   ========================================================================== */
+
+.inline-otp-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 14px 0 16px;
+  padding: 6px 0;
+  animation: slotsSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slotsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.inline-otp-container-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Sent To Message Badge */
+.inline-otp-msg-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);
+}
+
+/* Error Badge */
+.inline-otp-err-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 12px;
+}
+
+/* Slot wrapper */
+.only-slots-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Individual Slot Styling - Matching User Design */
+.inline-otp-section .code-slots__slot {
+  border: 1.5px solid #cbd5e1;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.inline-otp-section .code-slots__slot[data-active] {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.inline-otp-section .code-slots__row[data-status='error'] .code-slots__slot {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.inline-otp-section .code-slots__row[data-status='success'] .code-slots__wash {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Resend Row */
+.inline-otp-resend-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  padding: 0 4px;
+}
+
+.inline-resend-link-btn {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.15s ease;
+}
+
+.inline-resend-link-btn:hover:not(:disabled) {
+  color: #1d4ed8;
+}
+
+/* Mini Reset Password Form */
+.new-pw-mini-wrap {
+  width: 100%;
+  animation: slotsSlideIn 0.25s ease-out forwards;
+}

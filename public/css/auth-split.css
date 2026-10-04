@@ -1,0 +1,1098 @@
+/* ==========================================================================
+   Medical Care - Modern Animated Auth Design System (Login & Register)
+   Fully Unified with Medical Care Homepage Aesthetic & Design Language
+   Features:
+   - Dynamic Hero Atmosphere (Radial Light, Aurora Orbs, ECG Pulse Wave)
+   - Ambient Interactive Cursor Spotlight & Floating Medical Particles
+   - 3D Parallax Floating Medical Assets with Ethereal Glow Auras
+   - Frosted Glassmorphism Card (28px radius, Flowing Gradient Top Bar)
+   - Animated Heartbeat Pulse Badge with Expanding Sonar Rings
+   - Gradient Shimmer Typography & Shimmer Sweep Submit Buttons
+   - Role Portal Switcher, Floating Focus Inputs & Trust Badges
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Root Variables & Brand System
+   -------------------------------------------------------------------------- */
+:root {
+    --mc-primary: #2563eb;
+    --mc-primary-dark: #1d4ed8;
+    --mc-primary-light: #eff6ff;
+    --mc-cyan: #06b6d4;
+    --mc-cyan-dark: #0891b2;
+    --mc-purple: #8b5cf6;
+    --mc-slate-900: #0b132a;
+    --mc-slate-800: #0f172a;
+    --mc-slate-700: #1e293b;
+    --mc-slate-600: #475569;
+    --mc-slate-500: #64748b;
+    --mc-slate-400: #94a3b8;
+    --mc-slate-200: #e2e8f0;
+    --mc-slate-100: #f1f5f9;
+    --mc-slate-50: #f8fafc;
+    --mc-card-bg: rgba(255, 255, 255, 0.94);
+    --mc-card-border: rgba(226, 232, 240, 0.85);
+    --mc-card-radius: 28px;
+    --mc-brand-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+    --mc-border-flow-gradient: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(6, 182, 212, 0.5) 25%, 
+        rgba(37, 99, 235, 0.9) 50%, 
+        rgba(139, 92, 246, 0.5) 75%, 
+        transparent 100%
+    );
+}
+
+/* --------------------------------------------------------------------------
+   Base Reset & Body Matching
+   -------------------------------------------------------------------------- */
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Lato', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--mc-slate-700);
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 992px) and (min-height: 540px) {
+    html, body {
+        height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Navbar Customizations (Matching Homepage)
+   -------------------------------------------------------------------------- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+    padding: 6px 0 !important;
+    box-shadow: 0 4px 20px rgba(11, 19, 42, 0.03) !important;
+    flex-shrink: 0;
+}
+
+/* Ambient animated gradient accent under navbar */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--mc-border-flow-gradient);
+    background-size: 200% 100%;
+    animation: navBorderFlow 5s linear infinite;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+@keyframes navBorderFlow {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--mc-slate-900);
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo:hover {
+    transform: translateY(-1px);
+    color: var(--mc-slate-900);
+}
+
+.brand-highlight {
+    background: var(--mc-brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-badge-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--mc-brand-gradient);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo:hover .brand-badge-dot {
+    transform: scale(1.1) rotate(-6deg);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.45);
+}
+
+.brand-badge-dot i {
+    display: inline-block;
+    animation: brandHeartRhythm 2.8s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes brandHeartRhythm {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.22); }
+    24% { transform: scale(1.05); }
+    36% { transform: scale(1.25); }
+    54% { transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   Auth Hero Atmosphere & Ambient Canvas
+   -------------------------------------------------------------------------- */
+.auth-page-hero {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: radial-gradient(circle at 50% 35%, #eff6ff 0%, #f8fafc 55%, #eef2ff 100%);
+    overflow: hidden;
+    min-height: 0;
+}
+
+@media (min-width: 992px) and (min-height: 540px) {
+    .auth-page-hero {
+        height: calc(100vh - 78px);
+        max-height: calc(100vh - 78px);
+    }
+}
+
+/* Hero Ambient Cursor Spotlight */
+.hero-cursor-spotlight {
+    position: absolute;
+    width: 580px;
+    height: 580px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, rgba(6, 182, 212, 0.05) 45%, rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    will-change: left, top, opacity;
+}
+
+/* Ambient Dynamic Aurora Glow Orbs */
+.hero-aurora-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(85px);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform, opacity;
+}
+
+.hero-aurora-orb.orb-1 {
+    width: 480px;
+    height: 480px;
+    top: 2%;
+    left: 8%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.22) 0%, rgba(6, 182, 212, 0.12) 50%, transparent 70%);
+    animation: auroraFloat1 13s ease-in-out infinite alternate;
+}
+
+.hero-aurora-orb.orb-2 {
+    width: 520px;
+    height: 520px;
+    bottom: 5%;
+    right: 8%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(37, 99, 235, 0.1) 50%, transparent 70%);
+    animation: auroraFloat2 15s ease-in-out infinite alternate;
+}
+
+.hero-aurora-orb.orb-3 {
+    width: 360px;
+    height: 360px;
+    top: 35%;
+    left: 50%;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(99, 102, 241, 0.08) 60%, transparent 70%);
+    animation: auroraFloat3 11s ease-in-out infinite alternate;
+}
+
+@keyframes auroraFloat1 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(45px, -30px) scale(1.1); }
+    100% { transform: translate(-30px, 40px) scale(0.95); }
+}
+
+@keyframes auroraFloat2 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, -40px) scale(1.12); }
+    100% { transform: translate(35px, 25px) scale(0.95); }
+}
+
+@keyframes auroraFloat3 {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.55; }
+    50% { transform: translate(-30%, -40%) scale(1.1); opacity: 0.85; }
+    100% { transform: translate(-60%, -60%) scale(0.95); opacity: 0.6; }
+}
+
+/* Decorative Floating Medical Particles */
+.hero-particle {
+    position: absolute;
+    font-size: 1.15rem;
+    color: rgba(37, 99, 235, 0.32);
+    pointer-events: none;
+    z-index: 2;
+    user-select: none;
+    animation: particleFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(0.9);
+        opacity: 0.35;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-26px) rotate(16deg) scale(1.1);
+        opacity: 0.45;
+    }
+}
+
+/* Floating 3D Graphic Assets on Flanks */
+.auth-3d-asset {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    pointer-events: none;
+    perspective: 1000px;
+    transform: translateY(-50%);
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .auth-3d-asset {
+        display: block;
+        width: 190px;
+        max-width: 220px;
+    }
+    .auth-3d-asset.asset-left {
+        left: 3%;
+        animation: slideInLeftHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .auth-3d-asset.asset-right {
+        right: 3%;
+        animation: slideInRightHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+}
+
+@media (min-width: 1400px) {
+    .auth-3d-asset {
+        width: 230px;
+    }
+    .auth-3d-asset.asset-left {
+        left: 6%;
+    }
+    .auth-3d-asset.asset-right {
+        right: 6%;
+    }
+}
+
+@keyframes slideInLeftHero {
+    0% { opacity: 0; transform: translate(-50px, -50%); }
+    100% { opacity: 1; transform: translate(0, -50%); }
+}
+
+@keyframes slideInRightHero {
+    0% { opacity: 0; transform: translate(50px, -50%); }
+    100% { opacity: 1; transform: translate(0, -50%); }
+}
+
+.auth-3d-asset img {
+    width: 100%;
+    height: auto;
+    display: block;
+    mix-blend-mode: multiply;
+}
+
+.auth-3d-asset.asset-left img {
+    animation: webflowRotateLeft 6s ease-in-out infinite alternate;
+}
+
+.auth-3d-asset.asset-right img {
+    animation: webflowRotateRight 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes webflowRotateLeft {
+    0% { transform: perspective(1000px) rotateY(12deg) rotateZ(8deg) translateY(0px) scale(1); }
+    50% { transform: perspective(1000px) rotateY(-8deg) rotateZ(-4deg) translateY(-18px) scale(1.05); }
+    100% { transform: perspective(1000px) rotateY(-20deg) rotateZ(-10deg) translateY(-28px) scale(1.08); }
+}
+
+@keyframes webflowRotateRight {
+    0% { transform: perspective(1000px) rotateY(-20deg) rotateZ(-10deg) translateY(0px) scale(1); }
+    50% { transform: perspective(1000px) rotateY(5deg) rotateZ(2deg) translateY(-22px) scale(1.06); }
+    100% { transform: perspective(1000px) rotateY(20deg) rotateZ(10deg) translateY(-32px) scale(1.09); }
+}
+
+.asset-glow-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(45px);
+    animation: auraPulse 4s ease-in-out infinite alternate;
+}
+
+.asset-glow-aura.left-glow {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.55) 0%, rgba(37, 99, 235, 0.25) 55%, transparent 75%);
+}
+
+.asset-glow-aura.right-glow {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.55) 0%, rgba(139, 92, 246, 0.3) 55%, transparent 75%);
+}
+
+@keyframes auraPulse {
+    0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.65; }
+    100% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.95; }
+}
+
+/* Animated Ambient ECG Pulse Line along the bottom */
+.hero-ecg-track {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.85;
+    overflow: hidden;
+}
+
+.hero-ecg-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ecg-line {
+    fill: none;
+    stroke: url(#ecgGradient);
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 280, 1000;
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.75)) drop-shadow(0 0 14px rgba(37, 99, 235, 0.5));
+    animation: ecgFlow 4.5s linear infinite;
+}
+
+@keyframes ecgFlow {
+    0% { stroke-dashoffset: 1280; }
+    100% { stroke-dashoffset: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Auth Main Layout (Side-by-Side with Left Medical App GIF)
+   -------------------------------------------------------------------------- */
+.auth-main-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+/* Left Showcase with Medical App WebM Video (Big & Floating, No Box Background) */
+.auth-left-showcase {
+    display: none;
+    flex: 0 1 440px;
+    max-width: 460px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+@media (min-width: 1200px) {
+    .auth-left-showcase {
+        display: flex;
+    }
+}
+
+.auth-gif-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-gif-wrapper::before {
+    display: none !important;
+}
+
+.auth-medical-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    max-height: min(440px, 60vh);
+    object-fit: contain;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    filter: drop-shadow(0 15px 35px rgba(37, 99, 235, 0.12));
+    animation: medicalFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes medicalFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(0.8deg); }
+    100% { transform: translateY(6px) rotate(-0.5deg); }
+}
+
+.auth-medical-video {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    max-height: min(440px, 60vh);
+    object-fit: contain;
+    height: auto;
+    display: block;
+    outline: none;
+    border: none;
+    background: transparent;
+    pointer-events: none;
+}
+
+.auth-medical-gif {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    max-height: min(440px, 60vh);
+    object-fit: contain;
+    height: auto;
+    display: block;
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Auth Card Container (Wide, Stationary & Rock-Solid)
+   -------------------------------------------------------------------------- */
+.auth-card-container {
+    position: relative;
+    z-index: 10;
+    width: 720px;
+    max-width: 720px;
+    flex: 0 0 720px;
+    margin: 0 auto;
+    animation: authCardFadeIn 0.5s ease-out forwards;
+}
+
+.auth-card-container.auth-card-wide {
+    width: 920px;
+    max-width: 920px;
+    flex: 0 0 920px;
+}
+
+@media (max-width: 1199px) {
+    .auth-main-layout {
+        flex-direction: column;
+        gap: 0;
+    }
+    .auth-card-container {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    .auth-card-container.auth-card-wide {
+        width: 100%;
+        max-width: 920px;
+    }
+}
+
+@keyframes authCardFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Frosted Glassmorphism Medical Card (Spacious & Premium)
+   -------------------------------------------------------------------------- */
+.auth-glass-card {
+    position: relative;
+    background: var(--mc-card-bg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--mc-card-border);
+    border-radius: 26px;
+    padding: 24px 52px 22px;
+    box-shadow: 
+        0 20px 60px -10px rgba(11, 19, 42, 0.12),
+        0 8px 24px -5px rgba(37, 99, 235, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.95) inset,
+        0 0 45px rgba(37, 99, 235, 0.05);
+    overflow: hidden;
+    transform: none !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.auth-glass-card:hover {
+    border-color: rgba(37, 99, 235, 0.35);
+    box-shadow: 
+        0 24px 65px -10px rgba(11, 19, 42, 0.15),
+        0 10px 28px -5px rgba(37, 99, 235, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.98) inset,
+        0 0 50px rgba(37, 99, 235, 0.08);
+    transform: none !important;
+}
+
+/* Flowing Animated Gradient Top Bar */
+.auth-card-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        #06b6d4 0%, 
+        #2563eb 25%, 
+        #8b5cf6 50%, 
+        #06b6d4 75%, 
+        #2563eb 100%
+    );
+    background-size: 250% 100%;
+    animation: navBorderFlow 4s linear infinite;
+    pointer-events: none;
+}
+
+/* Card Header & Brand Pulse Emblem */
+.auth-card-header {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.auth-pulse-emblem-wrap {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sonar-wave {
+    display: none !important;
+}
+
+.auth-pulse-badge {
+    position: relative;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--mc-brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.35rem;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    transition: transform 0.3s ease;
+}
+
+.auth-pulse-badge:hover {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.auth-pulse-badge i {
+    animation: brandHeartRhythm 2.8s ease-in-out infinite;
+}
+
+/* Card Heading & Subtitle */
+.auth-card-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.65rem;
+    color: var(--mc-slate-900);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+    line-height: 1.25;
+}
+
+.gradient-text-shimmer {
+    background: linear-gradient(120deg, #2563eb 0%, #06b6d4 30%, #8b5cf6 60%, #2563eb 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShimmer 6s linear infinite;
+    display: inline-block;
+}
+
+@keyframes textShimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 250% center; }
+}
+
+.auth-card-subtitle {
+    font-size: 0.88rem;
+    color: var(--mc-slate-500);
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   Google Sign-In Button (Spacious & Clean)
+   -------------------------------------------------------------------------- */
+.google-auth-btn {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1.5px solid var(--mc-slate-200);
+    border-radius: 9999px;
+    color: var(--mc-slate-700);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.94rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.google-auth-btn:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: var(--mc-slate-900);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(66, 133, 244, 0.16);
+}
+
+.google-auth-btn:active {
+    transform: translateY(0);
+}
+
+.google-auth-btn svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   Refined Divider
+   -------------------------------------------------------------------------- */
+.auth-separator {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    gap: 12px;
+}
+
+.auth-separator-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0 30%, #e2e8f0 70%, transparent);
+}
+
+.auth-separator-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--mc-slate-400);
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Medical Inputs & Focus Aura
+   -------------------------------------------------------------------------- */
+.medical-form-group {
+    margin-bottom: 11px;
+    text-align: left;
+}
+
+.medical-form-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--mc-slate-600);
+    margin-bottom: 5px;
+    letter-spacing: 0.01em;
+}
+
+.medical-form-label .req-star {
+    color: var(--mc-primary);
+}
+
+.medical-input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1.5px solid var(--mc-slate-200);
+    border-radius: 13px;
+    padding: 0 16px;
+    height: 46px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.medical-input-icon {
+    font-size: 1.15rem;
+    color: var(--mc-slate-400);
+    margin-right: 12px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.medical-input-control {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 0.94rem;
+    color: var(--mc-slate-800);
+    padding: 0;
+    outline: none !important;
+    width: 100%;
+}
+
+.medical-input-control::placeholder {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+/* Floating Focus Aura on Input Box */
+.medical-input-box:focus-within {
+    border-color: var(--mc-primary);
+    background: #ffffff;
+    box-shadow: 
+        0 0 0 3px rgba(37, 99, 235, 0.12),
+        0 4px 14px rgba(37, 99, 235, 0.07);
+}
+
+.medical-input-box:focus-within .medical-input-icon {
+    color: var(--mc-primary);
+    transform: scale(1.08);
+}
+
+/* Invalid State */
+.medical-input-box.is-invalid {
+    border-color: #ef4444 !important;
+    background: #fffafa !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+
+.medical-input-box.is-invalid .medical-input-icon {
+    color: #ef4444 !important;
+}
+
+.medical-pw-toggle {
+    border: none;
+    background: transparent;
+    color: var(--mc-slate-400);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.15rem;
+    transition: color 0.2s ease, transform 0.15s ease;
+    outline: none !important;
+}
+
+.medical-pw-toggle:hover {
+    color: var(--mc-primary);
+    transform: scale(1.1);
+}
+
+.invalid-feedback {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #ef4444;
+    margin-top: 4px;
+    display: none;
+    text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   Auxiliary Row (Forgot Password & Remember)
+   -------------------------------------------------------------------------- */
+.auth-aux-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+}
+
+.auth-forgot-link {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    color: var(--mc-primary);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.auth-forgot-link:hover {
+    color: var(--mc-primary-dark);
+}
+
+.auth-forgot-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background: var(--mc-primary);
+    transition: width 0.25s ease;
+}
+
+.auth-forgot-link:hover::after {
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Primary Shimmer CTA Button
+   -------------------------------------------------------------------------- */
+.auth-submit-btn {
+    width: 100%;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--mc-brand-gradient);
+    color: #ffffff !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.02rem;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 6px 22px rgba(37, 99, 235, 0.32);
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0) scale(0.985);
+}
+
+.auth-submit-btn i.btn-arrow {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-submit-btn:hover i.btn-arrow {
+    transform: translateX(5px);
+}
+
+/* Specular Shimmer Sweep Effect */
+.auth-submit-btn .shimmer-light {
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.35) 50%, 
+        transparent 100%
+    );
+    transform: skewX(-25deg);
+    animation: buttonShimmer 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes buttonShimmer {
+    0% { left: -120%; }
+    30% { left: 160%; }
+    100% { left: 160%; }
+}
+
+/* --------------------------------------------------------------------------
+   Card Footer & Quick Switcher
+   -------------------------------------------------------------------------- */
+.auth-card-footer {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--mc-slate-200);
+    text-align: center;
+}
+
+.auth-switch-text {
+    font-size: 0.86rem;
+    color: var(--mc-slate-500);
+    margin-bottom: 0;
+}
+
+.auth-switch-link {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    color: var(--mc-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.auth-switch-link:hover {
+    color: var(--mc-primary-dark);
+    text-decoration: underline;
+}
+
+/* Form Check & Empty Containers */
+#registerForm .form-check {
+    margin-bottom: 8px !important;
+}
+
+#registerForm .form-check-label {
+    font-size: 0.77rem;
+}
+
+#googleGsiButtonContainer:empty,
+#loginAlert:empty,
+#registerAlert:empty {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Website Footer
+   -------------------------------------------------------------------------- */
+.curemed-footer {
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    padding: 6px 0;
+    flex-shrink: 0;
+}
+
+.curemed-footer p {
+    font-size: 0.76rem;
+}
+
+/* --------------------------------------------------------------------------
+   Alerts & Notifications
+   -------------------------------------------------------------------------- */
+.alert {
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border: none;
+}
+
+.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.alert-info {
+    background-color: #eff6ff;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+
+.alert-warning {
+    background-color: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Fallback
+   -------------------------------------------------------------------------- */
+@media (max-height: 560px) or (max-width: 991px) {
+    html, body {
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+    }
+    .auth-page-hero {
+        height: auto !important;
+        max-height: none !important;
+        min-height: calc(100vh - 78px) !important;
+        padding: 16px 12px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-glass-card {
+        padding: 20px 16px 18px;
+        border-radius: 20px;
+    }
+    .auth-card-title {
+        font-size: 1.3rem;
+    }
+}

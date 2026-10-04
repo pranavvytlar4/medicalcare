@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Image Slider Authentication</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="page-container">
+        <!-- Main Card Container with Entrance Animation -->
+        <div class="auth-card" id="authCard">
+            
+            <!-- Left Column: Image Slider Section -->
+            <section class="slider-section" aria-label="Image Showcase">
+                <div class="slider-container" id="sliderContainer">
+                    <!-- Slide 1 -->
+                    <div class="slide active" data-index="0">
+                        <img src="assets/images/slide-1.jpg" 
+                             onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1400&q=80'"
+                             alt="Modern architectural abstract wave design" 
+                             class="slide-image"
+                             loading="eager">
+                        <div class="slide-overlay"></div>
+                        <div class="slide-content">
+                            <span class="slide-badge">Experience Excellence</span>
+                            <h3 class="slide-title">Seamless authentication for high-growth teams.</h3>
+                            <p class="slide-desc">Connect with your favorite tools and collaborate in real-time across your entire organization.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide" data-index="1">
+                        <img src="assets/images/slide-2.jpg" 
+                             onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80'"
+                             alt="Minimalist modern interior with natural lighting" 
+                             class="slide-image"
+                             loading="lazy">
+                        <div class="slide-overlay"></div>
+                        <div class="slide-content">
+                            <span class="slide-badge">Thoughtful Design</span>
+                            <h3 class="slide-title">Crafted with precision, built for scale.</h3>
+                            <p class="slide-desc">Intuitive workflows engineered to save hours every week, giving you time for what matters.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide" data-index="2">
+                        <img src="assets/images/slide-3.jpg" 
+                             onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80'"
+                             alt="Contemporary workspace collaboration area" 
+                             class="slide-image"
+                             loading="lazy">
+                        <div class="slide-overlay"></div>
+                        <div class="slide-content">
+                            <span class="slide-badge">Global Community</span>
+                            <h3 class="slide-title">Trusted by over 100,000 developers.</h3>
+                            <p class="slide-desc">Join a thriving network of innovators pushing the boundaries of software craftsmanship.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="slide" data-index="3">
+                        <img src="assets/images/slide-4.jpg" 
+                             onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80'"
+                             alt="Calm scenic mountain landscape reflection" 
+                             class="slide-image"
+                             loading="lazy">
+                        <div class="slide-overlay"></div>
+                        <div class="slide-content">
+                            <span class="slide-badge">Peace of Mind</span>
+                            <h3 class="slide-title">Enterprise security at your fingertips.</h3>
+                            <p class="slide-desc">Bank-grade encryption and automated threat detection protecting your account 24/7.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slider Indicators -->
+                    <div class="slider-indicators" role="tablist" aria-label="Slide Selection Indicators">
+                        <button type="button" class="indicator active" role="tab" aria-selected="true" aria-label="Slide 1" data-slide="0"></button>
+                        <button type="button" class="indicator" role="tab" aria-selected="false" aria-label="Slide 2" data-slide="1"></button>
+                        <button type="button" class="indicator" role="tab" aria-selected="false" aria-label="Slide 3" data-slide="2"></button>
+                        <button type="button" class="indicator" role="tab" aria-selected="false" aria-label="Slide 4" data-slide="3"></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Login Form Section -->
+            <section class="form-section" aria-label="Account Login">
+                <div class="form-wrapper">
+                    
+                    <!-- Header -->
+                    <div class="form-header stagger-item stagger-1">
+                        <h1 class="welcome-heading">Welcome Back</h1>
+                        <p class="welcome-desc">Enter your credentials to access your account.</p>
+                    </div>
+
+                    <!-- Social Login Buttons -->
+                    <div class="social-login-group stagger-item stagger-2">
+                        <!-- Google Button -->
+                        <button type="button" class="btn-social" id="googleBtn" aria-label="Log in with Google">
+                            <svg class="social-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                            </svg>
+                            <span>Google</span>
+                        </button>
+
+                        <!-- Apple Button -->
+                        <button type="button" class="btn-social" id="appleBtn" aria-label="Log in with Apple">
+                            <svg class="social-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.89c.65-.79 1.1-1.9 0.98-3.01-.95.04-2.09.64-2.76 1.43-.59.69-1.11 1.8-0.97 2.89 1.06.08 2.14-.54 2.75-1.31z"/>
+                            </svg>
+                            <span>Apple</span>
+                        </button>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="divider stagger-item stagger-3" role="separator">
+                        <span class="divider-line"></span>
+                        <span class="divider-text">Or continue with</span>
+                        <span class="divider-line"></span>
+                    </div>
+
+                    <!-- Feedback Alert (Hidden by default) -->
+                    <div id="loginFeedback" class="feedback-alert" role="alert" aria-live="polite"></div>
+
+                    <!-- Credentials Form -->
+                    <form id="loginForm" class="credentials-form stagger-item stagger-4" novalidate>
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="emailInput" class="form-label">Email</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="mail" class="field-icon" aria-hidden="true"></i>
+                                <input type="email" 
+                                       id="emailInput" 
+                                       name="email" 
+                                       class="form-input" 
+                                       placeholder="m@example.com" 
+                                       required 
+                                       autocomplete="email">
+                            </div>
+                            <span class="field-error" id="emailError" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="passwordInput" class="form-label">Password</label>
+                                <a href="#forgot" class="forgot-link" id="forgotPasswordLink">Forgot password?</a>
+                            </div>
+                            <div class="input-wrapper">
+                                <i data-lucide="lock" class="field-icon" aria-hidden="true"></i>
+                                <input type="password" 
+                                       id="passwordInput" 
+                                       name="password" 
+                                       class="form-input" 
+                                       placeholder="••••••••" 
+                                       required 
+                                       autocomplete="current-password">
+                                <button type="button" 
+                                        id="togglePasswordBtn" 
+                                        class="toggle-password" 
+                                        aria-label="Toggle password visibility">
+                                    <i data-lucide="eye" id="togglePasswordIcon" class="toggle-icon" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span class="field-error" id="passwordError" aria-live="polite"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitBtn" class="btn-primary">
+                            <span class="btn-text">Log In</span>
+                            <i data-lucide="arrow-right" class="btn-icon" aria-hidden="true"></i>
+                        </button>
+                    </form>
+
+                    <!-- Sign Up Footer -->
+                    <div class="form-footer stagger-item stagger-5">
+                        <p class="footer-text">
+                            Don't have an account? 
+                            <a href="#signup" class="signup-link" id="signUpLink">Sign up</a>
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

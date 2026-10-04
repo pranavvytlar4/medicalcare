@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments Queue | Medical Doctor</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Lato -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=5.0">
+    <link rel="stylesheet" href="../css/day-picker.css?v=2.0">
+    <link rel="stylesheet" href="../admin/admin.css?v=26.0">
+    <link rel="stylesheet" href="doctor.css?v=5.0">
+</head>
+<body class="admin-body">
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="admin-sidebar-backdrop" id="adminBackdrop"></div>
+
+    <div class="admin-wrapper">
+        <!-- =========================================================
+             SIDEBAR NAVIGATION
+             ========================================================= -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-sidebar-header">
+                <a href="index.html" class="admin-brand">
+                    <div class="admin-brand-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <div>
+                        <span class="text-dark fw-bold">Medical</span> <span class="text-primary fw-bold">Doctor</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="admin-nav">
+                <div class="admin-nav-label">Main Menu</div>
+                <a href="index.html" class="admin-nav-item" id="navItemDashboard">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="appointments.html" class="admin-nav-item active" id="navItemAppointments">
+                    <i class="bi bi-calendar2-check"></i>
+                    <span>Appointments Queue</span>
+                    <span class="badge bg-primary-subtle text-primary admin-nav-badge" id="navTotalCount">0</span>
+                </a>
+                <a href="reminders.html" class="admin-nav-item" id="navItemReminders">
+                    <i class="bi bi-bell text-warning"></i>
+                    <span>Patient Reminders</span>
+                    <span class="badge bg-warning-subtle text-warning-emphasis admin-nav-badge" id="navRemindersCount">0</span>
+                </a>
+
+                <div class="admin-nav-label">Filter by Status</div>
+                <button type="button" class="admin-nav-item" onclick="filterByStatus('Pending')">
+                    <i class="bi bi-hourglass-split text-warning"></i>
+                    <span>Pending Visits</span>
+                    <span class="badge bg-warning-subtle text-warning-emphasis admin-nav-badge" id="sidebarPendingCount">0</span>
+                </button>
+                <button type="button" class="admin-nav-item" onclick="filterByStatus('Confirmed')">
+                    <i class="bi bi-calendar2-check text-success"></i>
+                    <span>Confirmed Visits</span>
+                    <span class="badge bg-success-subtle text-success admin-nav-badge" id="sidebarConfirmedCount">0</span>
+                </button>
+                <button type="button" class="admin-nav-item" onclick="filterByStatus('Completed')">
+                    <i class="bi bi-heart-pulse text-info"></i>
+                    <span>Completed Visits</span>
+                    <span class="badge bg-info-subtle text-info admin-nav-badge" id="sidebarCompletedCount">0</span>
+                </button>
+                <button type="button" class="admin-nav-item" onclick="filterByStatus('Cancelled')">
+                    <i class="bi bi-x-circle text-danger"></i>
+                    <span>Cancelled Visits</span>
+                    <span class="badge bg-danger-subtle text-danger admin-nav-badge" id="sidebarCancelledCount">0</span>
+                </button>
+
+                <div class="admin-nav-label">Doctor Settings</div>
+                <button type="button" class="admin-nav-item" onclick="openDoctorSelfProfileModal()">
+                    <i class="bi bi-person-gear text-primary"></i>
+                    <span>My Doctor Profile</span>
+                </button>
+            </div>
+
+            <div class="admin-sidebar-footer">
+                <a href="../dashboard.html" class="btn-sidebar-link primary mb-2">
+                    <i class="bi bi-arrow-left"></i> Patient Portal
+                </a>
+                <a href="../index.html" class="btn-sidebar-link">
+                    <i class="bi bi-house"></i> Public Homepage
+                </a>
+            </div>
+        </aside>
+
+        <!-- =========================================================
+             MAIN CONTENT AREA
+             ========================================================= -->
+        <div class="admin-content">
+            <!-- Topbar Header -->
+            <header class="admin-topbar">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-light d-lg-none rounded-pill p-2" id="mobileSidebarToggle" type="button" aria-label="Toggle Navigation">
+                        <i class="bi bi-list fs-5"></i>
+                    </button>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark" id="pageHeaderTitle" style="font-size: 1.15rem;">Appointments Queue & Patients</h4>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Doctor User Pill -->
+                    <div class="admin-user-pill" style="cursor: pointer;" onclick="openDoctorSelfProfileModal()" title="Click to view & edit your Doctor Profile">
+                        <div class="admin-user-avatar" id="doctorAvatarLetter">P</div>
+                        <div class="d-none d-md-block text-start pe-2">
+                            <div class="fw-bold text-dark small lh-1 mb-1" id="doctorFullName">Dr. Pranav Vaitla</div>
+                            <div class="text-muted" style="font-size: 0.72rem;" id="doctorHospitalName">AIIMS Healthcare Center</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Dynamic Container -->
+            <main class="admin-main">
+                <div class="adm-panel mb-4">
+                    <div class="adm-panel-header">
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h5 class="adm-panel-title me-3">
+                                <i class="bi bi-calendar2-week text-primary"></i> Patient Appointments
+                            </h5>
+
+                            <!-- Status Filter Pills -->
+                            <div class="d-flex align-items-center gap-1 flex-wrap">
+                                <button class="status-badge-btn active" data-filter="All" onclick="filterByStatus('All')" type="button">
+                                    All (<span id="filterCountAll">0</span>)
+                                </button>
+                                <button class="status-badge-btn" data-filter="Pending" onclick="filterByStatus('Pending')" type="button">
+                                    Pending (<span id="filterCountPending">0</span>)
+                                </button>
+                                <button class="status-badge-btn" data-filter="Confirmed" onclick="filterByStatus('Confirmed')" type="button">
+                                    Confirmed (<span id="filterCountConfirmed">0</span>)
+                                </button>
+                                <button class="status-badge-btn" data-filter="Completed" onclick="filterByStatus('Completed')" type="button">
+                                    Completed (<span id="filterCountCompleted">0</span>)
+                                </button>
+                                <button class="status-badge-btn" data-filter="Cancelled" onclick="filterByStatus('Cancelled')" type="button">
+                                    Cancelled (<span id="filterCountCancelled">0</span>)
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <!-- Schedule Selector -->
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-sm btn-white border rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-2 shadow-sm dropdown-toggle" 
+                                        type="button" 
+                                        id="dateFilterDropdownBtn" 
+                                        data-bs-toggle="dropdown" 
+                                        data-bs-popper-config='{"strategy":"fixed"}'
+                                        aria-expanded="false">
+                                    <i class="bi bi-calendar2-range text-primary"></i>
+                                    <span id="dateFilterLabel">All Dates</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-2 status-dropdown-menu" style="min-width: 180px;">
+                                    <li>
+                                        <button type="button" class="dropdown-item rounded-3 py-2 date-filter-item active fw-bold" data-value="all" onclick="selectDateFilter('all', 'All Dates')">
+                                            <i class="bi bi-calendar2 me-2 text-primary"></i> All Dates
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item rounded-3 py-2 date-filter-item" data-value="today" onclick="selectDateFilter('today', 'Today\'s Visits')">
+                                            <i class="bi bi-calendar2-check me-2 text-success"></i> Today's Visits
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item rounded-3 py-2 date-filter-item" data-value="tomorrow" onclick="selectDateFilter('tomorrow', 'Tomorrow')">
+                                            <i class="bi bi-calendar2-plus me-2 text-info"></i> Tomorrow
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item rounded-3 py-2 date-filter-item" data-value="upcoming" onclick="selectDateFilter('upcoming', 'Upcoming')">
+                                            <i class="bi bi-calendar2-week me-2 text-warning"></i> Upcoming
+                                        </button>
+                                    </li>
+                                </ul>
+                                <input type="hidden" id="dateFilterSelect" value="all">
+                            </div>
+
+                            <!-- Search Input -->
+                            <div class="admin-search-wrap" style="max-width: 240px;">
+                                <i class="bi bi-search"></i>
+                                <input type="text" class="form-control" id="searchAppointmentInput" placeholder="Search patient, phone, symptoms...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointments Table -->
+                    <div class="table-responsive">
+                        <table class="adm-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Patient</th>
+                                    <th>Date & Time</th>
+                                    <th>Reason for Visit</th>
+                                    <th>Status</th>
+                                    <th>Reminder</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody">
+                                <tr>
+                                    <td colspan="7" class="text-center py-5">
+                                        <div class="spinner-border text-primary" role="status"></div>
+                                        <p class="text-muted mt-2 mb-0">Loading patient appointments...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         ACTION MODALS
+         ========================================================= -->
+    <!-- MODAL 1: ACCEPT APPOINTMENT -->
+    <div class="modal fade" id="modalAcceptApt" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content adm-modal">
+                <div class="modal-header adm-modal-header">
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-1">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i> Confirm Appointment
+                        </h5>
+                        <p class="text-white-50 small mb-0">Confirm the booking and add any notes for the patient</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="acceptAptId">
+
+                    <!-- Patient Summary Card -->
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="admin-user-avatar" id="acceptPatientInitials">P</div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark" id="acceptPatientName">Patient</h6>
+                                <p class="text-muted small mb-0" id="acceptPatientContact">Email &bull; Phone</p>
+                            </div>
+                        </div>
+                        <div class="mt-2 pt-2 border-top small text-secondary">
+                            <strong>Slot:</strong> <span id="acceptAptSlot" class="text-dark fw-bold">Schedule</span>
+                            <br>
+                            <strong>Reason:</strong> <span id="acceptAptReason" class="text-dark">Reason</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Note for Patient (Optional)</label>
+                        <textarea class="form-control rounded-3 shadow-none" id="acceptDoctorNotes" rows="3" placeholder="e.g. Please arrive 10 minutes before your slot and bring your previous reports."></textarea>
+                    </div>
+
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="acceptSendReminderCheck" checked>
+                        <label class="form-check-label small fw-semibold text-dark" for="acceptSendReminderCheck">
+                            Also send a confirmation reminder to the patient
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" id="btnConfirmAcceptApt">
+                        <i class="bi bi-check-lg me-1"></i> Confirm Visit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CANCEL APPOINTMENT -->
+    <div class="modal fade" id="modalCancelApt" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content adm-modal">
+                <div class="modal-header adm-modal-header">
+                    <h5 class="modal-title fw-bold text-white mb-0">
+                        <i class="bi bi-x-circle text-danger me-2"></i> Cancel Appointment
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="cancelAptId">
+                    <p class="text-muted small mb-3">Are you sure you want to cancel this appointment? Please mention a brief reason for the patient.</p>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Reason for Cancellation</label>
+                        <input type="text" class="form-control rounded-3 shadow-none" id="cancelReasonText" placeholder="e.g. Doctor unavailable due to emergency, rescheduled" required>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Go Back</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold shadow-sm" id="btnConfirmCancelApt">
+                        <i class="bi bi-trash3 me-1"></i> Cancel Appointment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: COMPLETE VISIT -->
+    <div class="modal fade" id="modalCompleteApt" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content adm-modal">
+                <div class="modal-header adm-modal-header">
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-1">
+                            <i class="bi bi-heart-pulse-fill text-primary me-2"></i> Mark Visit as Completed
+                        </h5>
+                        <p class="text-white-50 small mb-0">Save your notes and any next steps for this patient</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="completeAptId">
+
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <h6 class="fw-bold text-dark mb-0" id="completePatientName">Patient</h6>
+                        <small class="text-muted" id="completeAptMeta">Visit Details</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Diagnosis & Clinic Notes</label>
+                        <textarea class="form-control rounded-3 shadow-none" id="completeDiagnosisNotes" rows="3" placeholder="e.g. Normal cardiovascular sounds. Advised rest." required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Advice & Next Review Date</label>
+                        <input type="text" class="form-control rounded-3 shadow-none" id="completeAdviceText" placeholder="e.g. Review in 4 weeks. Keep sodium low and take evening walks.">
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" id="btnConfirmCompleteApt">
+                        <i class="bi bi-check2-all me-1"></i> Save & Finish Visit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: SEND REMINDER -->
+    <div class="modal fade" id="modalSendReminder" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content adm-modal">
+                <div class="modal-header adm-modal-header">
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-1">
+                            <i class="bi bi-bell-fill text-warning me-2"></i> Send Reminder to Patient
+                        </h5>
+                        <p class="text-white-50 small mb-0">Send a quick reminder message with arrival instructions</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="reminderAptId">
+
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <h6 class="fw-bold text-dark mb-1" id="remindPatientName">Patient Name</h6>
+                        <p class="text-muted small mb-0" id="remindAptDetails">Scheduled details</p>
+                    </div>
+
+                    <label class="form-label small fw-bold mb-2">Choose a message template:</label>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="reminder-template-chip active" onclick="applyReminderTemplate('24h')">
+                            <i class="bi bi-calendar-check me-1"></i> Visit Reminder
+                        </span>
+                        <span class="reminder-template-chip" onclick="applyReminderTemplate('fasting')">
+                            <i class="bi bi-cup-hot me-1"></i> Fasting Required
+                        </span>
+                        <span class="reminder-template-chip" onclick="applyReminderTemplate('reports')">
+                            <i class="bi bi-file-earmark-medical me-1"></i> Bring Past Reports
+                        </span>
+                        <span class="reminder-template-chip" onclick="applyReminderTemplate('followup')">
+                            <i class="bi bi-arrow-repeat me-1"></i> Follow-Up Visit
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Reminder Message</label>
+                        <textarea class="form-control rounded-3 shadow-none" id="reminderMessageText" rows="4" placeholder="Enter message to patient..."></textarea>
+                    </div>
+
+                    <div class="alert alert-info py-2 small mb-0">
+                        <i class="bi bi-info-circle me-1"></i> The patient will see this message in their notifications.
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" id="btnDispatchReminder">
+                        <i class="bi bi-send-fill me-1"></i> Send Reminder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: PRESCRIBE MEDICINE SCHEDULE -->
+    <div class="modal fade" id="modalPrescribeMed" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content adm-modal">
+                <div class="modal-header adm-modal-header">
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-1">
+                            <i class="bi bi-capsule text-warning me-2"></i> Add Medicine Reminder
+                        </h5>
+                        <p class="text-white-50 small mb-0">Schedule a daily medicine alert for this patient</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="prescribeAptId">
+                    <input type="hidden" id="prescribePatientId">
+
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <h6 class="fw-bold text-dark mb-0" id="prescribePatientName">Patient</h6>
+                        <small class="text-muted" id="prescribePatientMeta">Prescription link</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Medicine Name</label>
+                        <input type="text" class="form-control rounded-3 shadow-none" id="modalMedName" placeholder="e.g. Amoxicillin 500mg, Atorvastatin 20mg" required>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold">Dosage</label>
+                            <input type="text" class="form-control rounded-3 shadow-none" id="modalMedDosage" placeholder="e.g. 1 Tablet / 5ml" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold">Reminder Time</label>
+                            <input type="text" class="form-control rounded-3 shadow-none" id="modalMedTime" placeholder="e.g. 08:00 AM" value="08:00 AM" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Weekly Schedule Days</label>
+                        <div id="modalDayPickerMount" class="p-2 bg-light rounded-3 border"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Instructions / Notes</label>
+                        <textarea class="form-control rounded-3 shadow-none" id="modalMedInstructions" rows="2" placeholder="e.g. Take after meal with warm water."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning rounded-pill px-4 fw-bold text-dark shadow-sm" id="btnSavePrescription">
+                        <i class="bi bi-check2-circle me-1"></i> Save Reminder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 6: NEW WALK-IN APPOINTMENT -->
+    <div class="modal fade" id="modalNewApt" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content adm-modal">
+                <div class="modal-header adm-modal-header">
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-1">
+                            <i class="bi bi-plus-circle-fill text-success me-2"></i> New Walk-In Patient
+                        </h5>
+                        <p class="text-white-50 small mb-0">Quickly record a patient who has arrived at the clinic</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="newWalkinForm">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Patient Name</label>
+                            <input type="text" class="form-control rounded-3 shadow-none" id="walkinName" placeholder="e.g. Anjali Nair" required>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold">Email</label>
+                                <input type="email" class="form-control rounded-3 shadow-none" id="walkinEmail" placeholder="patient@gmail.com" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold">Phone</label>
+                                <input type="tel" class="form-control rounded-3 shadow-none" id="walkinPhone" placeholder="9876543210" required>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold">Visit Date</label>
+                                <input type="date" class="form-control rounded-3 shadow-none" id="walkinDate" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold">Visit Time</label>
+                                <input type="text" class="form-control rounded-3 shadow-none" id="walkinTime" placeholder="10:30 AM" value="10:30 AM" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Symptoms / Reason</label>
+                            <textarea class="form-control rounded-3 shadow-none" id="walkinReason" rows="2" placeholder="e.g. Fever, persistent cough for 3 days" required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 pt-2">
+                            <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" id="btnSubmitWalkin">
+                                <i class="bi bi-check2 me-1"></i> Add to Queue
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 7: MY DOCTOR PROFILE -->
+    <div class="modal fade" id="doctorSelfProfileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header text-white p-4" style="background: linear-gradient(135deg, #2563eb, #1e40af);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 48px; height: 48px; font-size: 1.3rem;">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title fw-bold mb-0">Doctor Profile & Clinical Settings</h5>
+                            <p class="text-white-50 small mb-0">Update your clinical qualifications, contact number, and avatar photo</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="doctorSelfProfileForm">
+                    <div class="modal-body p-4">
+                        <div class="row g-4">
+                            <!-- Left: Photo Upload & Preview -->
+                            <div class="col-md-4 text-center">
+                                <div class="position-relative mx-auto mb-3" style="width: 130px; height: 130px;">
+                                    <img id="selfDocImagePreview" src="../images/male-doctor.jpg" alt="Doctor Photo" class="w-100 h-100 rounded-circle border border-4 border-white shadow object-fit-cover">
+                                </div>
+                                <div class="border border-2 border-dashed rounded-3 p-2 bg-light text-center cursor-pointer mb-2" id="selfDocDropzone" onclick="document.getElementById('selfDocPhotoFileInput').click()">
+                                    <i class="bi bi-cloud-arrow-up text-primary fs-4 d-block"></i>
+                                    <span class="small fw-bold text-dark">Upload New Photo</span>
+                                    <div class="text-muted" style="font-size: 0.7rem;">JPG, PNG, WebP up to 5MB</div>
+                                </div>
+                                <input type="file" id="selfDocPhotoFileInput" accept="image/*" class="d-none">
+                                <input type="hidden" id="selfDocImageInput" value="/images/male-doctor.jpg">
+                            </div>
+
+                            <!-- Right: Contact & Qualifications -->
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold small text-dark">Full Name <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="bi bi-person text-muted"></i></span>
+                                            <input type="text" class="form-control" id="selfDocName" placeholder="Dr. Firstname Lastname" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small text-dark">Phone Number <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="bi bi-telephone text-muted"></i></span>
+                                            <input type="tel" class="form-control" id="selfDocPhone" placeholder="+91 98765 43210" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small text-dark">Experience <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="bi bi-award text-muted"></i></span>
+                                            <input type="text" class="form-control" id="selfDocExperience" placeholder="e.g. 8+ Yrs Exp" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold small text-dark">Specialization</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light"><i class="bi bi-heart-pulse text-muted"></i></span>
+                                            <input type="text" class="form-control" id="selfDocSpecialization" value="General Physician" placeholder="e.g. Cardiologist & Electrophysiologist">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-dark">Department</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-diagram-3 text-muted"></i></span>
+                                    <input type="text" class="form-control" id="selfDocDepartment" value="Internal Medicine" placeholder="e.g. Cardiology">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-dark">Hospital / Clinic</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-hospital text-muted"></i></span>
+                                    <input type="text" class="form-control" id="selfDocHospital" value="AIIMS New Delhi">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light border-top p-3">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2" id="selfDocSubmitBtn">
+                            <i class="bi bi-check-circle-fill"></i> Save Profile Details
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11000">
+        <div id="doctorToast" class="toast align-items-center text-white bg-dark border-0 shadow-lg rounded-4" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2" id="doctorToastBody">
+                    <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                    <span>Action completed successfully</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/custom-select.js?v=6.0"></script>
+    <script src="../js/day-picker.js?v=2.0"></script>
+    <script src="../js/auth.js?v=8.0"></script>
+    <script src="doctor.js?v=5.0"></script>
+</body>
+</html>

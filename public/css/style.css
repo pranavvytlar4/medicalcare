@@ -1,0 +1,2684 @@
+/* ==========================================================================
+   CureMed Design System - Premium Medical Care Stylesheet
+   Inspired by CureMed Webflow Template (https://curemed-128.webflow.io/)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+:root {
+    /* Brand Colors */
+    --curemed-blue: #2563eb;
+    --curemed-blue-dark: #1d4ed8;
+    --curemed-blue-light: #eff6ff;
+    --curemed-cyan: #0284c7;
+    --curemed-navy: #0b132a;
+    --curemed-dark-card: #111a36;
+    --curemed-slate: #1e293b;
+    --curemed-muted: #64748b;
+    --curemed-border: #e2e8f0;
+    --curemed-bg-light: #f8fafc;
+    --curemed-bg-soft: #f1f5f9;
+    --curemed-card-bg: #ffffff;
+    
+    /* Semantic Colors */
+    --medical-teal: #0d9488;
+    --medical-green: #10b981;
+    --medical-red: #ef4444;
+    --medical-purple: #7c3aed;
+    --medical-amber: #f59e0b;
+
+    /* Shadows & Radii */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-full: 9999px;
+    --shadow-sm: 0 2px 8px rgba(11, 19, 42, 0.04);
+    --shadow-md: 0 8px 24px rgba(11, 19, 42, 0.06);
+    --shadow-lg: 0 16px 40px rgba(11, 19, 42, 0.08);
+    --shadow-hover: 0 20px 45px rgba(37, 99, 235, 0.12);
+}
+
+/* Base Setup */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+/* ==========================================================================
+   Content Protection: Disable Text Highlighting & Selection Globally
+   ========================================================================== */
+*, *::before, *::after {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+input, textarea, select, [contenteditable="true"], [contenteditable="true"] * {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+}
+
+::selection {
+    background: transparent !important;
+    color: inherit !important;
+}
+
+::-moz-selection {
+    background: transparent !important;
+    color: inherit !important;
+}
+
+/* Eliminate default ugly Windows scrollbars globally */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.65);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', system-ui, -apple-system, sans-serif;
+    color: var(--curemed-slate);
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, .brand-title {
+    font-family: 'Plus Jakarta Sans', 'Lato', sans-serif;
+    font-weight: 700;
+    color: var(--curemed-navy);
+    letter-spacing: -0.02em;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+a {
+    color: var(--curemed-blue);
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+a:hover {
+    color: var(--curemed-blue-dark);
+}
+
+/* ==========================================================================
+   CureMed Navbar
+   ========================================================================== */
+.navbar {
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+    padding: 16px 0;
+    transition: all 0.3s ease;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.55rem;
+    color: var(--curemed-navy) !important;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+}
+
+.brand-logo .brand-highlight {
+    color: var(--curemed-blue);
+}
+
+.brand-badge-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #2563eb 0%, #0284c7 100%);
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.nav-link {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    color: #475569 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--curemed-blue) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.dropdown-menu {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--curemed-border);
+    box-shadow: var(--shadow-lg);
+    padding: 10px;
+    margin-top: 10px !important;
+    animation: fadeInDown 0.2s ease forwards;
+}
+
+.dropdown-item {
+    font-weight: 500;
+    font-size: 0.92rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover, .dropdown-item.active {
+    background-color: var(--curemed-blue-light);
+    color: var(--curemed-blue);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   CureMed Buttons (Pill & High-End)
+   ========================================================================== */
+.primary-button, .btn-curemed-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--curemed-blue);
+    color: #ffffff !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.96rem;
+    padding: 12px 28px;
+    border-radius: var(--radius-full);
+    border: none;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.primary-button:hover, .btn-curemed-primary:hover {
+    background-color: var(--curemed-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+}
+
+.secondary-button, .btn-curemed-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #ffffff;
+    color: var(--curemed-navy) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.96rem;
+    padding: 12px 28px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--curemed-border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.secondary-button:hover, .btn-curemed-secondary:hover {
+    background-color: var(--curemed-bg-light);
+    border-color: #cbd5e1;
+    color: var(--curemed-blue) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.secondary-button.white {
+    background: #ffffff;
+    color: var(--curemed-blue) !important;
+    border-color: #ffffff;
+}
+
+.secondary-button.white:hover {
+    background: #f8fafc;
+}
+
+/* Bootstrap Button Skins to CureMed Design System */
+.btn {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    padding: 10px 22px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background-color: var(--curemed-blue);
+    border-color: var(--curemed-blue);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.22);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: var(--curemed-blue-dark) !important;
+    border-color: var(--curemed-blue-dark) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.32);
+}
+
+.btn-outline-primary {
+    color: var(--curemed-blue);
+    border-color: var(--curemed-blue);
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+    background-color: var(--curemed-blue) !important;
+    border-color: var(--curemed-blue) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+}
+
+.btn-outline-secondary {
+    color: #475569;
+    border-color: var(--curemed-border);
+    background-color: #ffffff;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--curemed-bg-light);
+    color: var(--curemed-navy);
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 6px 16px;
+    font-size: 0.85rem;
+}
+
+.btn-lg {
+    padding: 14px 32px;
+    font-size: 1.05rem;
+}
+
+/* Card & Breadcrumb Skinning */
+.card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--curemed-border);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.breadcrumb {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.breadcrumb-item a {
+    color: var(--curemed-blue);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--curemed-navy);
+    font-weight: 700;
+}
+
+/* CureMed Pill Badges / Labels */
+.curemed-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--curemed-blue);
+    background-color: var(--curemed-blue-light);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    margin-bottom: 16px;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+/* ==========================================================================
+   CureMed Hero Banner Section
+   ========================================================================== */
+.home-banner-section {
+    position: relative;
+    min-height: calc(100vh - 76px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0 70px;
+    background: radial-gradient(circle at 50% 45%, #eff6ff 0%, #ffffff 75%);
+    overflow: hidden;
+}
+
+.heading-banner {
+    font-size: 3.5rem;
+    line-height: 1.18;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--curemed-navy);
+    max-width: 1050px;
+    margin: 0 auto 22px;
+    text-wrap: balance;
+}
+
+.maxw-banner-text {
+    font-size: 1.22rem;
+    line-height: 1.6;
+    color: var(--curemed-muted);
+    max-width: 720px;
+    margin: 0 auto 34px;
+    text-wrap: balance;
+}
+
+/* Floating 3D Graphic assets */
+.floating-3d-left {
+    position: absolute;
+    top: 60px;
+    left: 2%;
+    width: 140px;
+    pointer-events: none;
+    animation: floatSlow 6s ease-in-out infinite alternate;
+    opacity: 0.85;
+}
+
+.floating-3d-right {
+    position: absolute;
+    top: 80px;
+    right: 2%;
+    width: 140px;
+    pointer-events: none;
+    animation: floatSlow 7s ease-in-out infinite alternate-reverse;
+    opacity: 0.85;
+}
+
+@keyframes floatSlow {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-16px) rotate(4deg); }
+}
+
+/* CureMed Trio Bottom Banner Blocks */
+.bottom-banner-content {
+    margin-top: 50px;
+}
+
+.blue-block {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    color: #ffffff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.blue-block .large-number-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 1;
+    margin: 12px 0 6px;
+}
+
+.light-block {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-image-block {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    height: 100%;
+    min-height: 280px;
+    box-shadow: var(--shadow-md);
+}
+
+.hero-image-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+/* ==========================================================================
+   Partners & Trust Ribbon
+   ========================================================================== */
+.partners-block {
+    padding: 30px 0;
+    border-top: 1px solid var(--curemed-border);
+    border-bottom: 1px solid var(--curemed-border);
+    background-color: #fafbfc;
+}
+
+.partner-item {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.partner-item:hover {
+    opacity: 1;
+    color: var(--curemed-blue);
+}
+
+/* ==========================================================================
+   "What Makes Us Different" Section
+   ========================================================================== */
+.different-section {
+    padding: 90px 0 60px;
+}
+
+.counter-wrap {
+    display: flex;
+    gap: 40px;
+    margin: 30px 0;
+}
+
+.large-stat-number {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--curemed-blue);
+}
+
+.benefit-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+    transition: all 0.25s ease;
+}
+
+.benefit-card:hover {
+    transform: translateX(6px);
+    box-shadow: var(--shadow-md);
+    border-color: #cbd5e1;
+}
+
+.benefit-icon-box {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Dark Feature Showcase Section (.dark-block)
+   ========================================================================== */
+.dark-section-block {
+    background-color: var(--curemed-navy);
+    border-radius: var(--radius-xl);
+    padding: 60px 50px;
+    color: #ffffff;
+    margin: 40px 0 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-section-block h2 {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.dark-check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 14px;
+}
+
+.dark-check-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(37, 99, 235, 0.25);
+    color: #60a5fa;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.dark-preview-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    backdrop-filter: blur(10px);
+}
+
+/* ==========================================================================
+   CureMed Services / Modules Grid
+   ========================================================================== */
+.services-section {
+    padding: 40px 0 90px;
+}
+
+.srvc-item-card {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.srvc-item-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    border-color: #cbd5e1;
+}
+
+.srvc-image-wrap {
+    height: 210px;
+    position: relative;
+    overflow: hidden;
+}
+
+.srvc-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.srvc-item-card:hover .srvc-image-wrap img {
+    transform: scale(1.05);
+}
+
+.srvc-badge-overlay {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.srvc-description {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.srvc-description h4 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.srvc-description p {
+    color: var(--curemed-muted);
+    font-size: 0.95rem;
+    flex-grow: 1;
+    margin-bottom: 18px;
+}
+
+.link-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--curemed-blue);
+    text-decoration: none;
+    transition: gap 0.2s ease;
+}
+
+.link-with-icon:hover {
+    gap: 12px;
+    color: var(--curemed-blue-dark);
+}
+
+/* ==========================================================================
+   CEO Quote & Testimonials (.blue-section)
+   ========================================================================== */
+.blue-section {
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    padding: 80px 0;
+    color: #ffffff;
+    border-radius: var(--radius-xl);
+    margin: 40px 0 80px;
+    box-shadow: 0 20px 45px rgba(29, 78, 216, 0.2);
+}
+
+.white-large-text {
+    font-size: 1.45rem;
+    line-height: 1.6;
+    font-weight: 400;
+    max-width: 860px;
+    margin: 0 auto 30px;
+    text-align: center;
+    font-style: italic;
+    opacity: 0.96;
+}
+
+.author-quote-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   Team / Doctors Section
+   ========================================================================== */
+.team-item-card {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.team-item-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: #cbd5e1;
+}
+
+.team-img-wrap {
+    height: 240px;
+    overflow: hidden;
+    background: #f1f5f9;
+}
+
+.team-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-info {
+    padding: 20px;
+}
+
+.team-info h5 {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+    font-weight: 700;
+}
+
+.team-specialty {
+    color: var(--curemed-blue);
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   CureMed Dashboard & Functional Pages
+   ========================================================================== */
+.page-header {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+.page-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--curemed-navy);
+    margin-bottom: 6px;
+}
+
+.page-subtitle {
+    color: var(--curemed-muted);
+    font-size: 0.98rem;
+}
+
+.dashboard-welcome-card {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    padding: 26px 30px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+    transition: all 0.25s ease;
+}
+
+.dashboard-welcome-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.custom-card {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.stat-icon-badge {
+    width: 52px !important;
+    height: 52px !important;
+    max-width: 52px !important;
+    max-height: 52px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 8px auto !important;
+    flex-shrink: 0 !important;
+}
+
+/* Form Styles */
+.form-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--curemed-slate);
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--curemed-border);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--curemed-blue);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    outline: none;
+}
+
+.input-group-text {
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    border: 1px solid var(--curemed-border);
+    background-color: var(--curemed-bg-light);
+    color: var(--curemed-muted);
+}
+
+/* Table Styles */
+.custom-table {
+    margin-bottom: 0;
+}
+
+.custom-table thead th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.84rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--curemed-border);
+}
+
+.custom-table tbody td {
+    padding: 16px 20px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.92rem;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Modals */
+.modal-content {
+    border-radius: var(--radius-xl);
+    border: none;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--curemed-border);
+}
+
+.modal-body {
+    padding: 28px;
+}
+
+.modal-footer {
+    padding: 16px 28px;
+    border-top: 1px solid var(--curemed-border);
+}
+
+/* ==========================================================================
+   CureMed Footer
+   ========================================================================== */
+.curemed-footer {
+    background-color: var(--curemed-navy);
+    color: #94a3b8;
+    padding: 70px 0 25px;
+    margin-top: auto;
+    font-size: 0.92rem;
+}
+
+.curemed-footer h5 {
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.curemed-footer a {
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.curemed-footer a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 50px;
+    padding-top: 25px;
+    font-size: 0.86rem;
+}
+
+/* Responsive Overrides */
+@media (max-width: 991px) {
+    .heading-banner {
+        font-size: 2.6rem;
+    }
+    .floating-3d-left, .floating-3d-right {
+        display: none;
+    }
+    .blue-block, .light-block {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .heading-banner {
+        font-size: 2.1rem;
+    }
+    .counter-wrap {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+/* ==========================================================================
+   CureMed Webflow Signature Animations & Micro-Interactions
+   ========================================================================== */
+
+/* 1. Webflow 3D Floating Assets & Banner Elements */
+.left-image-banner {
+    width: 22%;
+    max-width: 250px;
+    position: absolute;
+    top: 15%;
+    left: 0%;
+    z-index: 1;
+    pointer-events: none;
+    perspective: 1000px;
+    animation: slideInLeftHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.right-image-banner {
+    width: 22%;
+    max-width: 250px;
+    position: absolute;
+    top: 12%;
+    right: 0%;
+    z-index: 1;
+    pointer-events: none;
+    perspective: 1000px;
+    animation: slideInRightHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInLeftHero {
+    0% {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRightHero {
+    0% {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.image-3d-left {
+    width: 100%;
+    height: auto;
+    display: block;
+    animation: webflowRotateLeft 6s ease-in-out infinite alternate;
+    will-change: transform;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    mix-blend-mode: multiply !important;
+}
+
+.image-3d-right {
+    width: 100%;
+    height: auto;
+    display: block;
+    animation: webflowRotateRight 5.5s ease-in-out infinite alternate;
+    will-change: transform;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    mix-blend-mode: multiply !important;
+}
+
+@keyframes webflowRotateLeft {
+    0% {
+        transform: perspective(1000px) rotateY(12deg) rotateZ(8deg) translateY(0px) scale(1);
+    }
+    50% {
+        transform: perspective(1000px) rotateY(-8deg) rotateZ(-4deg) translateY(-18px) scale(1.05);
+    }
+    100% {
+        transform: perspective(1000px) rotateY(-20deg) rotateZ(-10deg) translateY(-30px) scale(1.08);
+    }
+}
+
+@keyframes webflowRotateRight {
+    0% {
+        transform: perspective(1000px) rotateY(-20deg) rotateZ(-10deg) translateY(0px) scale(1);
+    }
+    50% {
+        transform: perspective(1000px) rotateY(5deg) rotateZ(2deg) translateY(-22px) scale(1.06);
+    }
+    100% {
+        transform: perspective(1000px) rotateY(20deg) rotateZ(10deg) translateY(-32px) scale(1.09);
+    }
+}
+
+/* 2. Hero Section Entrance Stagger */
+.hero-anim-1 {
+    animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-anim-2 {
+    animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    opacity: 0;
+}
+
+.hero-anim-3 {
+    animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
+}
+
+.hero-anim-cards {
+    animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+    opacity: 0;
+}
+
+@keyframes heroFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 3. Ambient Radiant Glow in Hero */
+.home-banner-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: ambientPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes ambientPulse {
+    0% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    100% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+}
+
+/* 4. Scroll Reveal Animations (Intersection Observer) */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* 5. Interactive Card Micro-Animations (Webflow hover effects) */
+.srvc-item-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+}
+
+.srvc-item-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.14) !important;
+    border-color: rgba(37, 99, 235, 0.35) !important;
+}
+
+.srvc-image-wrap {
+    overflow: hidden;
+    position: relative;
+}
+
+.srvc-image-wrap img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.srvc-item-card:hover .srvc-image-wrap img {
+    transform: scale(1.08);
+}
+
+.team-item-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.team-item-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(11, 19, 42, 0.12) !important;
+}
+
+.team-img-wrap {
+    overflow: hidden;
+    position: relative;
+}
+
+.team-img-wrap img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-item-card:hover .team-img-wrap img {
+    transform: scale(1.08);
+}
+
+.benefit-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(11, 19, 42, 0.08);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.benefit-card .benefit-icon-box {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.benefit-card:hover .benefit-icon-box {
+    transform: scale(1.15) rotate(6deg);
+}
+
+.blue-block, .light-block {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.blue-block:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 45px rgba(37, 99, 235, 0.35);
+}
+
+.light-block:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(11, 19, 42, 0.1);
+}
+
+/* Button Icon Micro-Movement on Hover */
+.primary-button i.bi-arrow-right,
+.secondary-button i.bi-arrow-right {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.primary-button:hover i.bi-arrow-right,
+.secondary-button:hover i.bi-arrow-right {
+    transform: translateX(5px);
+}
+
+/* Accreditations Badge Hover */
+.partner-item {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.partner-item:hover {
+    transform: translateY(-2px);
+    color: var(--curemed-navy);
+}
+
+/* ==========================================================================
+   CureMed Ultra-Modern Custom Select System (Replaces Native OS Dropdowns)
+   ========================================================================== */
+
+/* Hide native select accessibly without breaking forms or HTML5 validations */
+.curemed-select-native {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.curemed-select-wrapper {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.curemed-select-wrapper.in-input-group {
+    flex: 1 1 auto;
+    width: 1%;
+}
+
+.curemed-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background-color: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-md);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--curemed-slate);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    text-align: left;
+}
+
+.in-input-group .curemed-select-trigger {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.curemed-select-trigger:hover {
+    border-color: #cbd5e1;
+    background-color: #fafbfc;
+}
+
+.curemed-select-wrapper.is-open .curemed-select-trigger,
+.curemed-select-trigger:focus {
+    border-color: var(--curemed-blue);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    background-color: #ffffff;
+}
+
+.curemed-select-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 8px;
+}
+
+.curemed-select-arrow {
+    font-size: 0.85rem;
+    color: var(--curemed-muted);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.curemed-select-wrapper.is-open .curemed-select-arrow {
+    transform: rotate(180deg);
+    color: var(--curemed-blue);
+}
+
+/* Floating Custom Dropdown */
+.curemed-select-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(11, 19, 42, 0.14);
+    padding: 8px;
+    max-height: 290px;
+    overflow-y: auto;
+    z-index: 1060;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.98);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.curemed-select-wrapper.is-open .curemed-select-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Dropup positioning for dropdowns near bottom of screen */
+.curemed-select-wrapper.dropup .curemed-select-dropdown {
+    top: auto;
+    bottom: calc(100% + 8px);
+    transform: translateY(8px) scale(0.98);
+}
+
+.curemed-select-wrapper.dropup.is-open .curemed-select-dropdown {
+    transform: translateY(0) scale(1);
+}
+
+/* Custom Scrollbar */
+.curemed-select-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+.curemed-select-dropdown::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+.curemed-select-dropdown::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.curemed-select-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Option Items */
+.curemed-select-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+}
+
+.curemed-select-option:last-child {
+    margin-bottom: 0;
+}
+
+.curemed-select-option:hover {
+    background-color: var(--curemed-blue-light);
+    color: var(--curemed-blue);
+    font-weight: 600;
+    transform: translateX(3px);
+}
+
+.curemed-select-option.selected {
+    background-color: #eff6ff;
+    color: var(--curemed-blue);
+    font-weight: 700;
+}
+
+.curemed-opt-check {
+    color: var(--curemed-blue);
+    font-size: 1.15rem;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.curemed-select-option.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.curemed-select-option.placeholder-opt {
+    color: #94a3b8;
+    font-style: italic;
+    border-bottom: 1px dashed var(--curemed-border);
+    margin-bottom: 6px;
+}
+
+/* Doctor Avatar in Custom Select Dropdown & Trigger */
+.curemed-opt-doctor-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1.5px solid #2563eb;
+    box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
+    background-color: #f1f5f9;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.curemed-select-trigger .curemed-opt-doctor-avatar {
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
+}
+
+/* ==========================================================================
+   CureMed Ultra-Modern Webflow Hover Navigation Dropdown System
+   Matches https://curemed-128.webflow.io/
+   Opens automatically when moving cursor over navbar dropdowns
+   ========================================================================== */
+
+/* Navbar links styling */
+.navbar .brand-logo {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+}
+
+.navbar-nav {
+    flex-wrap: nowrap !important;
+    align-items: center;
+    gap: 4px;
+}
+
+.navbar .nav-item {
+    flex-shrink: 0 !important;
+}
+
+/* ==========================================================================
+   CureMed Ultra-Responsive 5-Module Navbar
+   ========================================================================== */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+    padding: 12px 0 !important;
+    box-shadow: 0 4px 20px rgba(11, 19, 42, 0.03) !important;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Ambient animated gradient accent under navbar */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(6, 182, 212, 0.5) 25%, 
+        rgba(37, 99, 235, 0.85) 50%, 
+        rgba(139, 92, 246, 0.5) 75%, 
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: navBorderFlow 5s linear infinite;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+@keyframes navBorderFlow {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Scrolled Glassmorphism State */
+.navbar.navbar-scrolled {
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    padding: 8px 0 !important;
+    box-shadow: 0 10px 30px rgba(11, 19, 42, 0.08), 0 1px 3px rgba(11, 19, 42, 0.04) !important;
+    border-bottom-color: rgba(226, 232, 240, 0.5) !important;
+}
+
+.navbar .container-fluid,
+.navbar .container-xl,
+.navbar .container {
+    max-width: 100% !important;
+    padding-left: clamp(12px, 2.5vw, 36px) !important;
+    padding-right: clamp(12px, 2.5vw, 36px) !important;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.55rem;
+    color: #0b132a;
+    text-decoration: none;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo:hover {
+    transform: translateY(-1px);
+    color: #0b132a;
+}
+
+.brand-highlight {
+    background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: filter 0.3s ease;
+}
+
+.brand-logo:hover .brand-highlight {
+    filter: brightness(1.15);
+}
+
+.brand-badge-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo:hover .brand-badge-dot {
+    transform: scale(1.1) rotate(-6deg);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.42);
+}
+
+/* Living Heartbeat Animation */
+.brand-badge-dot i {
+    display: inline-block;
+    animation: brandHeartRhythm 2.8s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes brandHeartRhythm {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.18); }
+    24% { transform: scale(1.04); }
+    36% { transform: scale(1.22); }
+    54% { transform: scale(1); }
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+@media (min-width: 1300px) {
+    .navbar-nav {
+        gap: 6px;
+    }
+}
+
+.navbar .nav-link {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.86rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #475569 !important;
+    padding: 7px 14px !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border: 1px solid transparent !important;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar .nav-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 50% 120%, rgba(37, 99, 235, 0.12), transparent 70%);
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+@media (min-width: 1400px) {
+    .navbar .nav-link {
+        font-size: 0.90rem !important;
+        padding: 7px 16px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1220px) {
+    .navbar .nav-link {
+        font-size: 0.78rem !important;
+        padding: 5px 8px !important;
+    }
+    .brand-logo span {
+        font-size: 1.25rem !important;
+    }
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-item.dropdown:hover > .nav-link,
+.navbar .nav-item.dropdown.hover-open > .nav-link {
+    color: #2563eb !important;
+    background-color: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08) !important;
+}
+
+.navbar .nav-link:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Active Highlight Pill - matches user's screenshots perfectly */
+.navbar .nav-link.active,
+.navbar .nav-item.active > .nav-link,
+.navbar .dropdown.active > .nav-link {
+    color: #1d4ed8 !important;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+    border-color: #bfdbfe !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12) !important;
+    transform: translateY(-1px);
+}
+
+#navbarAuthSection,
+#navbarAuthSection * {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+#navbarAuthSection .primary-button {
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    font-size: 0.82rem !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#navbarAuthSection .primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35) !important;
+}
+
+#navbarAuthSection .primary-button:hover i {
+    transform: translateX(4px);
+}
+
+#navbarAuthSection .secondary-button {
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    font-size: 0.82rem !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#navbarAuthSection .secondary-button:hover {
+    transform: translateY(-2px);
+    border-color: #93c5fd !important;
+    background-color: #f8fafc !important;
+    color: #2563eb !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.1) !important;
+}
+
+#userNavDropdown {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#userNavDropdown:hover {
+    transform: translateY(-2px);
+    border-color: #bfdbfe !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12) !important;
+}
+
+/* Rotating chevron */
+.navbar .dropdown-toggle::after {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: 0.15em;
+    font-size: 0.72em;
+    border-top: 0.3em solid currentColor;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+
+.navbar .nav-item.dropdown:hover > .dropdown-toggle::after,
+.navbar .nav-item.dropdown.hover-open > .dropdown-toggle::after,
+.navbar .nav-item.dropdown > .dropdown-toggle.show::after,
+.navbar .dropdown:hover > .dropdown-toggle::after,
+.navbar .dropdown.hover-open > .dropdown-toggle::after,
+.navbar .dropdown.show > .dropdown-toggle::after,
+.navbar .dropdown > .dropdown-toggle.show::after,
+.navbar #userDropdownWrapper.show > .dropdown-toggle::after,
+.navbar #userNavDropdown[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+    color: #2563eb;
+}
+
+/* Desktop Hover System (min-width: 992px) */
+@media (min-width: 992px) {
+    .navbar .nav-item.dropdown,
+    .navbar .dropdown {
+        position: relative;
+    }
+
+    /* Invisible hover safety zone */
+    .navbar .nav-item.dropdown::after,
+    .navbar #userDropdownWrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: transparent;
+        z-index: 1040;
+    }
+
+    /* Webflow CureMed Dropdown Floating Card */
+    .navbar .dropdown-menu {
+        display: block !important;
+        position: absolute !important;
+        top: calc(100% + 6px) !important;
+        left: 0 !important;
+        min-width: 210px;
+        background: #ffffff !important;
+        border: 1px solid rgba(37, 99, 235, 0.22) !important;
+        border-radius: 22px !important;
+        box-shadow: 0 20px 45px rgba(11, 19, 42, 0.12), 0 4px 14px rgba(37, 99, 235, 0.05) !important;
+        padding: 12px 10px !important;
+        margin: 0 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: translateY(-8px) scale(0.98) !important;
+        transform-origin: top left;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.22s ease !important;
+        z-index: 1050 !important;
+    }
+
+    /* User Profile Dropdown and end-aligned dropdowns */
+    .navbar .dropdown-menu-end,
+    .navbar #navbarAuthSection .dropdown-menu,
+    .navbar #userDropdownWrapper .dropdown-menu,
+    .navbar #userNavDropdown + .dropdown-menu {
+        left: auto !important;
+        right: 0 !important;
+        transform-origin: top right !important;
+    }
+
+    /* Invisible bridge from dropdown upwards */
+    .navbar .dropdown-menu::before {
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: 0;
+        right: 0;
+        height: 14px;
+        background: transparent;
+    }
+
+    /* Reveal strictly when the specific parent dropdown item is active */
+    .navbar .nav-item.dropdown:hover > .dropdown-menu,
+    .navbar .nav-item.dropdown.hover-open > .dropdown-menu,
+    .navbar .nav-item.dropdown.show > .dropdown-menu,
+    .navbar .dropdown:hover > .dropdown-menu,
+    .navbar .dropdown.hover-open > .dropdown-menu,
+    .navbar .dropdown.show > .dropdown-menu,
+    .navbar #navbarAuthSection .dropdown:hover > .dropdown-menu,
+    .navbar #navbarAuthSection .dropdown.hover-open > .dropdown-menu,
+    .navbar #navbarAuthSection .dropdown.show > .dropdown-menu,
+    .navbar #userDropdownWrapper.show > .dropdown-menu,
+    .navbar #userDropdownWrapper:hover > .dropdown-menu,
+    .navbar #userDropdownWrapper.hover-open > .dropdown-menu {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: translateY(0) scale(1) !important;
+        z-index: 1060 !important;
+    }
+}
+
+/* Dropdown Menu Item Styling */
+.navbar .dropdown-item {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #0b132a !important;
+    padding: 10px 18px !important;
+    border-radius: 14px !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+    background: transparent;
+}
+
+.navbar .dropdown-item:last-child {
+    margin-bottom: 0;
+}
+
+.navbar .dropdown-item:hover,
+.navbar .dropdown-item:focus {
+    color: #2563eb !important;
+    background-color: #eff6ff !important;
+    transform: translateX(4px);
+}
+
+.navbar .dropdown-item.active {
+    color: #2563eb !important;
+    background-color: #eff6ff !important;
+    font-weight: 700 !important;
+}
+
+.navbar .dropdown-divider {
+    border-top: 1px solid #f1f5f9;
+    margin: 8px 0;
+}
+
+/* ==========================================================================
+   Google OAuth & Social Auth Components
+   ========================================================================== */
+.google-auth-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid #dadce0;
+    border-radius: 9999px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
+    position: relative;
+    user-select: none;
+    text-decoration: none;
+}
+
+.google-auth-btn:hover {
+    background: #f8fafc;
+    border-color: #c2c7d0;
+    box-shadow: 0 4px 14px rgba(60, 64, 67, 0.16);
+    transform: translateY(-1px);
+    color: #0b132a;
+}
+
+.google-auth-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.1);
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-divider span {
+    padding: 0 14px;
+}
+
+.google-account-card {
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.google-account-card:hover {
+    background-color: #f8fafc;
+    border-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.google-avatar-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Specialist Doctors Directory & Custom Cards
+   ========================================================================== */
+.custom-card {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.team-item-card {
+    background: #ffffff;
+    border: 1px solid var(--curemed-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.35);
+}
+
+/* ==========================================================================
+   Advanced Dynamic Animations Engine
+   ========================================================================== */
+
+/* 1. Global Scroll Progress Bar */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3.5px;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb 0%, #06b6d4 50%, #8b5cf6 100%);
+    z-index: 99999;
+    transition: width 0.08s ease-out;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
+    pointer-events: none;
+}
+
+/* 2. Gradient Shimmer Text */
+.gradient-text-shimmer {
+    background: linear-gradient(120deg, #2563eb 0%, #06b6d4 25%, #7c3aed 50%, #2563eb 75%, #06b6d4 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShimmer 6s linear infinite;
+    display: inline-block;
+}
+
+@keyframes textShimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 250% center; }
+}
+
+/* 3. Hero Ambient Cursor Spotlight */
+.hero-cursor-spotlight {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, rgba(6, 182, 212, 0.06) 45%, rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    will-change: left, top, opacity;
+}
+
+/* 4. Hero Decorative Floating Particles */
+.hero-particle {
+    position: absolute;
+    font-size: 1.1rem;
+    color: rgba(37, 99, 235, 0.28);
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    animation: particleFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(0.9);
+        opacity: 0.35;
+    }
+    50% {
+        opacity: 0.75;
+    }
+    100% {
+        transform: translateY(-24px) rotate(25deg) scale(1.15);
+        opacity: 0.35;
+    }
+}
+
+/* 5. Primary Button Animated Sweep */
+.primary-button.hero-action-btn {
+    position: relative;
+    overflow: hidden;
+    animation: buttonGlowBreathing 4s ease-in-out infinite alternate;
+}
+
+.primary-button.hero-action-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -70%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: rotate(25deg);
+    transition: left 0.75s ease;
+}
+
+.primary-button.hero-action-btn:hover::after,
+.primary-button.hero-action-btn.auto-shine::after {
+    left: 130%;
+}
+
+@keyframes buttonGlowBreathing {
+    0% { box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28); }
+    100% { box-shadow: 0 10px 30px rgba(37, 99, 235, 0.5), 0 0 15px rgba(6, 182, 212, 0.35); }
+}
+
+
+
+/* 8. 3D Interactive Card Tilt Classes */
+.tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.18s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+}
+
+/* 9. Floating Back to Top Button */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #2563eb;
+    box-shadow: 0 10px 25px rgba(11, 19, 42, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-to-top-btn.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.back-to-top-btn:hover {
+    background: #2563eb;
+    color: #ffffff;
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.32);
+}
+
+.back-to-top-btn svg.progress-ring {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+
+.progress-ring__circle {
+    transition: stroke-dashoffset 0.15s ease-out;
+}
+
+/* ==========================================================================
+   Advanced Ambient & Interactive Animations
+   ========================================================================== */
+
+/* 1. Ambient Aurora Mesh Orbs */
+.hero-aurora-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(85px);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform, opacity;
+}
+
+.hero-aurora-orb.orb-1 {
+    width: 460px;
+    height: 460px;
+    top: 5%;
+    left: 5%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.22) 0%, rgba(6, 182, 212, 0.12) 50%, transparent 70%);
+    animation: auroraFloat1 12s ease-in-out infinite alternate;
+}
+
+.hero-aurora-orb.orb-2 {
+    width: 500px;
+    height: 500px;
+    bottom: 5%;
+    right: 5%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
+    animation: auroraFloat2 14s ease-in-out infinite alternate;
+}
+
+.hero-aurora-orb.orb-3 {
+    width: 360px;
+    height: 360px;
+    top: 30%;
+    left: 45%;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(99, 102, 241, 0.08) 60%, transparent 70%);
+    animation: auroraFloat3 10s ease-in-out infinite alternate;
+}
+
+@keyframes auroraFloat1 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(45px, -30px) scale(1.12); }
+    100% { transform: translate(-30px, 40px) scale(0.92); }
+}
+
+@keyframes auroraFloat2 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, -40px) scale(1.15); }
+    100% { transform: translate(35px, 25px) scale(0.95); }
+}
+
+@keyframes auroraFloat3 {
+    0% { transform: translate(0, 0) scale(0.9); opacity: 0.5; }
+    50% { transform: translate(-30px, 20px) scale(1.1); opacity: 0.8; }
+    100% { transform: translate(25px, -25px) scale(0.95); opacity: 0.6; }
+}
+
+/* 2. Ethereal Asset Glow Aura */
+.asset-glow-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(45px);
+    animation: auraPulse 4s ease-in-out infinite alternate;
+}
+
+.asset-glow-aura.left-glow {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.55) 0%, rgba(37, 99, 235, 0.25) 55%, transparent 75%);
+}
+
+.asset-glow-aura.right-glow {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.55) 0%, rgba(124, 58, 237, 0.3) 55%, transparent 75%);
+}
+
+@keyframes auraPulse {
+    0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.65; }
+    100% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.95; }
+}
+
+/* 4. Animated Ambient ECG Pulse Line */
+.hero-ecg-track {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.85;
+    overflow: hidden;
+}
+
+.hero-ecg-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ecg-line {
+    fill: none;
+    stroke: url(#ecgGradient);
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 280, 1000;
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.75)) drop-shadow(0 0 14px rgba(37, 99, 235, 0.5));
+    animation: ecgFlow 4.5s linear infinite;
+}
+
+@keyframes ecgFlow {
+    0% { stroke-dashoffset: 1280; }
+    100% { stroke-dashoffset: 0; }
+}
+
+/* ==========================================================================
+   Universal Multi-Page Dynamic Animation Suite
+   Applies across All Portals, Dashboards, Cards, Forms, and Elements
+   ========================================================================== */
+
+/* 1. Global Page Entrance Transition */
+@keyframes universalPageFade {
+    0% {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-main, .container, main, .dashboard-container, .portal-wrapper, .auth-box, .auth-card {
+    animation: universalPageFade 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 2. Global Scroll Progress Bar on Every Page */
+.global-scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3.5px;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb 0%, #06b6d4 50%, #8b5cf6 100%);
+    z-index: 99999;
+    transition: width 0.08s ease-out;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+    pointer-events: none;
+}
+
+/* 3. Universal Card Micro-Physics & Elevating Shadows */
+.card, .dashboard-card, .dash-stat-card, .donor-card, .medicine-card, .record-card,
+.appointment-card, .wellness-card, .doctor-adm-card, .service-card, .auth-card,
+.admin-stat-card, .admin-card, .benefit-card, .srvc-item-card, .team-item-card,
+.stats-card, .feature-card, .profile-card, .record-item {
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.28s ease !important;
+    will-change: transform;
+}
+
+.card:hover, .dashboard-card:hover, .dash-stat-card:hover, .donor-card:hover, 
+.medicine-card:hover, .record-card:hover, .appointment-card:hover, 
+.wellness-card:hover, .doctor-adm-card:hover, .service-card:hover,
+.admin-stat-card:hover, .admin-card:hover, .stats-card:hover, .feature-card:hover,
+.record-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 36px -10px rgba(37, 99, 235, 0.18), 0 6px 16px rgba(11, 19, 42, 0.06) !important;
+    border-color: rgba(37, 99, 235, 0.35) !important;
+}
+
+/* 4. Universal Interactive Button Shimmer & Micro-Lift */
+.btn, .primary-button, .secondary-button {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s ease,
+                background-color 0.2s ease,
+                border-color 0.2s ease !important;
+}
+
+.btn:hover, .primary-button:hover, .secondary-button:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active, .primary-button:active, .secondary-button:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary, .primary-button {
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover, .primary-button:hover {
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4) !important;
+}
+
+.btn-success {
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+.btn-success:hover {
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4) !important;
+}
+
+.btn-danger {
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25);
+}
+.btn-danger:hover {
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* 5. Form Control Focus Glow & Soft Elevation */
+.form-control, .form-select {
+    transition: border-color 0.2s ease,
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.2s ease !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16), 0 2px 8px rgba(37, 99, 235, 0.08) !important;
+    transform: translateY(-1px);
+}
+
+/* 6. Universal Table Row Glow & Subtle Slide */
+.table tbody tr {
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(37, 99, 235, 0.04) !important;
+    transform: translateX(3px);
+}
+
+/* 7. Live Radar Status Pulses on Badges */
+.badge {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.badge:hover {
+    transform: scale(1.06);
+}
+
+.badge.bg-success, .badge.bg-success-subtle, .badge-success {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    animation: badgePulseGreen 3s infinite;
+}
+
+.badge.bg-warning, .badge.bg-warning-subtle, .badge-warning {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+    animation: badgePulseYellow 3s infinite;
+}
+
+.badge.bg-danger, .badge.bg-danger-subtle, .badge-danger, .blood-group-badge {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45);
+    animation: badgePulseRed 2.8s infinite;
+}
+
+.badge.bg-primary, .badge.bg-primary-subtle, .badge-primary, .badge.bg-info, .badge.bg-info-subtle {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    animation: badgePulseBlue 3s infinite;
+}
+
+@keyframes badgePulseGreen {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+    70% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes badgePulseYellow {
+    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+    70% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+@keyframes badgePulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
+    70% { box-shadow: 0 0 0 5px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes badgePulseBlue {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 5px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* 9. Universal Scroll Reveal Animation Engine */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 10. Nav-tabs and Sidebar Active Item Transitions */
+.nav-pills .nav-link, .admin-nav-item, .nav-tabs .nav-link {
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.nav-pills .nav-link:hover, .admin-nav-item:hover, .nav-tabs .nav-link:hover {
+    transform: translateX(3px);
+}
+
+/* 11. Stat Icon Bobbing & Interactive Micro-Physics */
+.stat-icon-badge, .stat-icon, .admin-stat-icon {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
+}
+
+.stat-card:hover .stat-icon-badge,
+.card:hover .stat-icon-badge,
+.dashboard-card:hover .stat-icon-badge,
+.admin-stat-card:hover .admin-stat-icon {
+    transform: scale(1.14) rotate(4deg);
+}
+
+/* 12. Interactive Modal Pop & Backdrops */
+.modal.fade .modal-dialog {
+    transform: scale(0.94) translateY(14px);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1) translateY(0);
+}
+
+/* 13. Avatar Halo & Smooth Zoom on Portals (Doctors, Donors) */
+.doctor-avatar, .donor-avatar, .team-img-wrapper img, .card img.rounded-circle {
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s ease !important;
+}
+
+.card:hover .doctor-avatar,
+.card:hover .donor-avatar,
+.card:hover img.rounded-circle,
+.team-item-card:hover .team-img-wrapper img {
+    transform: scale(1.06);
+    box-shadow: 0 0 16px rgba(37, 99, 235, 0.28);
+}
+
+/* 14. Brand Logo Micro-Pulse */
+.brand-logo:hover i, .brand-logo:hover svg {
+    animation: brandLogoBeat 0.75s ease-in-out infinite alternate;
+}
+
+@keyframes brandLogoBeat {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); color: #ef4444; }
+}
+
+/* 15. Staggered Grid Card Appearances */
+.row > [class*="col-"]:nth-child(1) .card,
+.row > [class*="col-"]:nth-child(1) .dashboard-card,
+.row > [class*="col-"]:nth-child(1) .stat-card {
+    animation: universalPageFade 0.45s 0.04s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.row > [class*="col-"]:nth-child(2) .card,
+.row > [class*="col-"]:nth-child(2) .dashboard-card,
+.row > [class*="col-"]:nth-child(2) .stat-card {
+    animation: universalPageFade 0.45s 0.08s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.row > [class*="col-"]:nth-child(3) .card,
+.row > [class*="col-"]:nth-child(3) .dashboard-card,
+.row > [class*="col-"]:nth-child(3) .stat-card {
+    animation: universalPageFade 0.45s 0.12s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.row > [class*="col-"]:nth-child(4) .card,
+.row > [class*="col-"]:nth-child(4) .dashboard-card,
+.row > [class*="col-"]:nth-child(4) .stat-card {
+    animation: universalPageFade 0.45s 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.row > [class*="col-"]:nth-child(5) .card,
+.row > [class*="col-"]:nth-child(5) .dashboard-card,
+.row > [class*="col-"]:nth-child(5) .stat-card {
+    animation: universalPageFade 0.45s 0.20s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.row > [class*="col-"]:nth-child(6) .card,
+.row > [class*="col-"]:nth-child(6) .dashboard-card,
+.row > [class*="col-"]:nth-child(6) .stat-card {
+    animation: universalPageFade 0.45s 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 16. Toast Notification Micro-Spring */
+.toast {
+    animation: toastSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes toastSlideUp {
+    0% { transform: translateY(22px) scale(0.92); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* 17. Form Floating Label Highlight */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: #2563eb !important;
+    font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   Universal Curved Edges System - Smooth Rounded Edges Everywhere
+   ========================================================================== */
+.card, .dashboard-card, .dash-stat-card, .donor-card, .medicine-card, .record-card,
+.appointment-card, .wellness-card, .doctor-adm-card, .service-card, .auth-card,
+.admin-stat-card, .admin-card, .benefit-card, .srvc-item-card, .team-item-card,
+.stats-card, .feature-card, .profile-card, .stat-card, .custom-card, .dash-quick-btn {
+    border-radius: 20px !important;
+}
+
+.table-responsive {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+}
+
+.table {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+.btn, .btn-primary, .btn-secondary, .btn-light, .btn-dark, .btn-success, .btn-danger, .btn-warning, .btn-info,
+.primary-button, .secondary-button, .hero-action-btn, .admin-btn {
+    border-radius: 9999px !important;
+}
+
+.form-control, .form-select {
+    border-radius: 14px !important;
+}
+
+.badge, .badge-pill {
+    border-radius: 9999px !important;
+}
+
+.modal-content {
+    border-radius: 26px !important;
+    overflow: hidden !important;
+}
+
+.dropdown-menu {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+}
+
+.alert {
+    border-radius: 16px !important;
+}
+
+.nav-pills .nav-link {
+    border-radius: 9999px !important;
+}
+
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-top-right-radius: 14px !important;
+    border-bottom-right-radius: 14px !important;
+}
+
+.input-group > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+    border-top-left-radius: 14px !important;
+    border-bottom-left-radius: 14px !important;
+}
+
+.ecg-line {
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+

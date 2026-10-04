@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments | Medical Care</title>
+    <!-- Google Fonts: Lato & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=3.0">
+</head>
+<body class="bg-light">
+
+    <!-- Medical Care Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-3 px-xl-4">
+            <a class="brand-logo flex-shrink-0" href="../index.html">
+                <span class="brand-badge-dot"><i class="bi bi-heart-pulse-fill"></i></span>
+                <span>Medical <span class="brand-highlight">Care</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <i class="bi bi-list fs-2 text-dark"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle active text-nowrap" href="../index.html#servicesSection" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu shadow-lg rounded-4 p-2 border-0" style="min-width: 250px;">
+                            <li><a class="dropdown-item active" href="appointments.html"><i class="bi bi-calendar2-check text-primary me-2"></i>Hospital Appointment</a></li>
+                            <li><a class="dropdown-item" href="../donor/donors.html"><i class="bi bi-droplet-half text-danger me-2"></i>Blood Donor Network</a></li>
+                            <li><a class="dropdown-item" href="../medicine/medicines.html"><i class="bi bi-capsule text-success me-2"></i>Medicine Reminder</a></li>
+                            <li><a class="dropdown-item" href="../wellness/records.html"><i class="bi bi-heart-pulse text-warning me-2"></i>Mental Wellness</a></li>
+                            <li><a class="dropdown-item" href="../medical/records.html"><i class="bi bi-file-earmark-medical text-info me-2"></i>Medical Records</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap" href="../index.html#aboutUsSection">About Us</a>
+                    </li>
+                </ul>
+                <div id="navbarAuthSection" class="d-flex align-items-center gap-2 flex-shrink-0"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-4">
+        <!-- Breadcrumb & Header -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center page-header">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1">
+                        <li class="breadcrumb-item"><a href="../dashboard.html">Dashboard</a></li>
+                        <li class="breadcrumb-item">Hospital Appointment</li>
+                        <li class="breadcrumb-item active" aria-current="page">My Appointments</li>
+                    </ol>
+                </nav>
+                <h2 class="page-title"><i class="bi bi-calendar2-week-fill text-primary"></i> Hospital Appointments List</h2>
+                <p class="page-subtitle mb-0">Track, reschedule, update, or cancel your doctor consultation appointments.</p>
+            </div>
+            <div class="mt-3 mt-md-0">
+                <a href="../appointment/book.html" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Book New Appointment
+                </a>
+            </div>
+        </div>
+
+        <!-- Appointments Table Card -->
+        <div class="card custom-card border-0 shadow-sm p-0 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table custom-table mb-0 align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Doctor & Specialty</th>
+                            <th>Schedule</th>
+                            <th>Status</th>
+                            <th>Reason / Notes</th>
+                            <th>Patient</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentsTableBody">
+                        <!-- Populated dynamically via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Appointment Modal -->
+    <div class="modal fade" id="editAppointmentModal" tabindex="-1" aria-labelledby="editAppointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="editAppointmentModalLabel">
+                        <i class="bi bi-pencil-square me-2"></i> Update Appointment
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editAppointmentForm">
+                    <div class="modal-body p-4">
+                        <input type="hidden" id="editAptId">
+
+                        <div class="mb-3">
+                            <label for="editAptDate" class="form-label">Appointment Date</label>
+                            <input type="date" class="form-control" id="editAptDate" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAptTime" class="form-label">Appointment Time</label>
+                            <select class="form-select" id="editAptTime" required>
+                                <option value="09:00 AM">09:00 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:30 AM">11:30 AM</option>
+                                <option value="02:00 PM">02:00 PM</option>
+                                <option value="03:30 PM">03:30 PM</option>
+                                <option value="05:00 PM">05:00 PM</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAptStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editAptStatus" required>
+                                <option value="Pending">Pending</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAptReason" class="form-label">Reason for Visit</label>
+                            <textarea class="form-control" id="editAptReason" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="curemed-footer text-center py-3 mt-auto">
+        <div class="container">
+            <p class="small text-secondary mb-0">&copy; 2026 Medical Care Healthcare System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/validation.js?v=5.0"></script>
+    <script src="../js/auth.js?v=7.0"></script>
+    <script src="../js/appointments.js?v=5.0"></script>
+    <script src="../js/custom-select.js?v=5.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!window.Auth.requireAuth()) return;
+            window.AppointmentModule.renderAppointmentsTable();
+            document.getElementById('editAppointmentForm').addEventListener('submit', window.AppointmentModule.handleUpdateAppointment);
+        });
+    </script>
+</body>
+</html>

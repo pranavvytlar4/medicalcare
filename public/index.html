@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Care | Clinic & Health Portal</title>
+    <!-- Google Fonts: Lato & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css?v=30.0">
+
+    <!-- Critical Inline Styles to Guarantee 100% Styling on Direct File Browsing -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        /* Content Protection: Disable Text Highlighting & Selection Globally */
+        *, *::before, *::after {
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+        }
+
+        input, textarea, select, [contenteditable="true"], [contenteditable="true"] * {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        ::selection {
+            background: transparent !important;
+            color: inherit !important;
+        }
+
+        ::-moz-selection {
+            background: transparent !important;
+            color: inherit !important;
+        }
+
+        body {
+            font-family: 'Lato', system-ui, sans-serif;
+            color: #1e293b;
+            background: #ffffff;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            color: #0b132a;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            background: rgba(255, 255, 255, 0.96) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+            padding: 13px 0 !important;
+            box-shadow: 0 4px 20px rgba(11, 19, 42, 0.03) !important;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        /* Ambient animated gradient accent under navbar */
+        .navbar::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(6, 182, 212, 0.5) 25%, 
+                rgba(37, 99, 235, 0.85) 50%, 
+                rgba(139, 92, 246, 0.5) 75%, 
+                transparent 100%
+            );
+            background-size: 200% 100%;
+            animation: navBorderFlow 5s linear infinite;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        @keyframes navBorderFlow {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Scrolled Glassmorphism State */
+        .navbar.navbar-scrolled {
+            background: rgba(255, 255, 255, 0.88) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            padding: 9px 0 !important;
+            box-shadow: 0 10px 30px rgba(11, 19, 42, 0.08), 0 1px 3px rgba(11, 19, 42, 0.04) !important;
+            border-bottom-color: rgba(226, 232, 240, 0.5) !important;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.55rem;
+            color: #0b132a;
+            text-decoration: none;
+            flex-shrink: 0;
+            white-space: nowrap;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .brand-logo:hover {
+            transform: translateY(-1px);
+            color: #0b132a;
+        }
+
+        .brand-highlight {
+            background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: filter 0.3s ease;
+        }
+
+        .brand-logo:hover .brand-highlight {
+            filter: brightness(1.15);
+        }
+
+        .brand-badge-dot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .brand-logo:hover .brand-badge-dot {
+            transform: scale(1.1) rotate(-6deg);
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.42);
+        }
+
+        /* Living Heartbeat Animation */
+        .brand-badge-dot i {
+            display: inline-block;
+            animation: brandHeartRhythm 2.8s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes brandHeartRhythm {
+            0%, 100% { transform: scale(1); }
+            12% { transform: scale(1.18); }
+            24% { transform: scale(1.04); }
+            36% { transform: scale(1.22); }
+            54% { transform: scale(1); }
+        }
+
+        .navbar-nav {
+            flex-wrap: nowrap !important;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .navbar .nav-link {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 0.86rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            color: #475569 !important;
+            padding: 8px 16px !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            white-space: nowrap !important;
+            transition: color 0.2s ease, transform 0.2s ease !important;
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-item.dropdown:hover > .nav-link,
+        .navbar .nav-item.dropdown.hover-open > .nav-link {
+            color: #2563eb !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            transform: translateY(-1px);
+        }
+
+        .navbar .nav-link.active,
+        .navbar .nav-item.active > .nav-link,
+        .navbar .dropdown.active > .nav-link {
+            color: #2563eb !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            font-weight: 800 !important;
+            transform: none !important;
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #2563eb;
+            color: #fff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.96rem;
+            padding: 12px 28px;
+            border-radius: 9999px;
+            border: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap !important;
+            flex-shrink: 0;
+        }
+
+        .primary-button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+        }
+
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #fff;
+            color: #0b132a !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.96rem;
+            padding: 12px 28px;
+            border-radius: 9999px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap !important;
+            flex-shrink: 0;
+        }
+
+        .secondary-button:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+            color: #2563eb !important;
+            transform: translateY(-2px);
+        }
+
+        .primary-button.btn-sm,
+        .secondary-button.btn-sm {
+            padding: 8px 20px !important;
+            font-size: 0.9rem !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+
+        #navbarAuthSection,
+        #navbarAuthSection * {
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+
+        .secondary-button.white {
+            background: #fff;
+            color: #2563eb !important;
+            border-color: #fff;
+        }
+
+        .curemed-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #2563eb;
+            background-color: #eff6ff;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .home-banner-section {
+            position: relative;
+            min-height: calc(100vh - 76px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0 70px;
+            background: radial-gradient(circle at 50% 45%, #eff6ff 0%, #ffffff 75%);
+            overflow: hidden;
+        }
+
+        .heading-banner {
+            font-size: clamp(1.8rem, 3.5vw, 3.15rem);
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: -0.015em;
+            text-transform: uppercase;
+            color: #0b132a;
+            max-width: 1240px;
+            margin: 0 auto 22px;
+        }
+
+        .heading-line {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .heading-line {
+                white-space: nowrap;
+            }
+        }
+
+        .maxw-banner-text {
+            font-size: 1.22rem;
+            line-height: 1.6;
+            color: #64748b;
+            max-width: 720px;
+            margin: 0 auto 34px;
+            text-wrap: balance;
+        }
+
+        /* Webflow 3D Floating Assets & Banner Positioning */
+        .left-image-banner {
+            width: 20%;
+            max-width: 230px;
+            position: absolute;
+            top: 50%;
+            left: 1%;
+            z-index: 1;
+            pointer-events: none;
+            perspective: 1000px;
+            transform: translateY(-50%);
+            animation: slideInLeftHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .right-image-banner {
+            width: 20%;
+            max-width: 230px;
+            position: absolute;
+            top: 50%;
+            right: 1%;
+            z-index: 1;
+            pointer-events: none;
+            perspective: 1000px;
+            transform: translateY(-50%);
+            animation: slideInRightHero 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideInLeftHero {
+            0% {
+                opacity: 0;
+                transform: translate(-60px, -50%);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(0, -50%);
+            }
+        }
+
+        @keyframes slideInRightHero {
+            0% {
+                opacity: 0;
+                transform: translate(60px, -50%);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(0, -50%);
+            }
+        }
+
+        .image-3d-left {
+            width: 100%;
+            height: auto;
+            display: block;
+            animation: webflowRotateLeft 6s ease-in-out infinite alternate;
+            will-change: transform;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            mix-blend-mode: multiply;
+        }
+
+        .image-3d-right {
+            width: 100%;
+            height: auto;
+            display: block;
+            animation: webflowRotateRight 5.5s ease-in-out infinite alternate;
+            will-change: transform;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            mix-blend-mode: multiply;
+        }
+
+        @keyframes webflowRotateLeft {
+            0% {
+                transform: perspective(1000px) rotateY(12deg) rotateZ(8deg) translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: perspective(1000px) rotateY(-8deg) rotateZ(-4deg) translateY(-18px) scale(1.05);
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(-20deg) rotateZ(-10deg) translateY(-30px) scale(1.08);
+            }
+        }
+
+        @keyframes webflowRotateRight {
+            0% {
+                transform: perspective(1000px) rotateY(-20deg) rotateZ(-10deg) translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: perspective(1000px) rotateY(5deg) rotateZ(2deg) translateY(-22px) scale(1.06);
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(20deg) rotateZ(10deg) translateY(-32px) scale(1.09);
+            }
+        }
+
+
+        /* Hero Entrance Stagger */
+        .hero-anim-1 {
+            animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-anim-2 {
+            animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+            opacity: 0;
+        }
+
+        .hero-anim-3 {
+            animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero-anim-cards {
+            animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroFadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(32px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================================================
+           Advanced Dynamic Animations Engine
+           ========================================================================== */
+
+        /* 1. Global Scroll Progress Bar */
+        .scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3.5px;
+            width: 0%;
+            background: linear-gradient(90deg, #2563eb 0%, #06b6d4 50%, #8b5cf6 100%);
+            z-index: 99999;
+            transition: width 0.08s ease-out;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
+            pointer-events: none;
+        }
+
+        /* 2. Gradient Shimmer Text */
+        .gradient-text-shimmer {
+            background: linear-gradient(120deg, #2563eb 0%, #06b6d4 25%, #7c3aed 50%, #2563eb 75%, #06b6d4 100%);
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 6s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes textShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 250% center; }
+        }
+
+        /* 3. Hero Ambient Cursor Spotlight */
+        .hero-cursor-spotlight {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, rgba(6, 182, 212, 0.06) 45%, rgba(255, 255, 255, 0) 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            will-change: left, top, opacity;
+        }
+
+        /* 4. Hero Decorative Floating Particles */
+        .hero-particle {
+            position: absolute;
+            font-size: 1.1rem;
+            color: rgba(37, 99, 235, 0.28);
+            pointer-events: none;
+            z-index: 1;
+            user-select: none;
+            animation: particleFloat 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.9);
+                opacity: 0.35;
+            }
+            50% {
+                opacity: 0.75;
+            }
+            100% {
+                transform: translateY(-24px) rotate(25deg) scale(1.15);
+                opacity: 0.35;
+            }
+        }
+
+        /* 5. Primary Button Animated Sweep */
+        .primary-button.hero-action-btn {
+            position: relative;
+            overflow: hidden;
+            animation: buttonGlowBreathing 4s ease-in-out infinite alternate;
+        }
+
+        .primary-button.hero-action-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -70%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(25deg);
+            transition: left 0.75s ease;
+        }
+
+        .primary-button.hero-action-btn:hover::after,
+        .primary-button.hero-action-btn.auto-shine::after {
+            left: 130%;
+        }
+
+        @keyframes buttonGlowBreathing {
+            0% { box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28); }
+            100% { box-shadow: 0 10px 30px rgba(37, 99, 235, 0.5), 0 0 15px rgba(6, 182, 212, 0.35); }
+        }
+
+        /* 6. Ambient Aurora Animated Mesh Orbs */
+        .hero-aurora-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(85px);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform, opacity;
+        }
+
+        .hero-aurora-orb.orb-1 {
+            width: 460px;
+            height: 460px;
+            top: 5%;
+            left: 5%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.22) 0%, rgba(6, 182, 212, 0.12) 50%, transparent 70%);
+            animation: auroraFloat1 12s ease-in-out infinite alternate;
+        }
+
+        .hero-aurora-orb.orb-2 {
+            width: 500px;
+            height: 500px;
+            bottom: 5%;
+            right: 5%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
+            animation: auroraFloat2 14s ease-in-out infinite alternate;
+        }
+
+        .hero-aurora-orb.orb-3 {
+            width: 360px;
+            height: 360px;
+            top: 30%;
+            left: 45%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(99, 102, 241, 0.08) 60%, transparent 70%);
+            animation: auroraFloat3 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes auroraFloat1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(45px, -30px) scale(1.12); }
+            100% { transform: translate(-30px, 40px) scale(0.92); }
+        }
+
+        @keyframes auroraFloat2 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, -40px) scale(1.15); }
+            100% { transform: translate(35px, 25px) scale(0.95); }
+        }
+
+        @keyframes auroraFloat3 {
+            0% { transform: translate(0, 0) scale(0.9); opacity: 0.5; }
+            50% { transform: translate(-30px, 20px) scale(1.1); opacity: 0.8; }
+            100% { transform: translate(25px, -25px) scale(0.95); opacity: 0.6; }
+        }
+
+        /* 7. Ethereal Asset Glow Aura */
+        .asset-glow-aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(45px);
+            animation: auraPulse 4s ease-in-out infinite alternate;
+        }
+
+        .asset-glow-aura.left-glow {
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.55) 0%, rgba(37, 99, 235, 0.25) 55%, transparent 75%);
+        }
+
+        .asset-glow-aura.right-glow {
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.55) 0%, rgba(124, 58, 237, 0.3) 55%, transparent 75%);
+        }
+
+        @keyframes auraPulse {
+            0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.65; }
+            100% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.95; }
+        }
+
+        /* 9. Animated Ambient ECG Pulse Line */
+        .hero-ecg-track {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.85;
+            overflow: hidden;
+        }
+
+        .hero-ecg-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ecg-line {
+            fill: none;
+            stroke: url(#ecgGradient);
+            stroke-width: 3.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 280, 1000;
+            stroke-dashoffset: 0;
+            filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.75)) drop-shadow(0 0 14px rgba(37, 99, 235, 0.5));
+            animation: ecgFlow 4.5s linear infinite;
+        }
+
+        @keyframes ecgFlow {
+            0% { stroke-dashoffset: 1280; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* 8. 3D Interactive Card Tilt Classes */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.18s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+            will-change: transform;
+        }
+
+        /* 9. Floating Back to Top Button */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #2563eb;
+            box-shadow: 0 10px 25px rgba(11, 19, 42, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px) scale(0.9);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-to-top-btn.is-active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            transform: translateY(-4px) scale(1.08);
+            box-shadow: 0 16px 32px rgba(37, 99, 235, 0.32);
+        }
+
+        .back-to-top-btn svg.progress-ring {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            transform: rotate(-90deg);
+            pointer-events: none;
+        }
+
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.15s ease-out;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Trio Hero Blocks */
+        .blue-block {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            border-radius: 28px;
+            padding: 36px;
+            color: #fff;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+            text-align: left;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+        }
+
+        .blue-block:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 45px rgba(37, 99, 235, 0.35);
+        }
+
+        .blue-block .large-number-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 12px 0 6px;
+        }
+
+        .hero-image-block {
+            border-radius: 28px;
+            overflow: hidden;
+            min-height: 280px;
+            height: 100%;
+            box-shadow: 0 8px 24px rgba(11, 19, 42, 0.08);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .hero-image-block:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 36px rgba(11, 19, 42, 0.12);
+        }
+
+        .hero-image-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-image-block:hover img {
+            transform: scale(1.05);
+        }
+
+        .light-block {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 28px;
+            padding: 36px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 8px 24px rgba(11, 19, 42, 0.05);
+            text-align: left;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+        }
+
+        .light-block:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 36px rgba(11, 19, 42, 0.1);
+        }
+
+        .partners-block {
+            padding: 25px 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            background: #fafbfc;
+        }
+
+        .partner-item {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .partner-item:hover {
+            transform: translateY(-2px);
+            color: #0b132a;
+        }
+
+        .benefit-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 24px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(11, 19, 42, 0.08);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .benefit-card .benefit-icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .benefit-card:hover .benefit-icon-box {
+            transform: scale(1.15) rotate(6deg);
+        }
+
+
+        .srvc-item-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+            text-align: left;
+        }
+
+        .srvc-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(37, 99, 235, 0.14) !important;
+            border-color: rgba(37, 99, 235, 0.35) !important;
+        }
+
+        .srvc-image-wrap {
+            height: 210px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .srvc-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .srvc-item-card:hover .srvc-image-wrap img {
+            transform: scale(1.08);
+        }
+
+        .srvc-badge-overlay {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(255, 255, 255, 0.94);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 9999px;
+        }
+
+        .srvc-description {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .link-with-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .blue-section {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            padding: 70px 0;
+            color: #fff;
+            border-radius: 28px;
+            margin: 40px 0 80px;
+            text-align: center;
+        }
+
+        .white-large-text {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            max-width: 860px;
+            margin: 0 auto 30px;
+            font-style: italic;
+            opacity: 0.96;
+        }
+
+        .team-item-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+
+        .team-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(11, 19, 42, 0.12) !important;
+        }
+
+        .team-img-wrap {
+            height: 240px;
+            overflow: hidden;
+            background: #f1f5f9;
+        }
+
+        .team-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .team-item-card:hover .team-img-wrap img {
+            transform: scale(1.08);
+        }
+
+        .primary-button i.bi-arrow-right,
+        .secondary-button i.bi-arrow-right {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .primary-button:hover i.bi-arrow-right,
+        .secondary-button:hover i.bi-arrow-right {
+            transform: translateX(5px);
+        }
+
+        /* Webflow Navbar Hover Dropdown System */
+        .navbar .dropdown-toggle::after {
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            display: inline-block;
+            margin-left: 5px;
+            vertical-align: 0.15em;
+            font-size: 0.72em;
+        }
+
+        .navbar .nav-item.dropdown:hover>.dropdown-toggle::after,
+        .navbar .nav-item.dropdown.hover-open>.dropdown-toggle::after,
+        .navbar .nav-item.dropdown>.dropdown-toggle.show::after,
+        .navbar .dropdown:hover>.dropdown-toggle::after,
+        .navbar .dropdown.hover-open>.dropdown-toggle::after,
+        .navbar .dropdown.show>.dropdown-toggle::after,
+        .navbar .dropdown>.dropdown-toggle.show::after,
+        .navbar #userDropdownWrapper.show>.dropdown-toggle::after,
+        .navbar #userNavDropdown[aria-expanded="true"]::after {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        @media (min-width: 992px) {
+
+            .navbar .nav-item.dropdown,
+            .navbar .dropdown {
+                position: relative;
+            }
+
+            .navbar .nav-item.dropdown::after,
+            .navbar #userDropdownWrapper::after {
+                content: '';
+                position: absolute;
+                bottom: -12px;
+                left: 0;
+                right: 0;
+                height: 16px;
+                background: transparent;
+                z-index: 1040;
+            }
+
+            .navbar .dropdown-menu {
+                display: block !important;
+                position: absolute !important;
+                top: calc(100% + 6px) !important;
+                left: 0 !important;
+                min-width: 210px;
+                background: #ffffff !important;
+                border: 1px solid rgba(37, 99, 235, 0.22) !important;
+                border-radius: 22px !important;
+                box-shadow: 0 20px 45px rgba(11, 19, 42, 0.12), 0 4px 14px rgba(37, 99, 235, 0.05) !important;
+                padding: 12px 10px !important;
+                margin: 0 !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+                transform: translateY(-8px) scale(0.98) !important;
+                transform-origin: top left;
+                transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease !important;
+                z-index: 1050 !important;
+            }
+
+            .navbar .dropdown-menu-end,
+            .navbar #navbarAuthSection .dropdown-menu,
+            .navbar #userDropdownWrapper .dropdown-menu,
+            .navbar #userNavDropdown+.dropdown-menu {
+                left: auto !important;
+                right: 0 !important;
+                transform-origin: top right !important;
+            }
+
+            .navbar .dropdown-menu::before {
+                content: '';
+                position: absolute;
+                top: -12px;
+                left: 0;
+                right: 0;
+                height: 14px;
+                background: transparent;
+            }
+
+            .navbar .nav-item.dropdown:hover>.dropdown-menu,
+            .navbar .nav-item.dropdown.hover-open>.dropdown-menu,
+            .navbar .nav-item.dropdown.show>.dropdown-menu,
+            .navbar .dropdown:hover>.dropdown-menu,
+            .navbar .dropdown.hover-open>.dropdown-menu,
+            .navbar .dropdown.show>.dropdown-menu,
+            .navbar #navbarAuthSection .dropdown:hover>.dropdown-menu,
+            .navbar #navbarAuthSection .dropdown.hover-open>.dropdown-menu,
+            .navbar #navbarAuthSection .dropdown.show>.dropdown-menu,
+            .navbar #userDropdownWrapper.show>.dropdown-menu,
+            .navbar #userDropdownWrapper:hover>.dropdown-menu,
+            .navbar #userDropdownWrapper.hover-open>.dropdown-menu {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+                transform: translateY(0) scale(1) !important;
+                z-index: 1060 !important;
+            }
+        }
+
+        .navbar .dropdown-item {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+            color: #0b132a !important;
+            padding: 10px 18px !important;
+            border-radius: 14px !important;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 3px;
+        }
+
+        .navbar .dropdown-item:hover,
+        .navbar .dropdown-item:focus {
+            color: #2563eb !important;
+            background-color: #eff6ff !important;
+            transform: translateX(4px);
+        }
+
+        .navbar .dropdown-item.active {
+            color: #2563eb !important;
+            background-color: #eff6ff !important;
+            font-weight: 700 !important;
+        }
+
+        .curemed-footer {
+            background-color: #0b132a;
+            color: #94a3b8;
+            padding: 60px 0 25px;
+            margin-top: auto;
+            font-size: 0.92rem;
+        }
+
+        .curemed-footer h5 {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .curemed-footer a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .curemed-footer a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 40px;
+            padding-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Global Animated Scroll Progress Bar -->
+    <div id="scrollProgressBar" class="scroll-progress-bar"></div>
+
+    <!-- Medical Care Navigation Bar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-3 px-xl-4">
+            <a class="brand-logo flex-shrink-0" href="index.html">
+                <span class="brand-badge-dot"><i class="bi bi-heart-pulse-fill"></i></span>
+                <span>Medical <span class="brand-highlight">Care</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2 text-dark"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active text-nowrap" href="index.html">HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-nowrap" href="#servicesSection" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            SERVICES
+                        </a>
+                        <ul class="dropdown-menu shadow-lg rounded-4 p-2 border-0" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="appointment/doctors.html"><i class="bi bi-calendar2-check text-primary me-2"></i>HOSPITAL APPOINTMENT</a></li>
+                            <li><a class="dropdown-item" href="donor/donors.html"><i class="bi bi-droplet-half text-danger me-2"></i>BLOOD DONOR NETWORK</a></li>
+                            <li><a class="dropdown-item" href="medicine/medicines.html"><i class="bi bi-capsule text-success me-2"></i>MEDICINE REMINDER</a></li>
+                            <li><a class="dropdown-item" href="wellness/records.html"><i class="bi bi-heart-pulse text-warning me-2"></i>MENTAL WELLNESS</a></li>
+                            <li><a class="dropdown-item" href="medical/records.html"><i class="bi bi-file-earmark-medical text-info me-2"></i>MEDICAL RECORDS</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap" href="#aboutUsSection">ABOUT US</a>
+                    </li>
+                </ul>
+                <div id="navbarAuthSection" class="d-flex align-items-center gap-2 flex-shrink-0"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CureMed Hero Banner Section -->
+    <header class="home-banner-section d-flex align-items-center justify-content-center" id="heroBanner">
+        <!-- Ambient Interactive Cursor Spotlight -->
+        <div class="hero-cursor-spotlight" id="heroCursorSpotlight"></div>
+
+        <!-- Ambient Dynamic Aurora Glow Orbs -->
+        <div class="hero-aurora-orb orb-1"></div>
+        <div class="hero-aurora-orb orb-2"></div>
+        <div class="hero-aurora-orb orb-3"></div>
+
+        <!-- Floating 3D Graphic assets with Webflow rotations & interactive parallax -->
+        <div class="left-image-banner" id="parallaxLeft">
+            <div class="asset-glow-aura left-glow"></div>
+            <img src="images/wave-clean-transparent.png?v=6.0" class="image-3d-left" id="floatingPill" alt="3D Pill Asset">
+        </div>
+        <div class="right-image-banner" id="parallaxRight">
+            <div class="asset-glow-aura right-glow"></div>
+            <img src="images/heart-clean-transparent.png?v=6.0"
+                class="image-3d-right" id="floatingHeart" alt="3D Heart Asset">
+        </div>
+
+        <!-- Animated Ambient ECG Pulse Line -->
+        <div class="hero-ecg-track">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="hero-ecg-svg">
+                <defs>
+                    <linearGradient id="ecgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"></stop>
+                        <stop offset="25%" stop-color="#06b6d4" stop-opacity="1"></stop>
+                        <stop offset="50%" stop-color="#2563eb" stop-opacity="1"></stop>
+                        <stop offset="75%" stop-color="#8b5cf6" stop-opacity="1"></stop>
+                        <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.3"></stop>
+                    </linearGradient>
+                </defs>
+                <path d="M 0,60 L 140,60 C 148,60 154,52 162,52 C 170,52 174,60 182,60 C 188,60 191,66 196,66 C 201,66 204,16 210,16 C 216,16 219,104 225,104 C 231,104 235,36 243,36 C 251,36 257,72 264,72 C 270,72 274,60 285,60 L 540,60 C 548,60 554,52 562,52 C 570,52 574,60 582,60 C 588,60 591,66 596,66 C 601,66 604,16 610,16 C 616,16 619,104 625,104 C 631,104 635,36 643,36 C 651,36 657,72 664,72 C 670,72 674,60 685,60 L 940,60 C 948,60 954,52 962,52 C 970,52 974,60 982,60 C 988,60 991,66 996,66 C 1001,66 1004,16 1010,16 C 1016,16 1019,104 1025,104 C 1031,104 1035,36 1043,36 C 1051,36 1057,72 1064,72 C 1070,72 1074,60 1085,60 L 1200,60" class="ecg-line"></path>
+            </svg>
+        </div>
+
+        <!-- Decorative Floating Medical Particles -->
+        <div class="hero-particle" style="top: 18%; left: 16%; animation-delay: 0s;">✦</div>
+        <div class="hero-particle" style="top: 24%; right: 18%; animation-delay: 1.4s; font-size: 1.3rem;">✚</div>
+        <div class="hero-particle" style="bottom: 22%; left: 22%; animation-delay: 0.9s; font-size: 1.3rem;">✚</div>
+        <div class="hero-particle" style="bottom: 26%; right: 20%; animation-delay: 2.1s;">✦</div>
+        <div class="hero-particle" style="top: 65%; left: 12%; animation-delay: 3.2s; font-size: 0.75rem;">●</div>
+        <div class="hero-particle" style="top: 42%; right: 14%; animation-delay: 1.8s; font-size: 0.75rem;">●</div>
+
+        <div class="container text-center position-relative my-auto" style="z-index: 2;">
+            <div class="top-banner-content position-relative">
+                <h1 class="heading-banner hero-anim-1 position-relative" style="z-index: 1;">
+                    <span class="heading-line">Healthcare that feels personal,</span>
+                    <span class="heading-line">compassionate &amp; <span class="gradient-text-shimmer">made for you</span></span>
+                </h1>
+                <p class="maxw-banner-text hero-anim-2">
+                    When you or someone you love needs medical help, you deserve doctors who truly listen and care that feels human. From routine consultations and medicine reminders to urgent blood donor support, we're here for your family every step of the way.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center hero-anim-3 mb-0">
+                    <a href="appointment/book.html" class="primary-button hero-action-btn">
+                        <span>Book an Appointment</span> <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="dashboard.html" class="secondary-button">
+                        <i class="bi bi-grid-fill me-1 text-primary"></i> <span>Your Health Dashboard</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Partners / Accreditations Bar -->
+    <section class="partners-block">
+        <div class="container">
+            <div class="row align-items-center justify-content-between gy-3 text-center text-md-start">
+                <div class="col-auto mx-auto mx-md-0">
+                    <span class="text-uppercase small fw-bold text-muted">Your Peace of Mind Matters:</span>
+                </div>
+                <div class="col-auto mx-auto mx-md-0 partner-item">
+                    <i class="bi bi-patch-check-fill text-primary"></i> Certified Medical Care
+                </div>
+                <div class="col-auto mx-auto mx-md-0 partner-item">
+                    <i class="bi bi-shield-lock-fill text-success"></i> 100% Private &amp; Secure Records
+                </div>
+                <div class="col-auto mx-auto mx-md-0 partner-item">
+                    <i class="bi bi-heart-pulse-fill text-danger"></i> Verified Life-Saving Donors
+                </div>
+                <div class="col-auto mx-auto mx-md-0 partner-item">
+                    <i class="bi bi-clock-history text-warning"></i> Ready Whenever You Need Us
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- "What Makes Us Different" Section (About Us) -->
+    <section class="py-5 bg-white" id="aboutUsSection">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 reveal-on-scroll">
+                    <span class="curemed-label">CARE THAT LISTENS</span>
+                    <h2 class="display-6 fw-bold mb-3">Healthcare built around real people, not confusing paperwork</h2>
+                    <p class="text-muted mb-4 lead fs-6">
+                        Health concerns can feel stressful and scary. Long waiting rooms and endless forms shouldn't make things harder. We created Medical Care so you and your loved ones can get honest advice, kindhearted doctor consultations, and everyday health tools—all in one comforting place.
+                    </p>
+                    <div class="d-flex gap-5 my-4">
+                        <div>
+                            <div class="display-5 fw-bold text-primary counter-animate" data-target="200">200+</div>
+                            <div class="text-muted fw-semibold mt-1">Friendly visits every day</div>
+                        </div>
+                        <div>
+                            <div class="display-5 fw-bold text-success counter-animate" data-target="1000">1000+</div>
+                            <div class="text-muted fw-semibold mt-1">Dedicated doctors &amp; lifesavers</div>
+                        </div>
+                    </div>
+                    <a href="dashboard.html" class="primary-button mt-2">
+                        <span>Explore Patient Care</span> <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="benefit-card reveal-on-scroll reveal-delay-1">
+                        <div class="benefit-icon-box bg-primary-subtle text-primary">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Doctors Who Truly Listen</h5>
+                            <div class="text-muted small">You're never just a chart number. Our experienced physicians take time to hear your full story and answer questions with patience.</div>
+                        </div>
+                    </div>
+                    <div class="benefit-card reveal-on-scroll reveal-delay-2">
+                        <div class="benefit-icon-box bg-success-subtle text-success">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Simple, Stress-Free Help</h5>
+                            <div class="text-muted small">Book visits in two minutes, reach caring specialists quickly, and find voluntary blood donors without complicated bureaucratic hurdles.</div>
+                        </div>
+                    </div>
+                    <div class="benefit-card reveal-on-scroll reveal-delay-3">
+                        <div class="benefit-icon-box bg-info-subtle text-info">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Support in Your Corner</h5>
+                            <div class="text-muted small">From routine checkups to sudden concerns, friendly cardiologists, pediatricians, neurologists, and wellness mentors are here for you.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CureMed Services Showcase ("How we can help") -->
+    <section class="py-5 bg-light" id="servicesSection">
+        <div class="container">
+            <div class="text-center mb-5 reveal-on-scroll">
+                <span class="curemed-label">EVERYDAY HEALTHCARE COMPANION</span>
+                <h2 class="display-6 fw-bold">Thoughtful support for every step of your health journey</h2>
+                <p class="text-muted mx-auto" style="max-width: 620px;">Whether it's an urgent consultation, a gentle pill reminder, or finding a blood donor, we've brought every health essential into one friendly space.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Service: Hospital Appointment -->
+                <div class="col-lg-4 col-md-6 reveal-on-scroll reveal-delay-1">
+                    <div class="srvc-item-card">
+                        <div class="srvc-image-wrap">
+                            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=700&q=80"
+                                alt="Hospital Doctor Consultation">
+                            <span class="srvc-badge-overlay text-primary"><i class="bi bi-calendar-check me-1"></i>
+                                Appointments</span>
+                        </div>
+                        <div class="srvc-description">
+                            <h4>Doctor Consultations</h4>
+                            <p>Pick a doctor you feel comfortable with, choose a convenient date and time, and get confirmed without standing in long clinic lines.</p>
+                            <a href="appointment/book.html" class="link-with-icon">
+                                <span>Schedule a Visit</span> <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service: Blood Donor Directory -->
+                <div class="col-lg-4 col-md-6 reveal-on-scroll reveal-delay-2">
+                    <div class="srvc-item-card">
+                        <div class="srvc-image-wrap">
+                            <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=700&q=80"
+                                alt="Blood Donation Care">
+                            <span class="srvc-badge-overlay text-danger"><i class="bi bi-droplet-half me-1"></i> Blood
+                                Network</span>
+                        </div>
+                        <div class="srvc-description">
+                            <h4>Volunteer Blood Network</h4>
+                            <p>In critical moments, hope is just a phone call away. Connect with kindhearted, verified voluntary donors nearby across all blood groups.</p>
+                            <a href="donor/donors.html" class="link-with-icon text-danger">
+                                <span>Find Donors Nearby</span> <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service: Medicine Reminder -->
+                <div class="col-lg-4 col-md-6 reveal-on-scroll reveal-delay-3">
+                    <div class="srvc-item-card">
+                        <div class="srvc-image-wrap">
+                            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=700&q=80"
+                                alt="Medicine Scheduling">
+                            <span class="srvc-badge-overlay text-warning"><i class="bi bi-capsule me-1"></i>
+                                Daily Care</span>
+                        </div>
+                        <div class="srvc-description">
+                            <h4>Gentle Medicine Alerts</h4>
+                            <p>Life gets busy, but staying healthy shouldn't slip your mind. Set friendly morning and night alerts for pills and daily vitamins.</p>
+                            <a href="medicine/medicines.html" class="link-with-icon text-warning">
+                                <span>Set Up Reminders</span> <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service: Mental Wellness -->
+                <div class="col-lg-6 col-md-6 reveal-on-scroll reveal-delay-1">
+                    <div class="srvc-item-card">
+                        <div class="srvc-image-wrap">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80"
+                                alt="Mental Wellness Mindfulness">
+                            <span class="srvc-badge-overlay" style="color:#7c3aed;"><i
+                                    class="bi bi-emoji-smile me-1"></i> Peace of Mind</span>
+                        </div>
+                        <div class="srvc-description">
+                            <h4>Mind &amp; Mood Journal</h4>
+                            <p>Your emotional well-being matters just as much as physical health. Take a quiet minute each day to log feelings and nurture your calm.</p>
+                            <a href="wellness/records.html" class="link-with-icon" style="color:#7c3aed;">
+                                <span>Check In With Yourself</span> <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service: Medical Records -->
+                <div class="col-lg-6 col-md-12 reveal-on-scroll reveal-delay-2">
+                    <div class="srvc-item-card">
+                        <div class="srvc-image-wrap">
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80"
+                                alt="Medical Health Records">
+                            <span class="srvc-badge-overlay text-success"><i class="bi bi-journal-medical me-1"></i>
+                                Safe &amp; Organized</span>
+                        </div>
+                        <div class="srvc-description">
+                            <h4>Safe Health History</h4>
+                            <p>No more searching through piles of old folders. Keep prescriptions, doctor notes, and past test results safely organized in your pocket.</p>
+                            <a href="medical/records.html" class="link-with-icon text-success">
+                                <span>Access Your Records</span> <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real Patient Stories & Heartfelt Community -->
+    <section class="py-5 bg-white" id="patientStoriesSection">
+        <div class="container">
+            <div class="text-center mb-5 reveal-on-scroll">
+                <span class="curemed-label">PATIENT EXPERIENCES</span>
+                <h2 class="display-6 fw-bold">Care that touches real lives every day</h2>
+                <p class="text-muted mx-auto" style="max-width: 600px;">Every week, families like yours trust us with what matters most. Here is what they have to say.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 reveal-on-scroll reveal-delay-1">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 bg-light">
+                        <div class="d-flex align-items-center mb-3 text-warning">
+                            <i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="text-secondary fst-italic mb-4">"Booking my mother's cardiac check-up was so simple. The doctor took all the time she needed to explain tests gently. She felt listened to and genuinely cared for."</p>
+                        <div class="d-flex align-items-center gap-3 mt-auto">
+                            <div class="rounded-circle bg-primary text-white fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">PS</div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Priya Sharma</h6>
+                                <small class="text-muted">Family Caregiver, Delhi</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal-on-scroll reveal-delay-2">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 bg-light">
+                        <div class="d-flex align-items-center mb-3 text-warning">
+                            <i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="text-secondary fst-italic mb-4">"When my brother urgently needed a blood transfusion late at night, the voluntary donor network helped us find a willing donor in 20 minutes. A true lifesaver."</p>
+                        <div class="d-flex align-items-center gap-3 mt-auto">
+                            <div class="rounded-circle bg-danger text-white fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">RV</div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Rajesh Varma</h6>
+                                <small class="text-muted">Blood Network Beneficiary</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 reveal-on-scroll reveal-delay-3">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 bg-light">
+                        <div class="d-flex align-items-center mb-3 text-warning">
+                            <i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="text-secondary fst-italic mb-4">"The daily medicine reminder notifications have been a huge relief for my grandparents. No more second-guessing whether pills were taken or missed."</p>
+                        <div class="d-flex align-items-center gap-3 mt-auto">
+                            <div class="rounded-circle bg-success text-white fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">AP</div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Ananya Patel</h6>
+                                <small class="text-muted">Family Member</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Doctors Showcase Section -->
+    <section class="py-5 bg-white" id="doctorsSection">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 reveal-on-scroll">
+                <div>
+                    <span class="curemed-label">CARING SPECIALISTS</span>
+                    <h2 class="fw-bold">Doctors who treat you with warmth &amp; respect</h2>
+                    <p class="text-muted mb-0">Meet certified physicians and specialists devoted to listening closely and guiding your recovery with empathy.</p>
+                </div>
+                <a href="appointment/doctors.html" class="primary-button mt-3 mt-md-0">
+                    <span>Meet All Doctors</span> <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="row g-4" id="homeDoctorsRow">
+                <div class="col-12 text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading doctors...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CureMed Signature Footer -->
+    <footer class="curemed-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="brand-logo text-white mb-3" href="index.html">
+                        <span class="brand-badge-dot"><i class="bi bi-heart-pulse-fill"></i></span>
+                        <span class="text-white">Medical <span class="text-primary">Care</span></span>
+                    </a>
+                    <p class="text-secondary pe-lg-4 mt-2">
+                        Medical Care is your family’s trusted healthcare companion. From compassionate doctor visits to emergency blood donors, daily pill reminders, and private health records, we make taking care of your loved ones simple, comforting, and always within reach.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5>Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="appointment/appointments.html">Appointments</a></li>
+                        <li class="mb-2"><a href="donor/donors.html">Blood Donors</a></li>
+                        <li class="mb-2"><a href="medicine/medicines.html">Medicine Reminders</a></li>
+                        <li class="mb-2"><a href="wellness/records.html">Mood Logs</a></li>
+                        <li class="mb-2"><a href="medical/records.html">Medical Records</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5>Quick Access</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="dashboard.html">My Dashboard</a></li>
+                        <li class="mb-2"><a href="appointment/doctors.html">Doctors Directory</a></li>
+                        <li class="mb-2"><a href="donor/register.html">Donor Registration</a></li>
+                        <li class="mb-2"><a href="login.html">Sign In</a></li>
+                        <li class="mb-2"><a href="register.html">Create Account</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5>Emergency Contact & Location</h5>
+                    <p class="mb-1 text-white fw-bold"><i class="bi bi-telephone-fill text-primary me-2"></i> +91 11
+                        2658 8500 / 1800-11-CARE</p>
+                    <p class="mb-1 text-light"><i class="bi bi-truck-front-fill text-danger me-2"></i> National
+                        Emergency & Ambulance: <strong>112 / 108</strong></p>
+                    <p class="mb-1 text-secondary"><i class="bi bi-geo-alt-fill text-danger me-2"></i> Ansari Nagar,
+                        Ring Road, New Delhi, Delhi 110029, India</p>
+                    <p class="mb-0 text-secondary"><i class="bi bi-envelope-fill text-warning me-2"></i>
+                        contact@medicalcare.in</p>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <div>&copy; 2026 Medical Care Clinic. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Back to Top Button with Circular Progress Gauge -->
+    <button id="backToTopBtn" class="back-to-top-btn" aria-label="Back to Top" title="Back to top">
+        <svg class="progress-ring" width="46" height="46">
+            <circle class="progress-ring__circle" stroke="#2563eb" stroke-width="3" fill="transparent" r="20" cx="23" cy="23" />
+        </svg>
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap Bundle JS & Auth Script (Relative paths) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js?v=8.0"></script>
+
+    <!-- CureMed Webflow Animation & Interaction Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // -------------------------------------------------------------
+            // 1. Interactive 3D Parallax on Hero Floating Assets & Particles
+            // -------------------------------------------------------------
+            const heroBanner = document.getElementById('heroBanner');
+            const parallaxLeft = document.getElementById('parallaxLeft');
+            const parallaxRight = document.getElementById('parallaxRight');
+            const heroParticles = document.querySelectorAll('.hero-particle');
+
+            if (heroBanner && parallaxLeft && parallaxRight) {
+                let targetX = 0, targetY = 0;
+                let currentX = 0, currentY = 0;
+                let isMouseOver = false;
+                let hasStartedMouse = false;
+
+                heroBanner.addEventListener('mousemove', (e) => {
+                    hasStartedMouse = true;
+                    const rect = heroBanner.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    targetX = (e.clientX - centerX) / (rect.width / 2);
+                    targetY = (e.clientY - centerY) / (rect.height / 2);
+                    isMouseOver = true;
+                });
+
+                heroBanner.addEventListener('mouseleave', () => {
+                    targetX = 0;
+                    targetY = 0;
+                    isMouseOver = false;
+                });
+
+                function updateParallax() {
+                    if (hasStartedMouse) {
+                        currentX += (targetX - currentX) * 0.08;
+                        currentY += (targetY - currentY) * 0.08;
+
+                        const moveXLeft = currentX * -26;
+                        const moveYLeft = currentY * -24;
+                        const moveXRight = currentX * 28;
+                        const moveYRight = currentY * 26;
+
+                        parallaxLeft.style.transform = `translate3d(${moveXLeft.toFixed(2)}px, ${moveYLeft.toFixed(2)}px, 0)`;
+                        parallaxRight.style.transform = `translate3d(${moveXRight.toFixed(2)}px, ${moveYRight.toFixed(2)}px, 0)`;
+
+                        // Subtle depth shift for particles
+                        heroParticles.forEach((p, idx) => {
+                            const factor = (idx % 3 + 1) * 6;
+                            p.style.transform = `translate3d(${(currentX * factor).toFixed(2)}px, ${(currentY * factor).toFixed(2)}px, 0)`;
+                        });
+                    }
+
+                    requestAnimationFrame(updateParallax);
+                }
+                requestAnimationFrame(updateParallax);
+            }
+
+            // -------------------------------------------------------------
+            // 2. Animated Number Counters (e.g. 320+, 200+, 1000+)
+            // -------------------------------------------------------------
+            function animateCounter(el) {
+                if (el.dataset.hasAnimated === 'true') return;
+                el.dataset.hasAnimated = 'true';
+
+                const target = parseInt(el.getAttribute('data-target') || el.textContent.replace(/\D/g, ''), 10);
+                if (isNaN(target)) return;
+
+                const duration = 1600; // ms
+                const startTime = performance.now();
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // easeOutExpo curve for snappy start and gentle settle
+                    const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    const currentVal = Math.floor(ease * target);
+
+                    el.textContent = currentVal.toLocaleString() + '+';
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toLocaleString() + '+';
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+
+            // -------------------------------------------------------------
+            // 3. Webflow Scroll Reveal Engine (IntersectionObserver)
+            // -------------------------------------------------------------
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px 0px -40px 0px',
+                    threshold: 0.12
+                };
+
+                const scrollObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+
+                            // Trigger any counters nested inside this revealed element
+                            const nestedCounters = entry.target.querySelectorAll('.counter-animate');
+                            nestedCounters.forEach(animateCounter);
+
+                            if (entry.target.classList.contains('counter-animate')) {
+                                animateCounter(entry.target);
+                            }
+
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                revealElements.forEach(el => scrollObserver.observe(el));
+
+                // Also observe any standalone counters
+                document.querySelectorAll('.counter-animate').forEach(el => {
+                    scrollObserver.observe(el);
+                });
+            } else {
+                // Fallback for older browsers without IntersectionObserver
+                revealElements.forEach(el => el.classList.add('is-visible'));
+                document.querySelectorAll('.counter-animate').forEach(animateCounter);
+            }
+
+            // -------------------------------------------------------------
+            // 4. Dynamic Doctor Showcase Fetcher
+            // -------------------------------------------------------------
+            const loadHomeDoctors = async () => {
+                const row = document.getElementById('homeDoctorsRow');
+                if (!row) return;
+
+                try {
+                    const res = await fetch('/api/doctors');
+                    const data = await res.json();
+                    if (res.ok && data.success && Array.isArray(data.data) && data.data.length > 0) {
+                        const topDoctors = data.data.slice(0, 4);
+                        const resolveImg = (doc) => {
+                            if (doc && doc.image) {
+                                if (doc.image.startsWith('http://') || doc.image.startsWith('https://') || doc.image.startsWith('/') || doc.image.startsWith('data:')) {
+                                    return doc.image;
+                                }
+                                return '/' + doc.image.replace(/^\.\.\//, '').replace(/^\.\//, '');
+                            }
+                            return '/images/male-doctor.jpg';
+                        };
+
+                        row.innerHTML = topDoctors.map((doc, idx) => {
+                            const imgSrc = resolveImg(doc);
+                            return `
+                                <div class="col-lg-3 col-md-6 reveal-on-scroll is-visible reveal-delay-${(idx % 4) + 1}">
+                                    <div class="team-item-card">
+                                        <div class="team-img-wrap">
+                                            <img src="${imgSrc}" alt="${doc.name}" loading="lazy" onerror="this.src='/images/male-doctor.jpg'">
+                                        </div>
+                                        <div class="p-3">
+                                            <h5 class="fw-bold mb-1">${doc.name}</h5>
+                                            <div class="text-primary fw-semibold small mb-1">${doc.specialization}</div>
+                                            <div class="text-muted small mb-3">${doc.department} • ${doc.hospital || 'AIIMS'} • ${doc.experience || '5+ Yrs Exp'}</div>
+                                            <a href="appointment/book.html?doctorId=${doc._id}"
+                                                class="btn btn-outline-primary btn-sm rounded-pill w-100 fw-semibold">Book Visit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        row.innerHTML = `
+                            <div class="col-12 text-center py-5">
+                                <p class="text-muted"><i class="bi bi-info-circle me-2"></i>No specialist doctors currently listed.</p>
+                            </div>
+                        `;
+                    }
+                } catch (err) {
+                    console.warn('Could not load live doctors on homepage:', err);
+                    row.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <p class="text-muted"><i class="bi bi-info-circle me-2"></i>No specialist doctors currently listed.</p>
+                        </div>
+                    `;
+                }
+            };
+            loadHomeDoctors();
+
+            // -------------------------------------------------------------
+            // 5. Scroll Progress Bar & Back to Top Controller
+            // -------------------------------------------------------------
+            const scrollProgressBar = document.getElementById('scrollProgressBar');
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            const circle = backToTopBtn ? backToTopBtn.querySelector('.progress-ring__circle') : null;
+            let radius = 20;
+            let circumference = 2 * Math.PI * radius;
+            if (circle) {
+                circle.style.strokeDasharray = `${circumference} ${circumference}`;
+                circle.style.strokeDashoffset = `${circumference}`;
+            }
+
+            window.addEventListener('scroll', () => {
+                const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+
+                const navbarEl = document.querySelector('.navbar');
+                if (navbarEl) {
+                    if (winScroll > 18) {
+                        navbarEl.classList.add('navbar-scrolled');
+                    } else {
+                        navbarEl.classList.remove('navbar-scrolled');
+                    }
+                }
+
+                if (scrollProgressBar) {
+                    scrollProgressBar.style.width = scrolled + '%';
+                }
+
+                if (backToTopBtn) {
+                    if (winScroll > 320) {
+                        backToTopBtn.classList.add('is-active');
+                    } else {
+                        backToTopBtn.classList.remove('is-active');
+                    }
+                    if (circle) {
+                        const offset = circumference - (scrolled / 100) * circumference;
+                        circle.style.strokeDashoffset = offset;
+                    }
+                }
+            }, { passive: true });
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // -------------------------------------------------------------
+            // 6. Hero Ambient Cursor Spotlight Tracking
+            // -------------------------------------------------------------
+            const heroSpotlight = document.getElementById('heroCursorSpotlight');
+            if (heroBanner && heroSpotlight) {
+                heroBanner.addEventListener('mouseenter', () => {
+                    heroSpotlight.style.opacity = '1';
+                });
+                heroBanner.addEventListener('mouseleave', () => {
+                    heroSpotlight.style.opacity = '0';
+                });
+                heroBanner.addEventListener('mousemove', (e) => {
+                    const rect = heroBanner.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    heroSpotlight.style.left = `${x}px`;
+                    heroSpotlight.style.top = `${y}px`;
+                });
+            }
+
+            // -------------------------------------------------------------
+            // 7. 3D Perspective Card Tilt
+            // -------------------------------------------------------------
+            const interactiveCards = document.querySelectorAll('.srvc-item-card, .benefit-card, .team-item-card, .hero-floating-badge');
+            interactiveCards.forEach(card => {
+                card.classList.add('tilt-card');
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+
+            // -------------------------------------------------------------
+            // 8. Hero Button Periodic Glow / Shine Trigger
+            // -------------------------------------------------------------
+            const heroActionBtn = document.querySelector('.primary-button.hero-action-btn');
+            if (heroActionBtn) {
+                setInterval(() => {
+                    heroActionBtn.classList.add('auto-shine');
+                    setTimeout(() => heroActionBtn.classList.remove('auto-shine'), 850);
+                }, 4000);
+            }
+        });
+    </script>
+</body>
+
+</html>
