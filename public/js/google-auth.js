@@ -2,16 +2,76 @@
  * ============================================================================
  * Medical Care Google Authentication Module
  * Supports:
- * 1. Real Gmail account sign-in / registration
- * 2. Official Google Identity Services (GSI) OAuth 2.0 Client Popup
- * 3. Asks for Username & Password when registering a NEW Google user!
+ * 1. Official Google Identity Services (GSI) OAuth 2.0 Client Popup
+ * 2. Instant 1-Click Sign-In & Sign-Up with Google Account Chooser
+ * 3. Fallback direct Gmail login modal
  * ============================================================================
  */
 
 (function () {
     const GOOGLE_MODAL_ID = 'medicalCareGoogleAuthModal';
-    let cachedClientId = '';
+    const DEFAULT_CLIENT_ID = '281398937536-6kmuthhrcmet85ls1kiiv0fhpch8a3bo.apps.googleusercontent.com';
+    let cachedClientId = DEFAULT_CLIENT_ID;
+    let tokenClient = null;
     let pendingNewGoogleUserData = null;
+
+    function resolvePrefix() {
+        if (typeof getPrefix === 'function') {
+            try { return getPrefix(); } catch (e) {}
+        }
+        const p = window.location.pathname.replace(/\\/g, '/');
+        if (p.includes('/appointment/') || p.includes('/donor/') || p.includes('/medicine/') || p.includes('/wellness/') || p.includes('/medical/') || p.includes('/admin/') || p.includes('/doctor/')) {
+            return '../';
+        }
+        return '';
+    }
+
+    function setButtonsLoading(isLoading, customText) {
+        const btns = document.querySelectorAll('#googleSignUpBtn, #googleSignInBtn, .btn-google-trigger');
+        btns.forEach(btn => {
+            if (isLoading) {
+                btn.disabled = true;
+                if (!btn.dataset.originalHtml) {
+                    btn.dataset.originalHtml = btn.innerHTML;
+                }
+                btn.innerHTML = `
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="width: 1.1rem; height: 1.1rem;"></span>
+                    <span>${customText || 'Connecting to Google...'}</span>
+                `;
+            } else {
+                btn.disabled = false;
+                if (btn.dataset.originalHtml) {
+                    btn.innerHTML = btn.dataset.originalHtml;
+                }
+            }
+        });
+    }
+
+    function setButtonsSuccess(msg) {
+        const btns = document.querySelectorAll('#googleSignUpBtn, #googleSignInBtn, .btn-google-trigger');
+        btns.forEach(btn => {
+            btn.disabled = true;
+            btn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2 text-success" role="status" aria-hidden="true" style="width: 1.1rem; height: 1.1rem;"></span>
+                <span class="text-success fw-bold">${msg || 'Success! Redirecting...'}</span>
+            `;
+        });
+    }
+
+    function showAuthAlert(msg, type = 'danger') {
+        if (window.showToast) {
+            window.showToast(msg, type);
+        } else {
+            const pageAlert = document.getElementById('loginAlert') || document.getElementById('registerAlert');
+            if (pageAlert) {
+                pageAlert.className = `alert alert-${type} mb-3`;
+                pageAlert.textContent = msg;
+                pageAlert.classList.remove('d-none');
+            } else {
+                alert(msg);
+            }
+        }
+    }
 
     // Dynamically load Google Identity Services SDK
     function loadGoogleGSI() {
@@ -42,7 +102,7 @@
         } catch (e) {
             console.warn('Could not fetch auth config:', e);
         }
-    let tokenClient = null;
+    }
 
     // Initialize official Google Identity Services OAuth2 token client
     function checkAndInitGSI() {
@@ -55,6 +115,7 @@
                     callback: async (tokenResponse) => {
                         if (tokenResponse && tokenResponse.access_token) {
                             try {
+                                setButtonsLoading(true, 'Securing your account...');
                                 const userRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                                 });
@@ -66,15 +127,35 @@
                                         googleId: profile.sub || '',
                                         picture: profile.picture || ''
                                     });
+                                } else {
+                                    setButtonsLoading(false);
+                                    showAuthAlert('Unable to read Google profile data.');
                                 }
                             } catch (err) {
                                 console.error('Google profile fetch error:', err);
+                                setButtonsLoading(false);
+                                showAuthAlert('Error contacting Google: ' + err.message);
                             }
+                        } else if (tokenResponse && tokenResponse.error) {
+                            console.warn('Google OAuth error:', tokenResponse.error);
+                            setButtonsLoading(false);
+                            if (tokenResponse.error !== 'popup_closed_by_user') {
+                                showAuthAlert('Google Sign-In: ' + (tokenResponse.error_description || tokenResponse.error));
+                            }
+                        } else {
+                            setButtonsLoading(false);
+                        }
+                    },
+                    error_callback: (err) => {
+                        console.error('Google OAuth error callback:', err);
+                        setButtonsLoading(false);
+                        if (err && err.type === 'popup_failed_to_open') {
+                            showAuthAlert('Popup blocked by browser. Please allow popups for this site.');
                         }
                     }
                 });
 
-                // Ensure our custom clean Google button is always visible
+                // Ensure our custom clean Google button is visible
                 const fallbackBtn = document.getElementById('googleSignUpBtn') || document.getElementById('googleSignInBtn');
                 if (fallbackBtn) {
                     fallbackBtn.style.display = '';
@@ -169,7 +250,7 @@
                                         Save & Launch Real Google Popup
                                     </button>
                                     <div class="text-muted" style="font-size: 0.72rem;">
-                                        Get your free Client ID at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Google Cloud Console</a> with origin <code>http://localhost:5000</code>.
+                                        Get your free Client ID at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Google Cloud Console</a> with origin <code>https://medicalcare-ten.vercel.app</code>.
                                     </div>
                                 </div>
                             </div>
@@ -284,8 +365,6 @@
         const newUserBody = document.getElementById('googleNewUserBody');
         const spinner = document.getElementById('googleLoadingSpinner');
         const alertEl = document.getElementById('googleAuthAlert');
-        const loadTitle = document.getElementById('googleLoadingTitle');
-        const loadSub = document.getElementById('googleLoadingSub');
 
         if (mainBody) mainBody.classList.add('d-none');
         if (newUserBody) newUserBody.classList.add('d-none');
@@ -305,9 +384,7 @@
                 throw new Error(data.message || 'Google authentication failed');
             }
 
-            // ========================================================
-            // CASE 1: NEW USER - Ask for Username and Password!
-            // ========================================================
+            // CASE 1: NEW USER - Ask for Username and Password if server requests it
             if (data.isNewUser) {
                 pendingNewGoogleUserData = {
                     email: data.email,
@@ -316,7 +393,6 @@
                     picture: data.picture || ''
                 };
 
-                // Sync with on-page register.html fields if present
                 const pageName = document.getElementById('name');
                 const pageEmail = document.getElementById('email');
                 if (pageName && !pageName.value) pageName.value = data.name || '';
@@ -325,7 +401,6 @@
                 if (spinner) spinner.classList.add('d-none');
                 if (mainBody) mainBody.classList.add('d-none');
 
-                // Populate and display Step 2 form
                 const emailDisplay = document.getElementById('googleNewUserEmailDisplay');
                 const usernameInput = document.getElementById('googleRegUsername');
                 const passwordInput = document.getElementById('googleRegPassword');
@@ -340,7 +415,12 @@
 
                 if (modalInstance) {
                     modalInstance.show();
+                } else {
+                    const modalEl = document.getElementById(GOOGLE_MODAL_ID);
+                    if (modalEl) bootstrap.Modal.getOrCreateInstance(modalEl).show();
                 }
+
+                setButtonsLoading(false);
 
                 setTimeout(() => {
                     if (usernameInput && !usernameInput.value) {
@@ -353,20 +433,19 @@
                 return;
             }
 
-            // ========================================================
-            // CASE 2: EXISTING USER or SUCCESSFUL REGISTRATION COMPLETE
-            // ========================================================
+            // CASE 2: SUCCESSFUL LOGIN OR AUTO-REGISTRATION
             pendingNewGoogleUserData = null;
 
             // Save Auth session
-            if (window.Auth && window.Auth.login) {
-                window.Auth.login(data.token, data.user);
+            if (typeof setAuthSession === 'function') {
+                setAuthSession(data.token, data.user);
             } else {
                 localStorage.setItem('medical_care_jwt_token', data.token);
                 localStorage.setItem('medical_care_user_profile', JSON.stringify(data.user));
             }
 
-            // Show rich success message
+            setButtonsSuccess(`Welcome, ${data.user.name || 'User'}! Redirecting...`);
+
             if (spinner) {
                 spinner.innerHTML = `
                     <div class="d-inline-flex p-3 rounded-circle bg-success-subtle text-success mb-2">
@@ -381,20 +460,21 @@
             setTimeout(() => {
                 if (modalInstance) modalInstance.hide();
                 const u = data.user;
+                const prefix = resolvePrefix();
                 if (u && u.role === 'Admin') {
-                    window.location.href = getPrefix() + 'admin/index.html';
+                    window.location.href = prefix + 'admin/index.html';
                 } else if (u && (u.role === 'Doctor' || u.doctorAccess)) {
-                    window.location.href = getPrefix() + 'doctor/index.html';
+                    window.location.href = prefix + 'doctor/index.html';
                 } else {
-                    window.location.href = getPrefix() + 'dashboard.html';
+                    window.location.href = prefix + 'dashboard.html';
                 }
-            }, 600);
+            }, 500);
 
         } catch (err) {
             console.error('Google Auth Error:', err);
+            setButtonsLoading(false);
             if (spinner) spinner.classList.add('d-none');
 
-            // If we were in new user registration mode, keep user on new user body
             if (pendingNewGoogleUserData && newUserBody) {
                 newUserBody.classList.remove('d-none');
             } else if (mainBody) {
@@ -405,6 +485,8 @@
                 alertEl.textContent = err.message || 'Authentication error. Please try again.';
                 alertEl.classList.remove('d-none');
             }
+
+            showAuthAlert(err.message || 'Google authentication failed. Please try again.');
         }
     }
 
@@ -423,9 +505,7 @@
                 const name = document.getElementById('realGmailName').value.trim();
 
                 if (!email) {
-                    if (window.showToast) {
-                        window.showToast('Please enter your Gmail address', 'warning');
-                    }
+                    showAuthAlert('Please enter your Gmail address', 'warning');
                     return;
                 }
 
@@ -480,7 +560,6 @@
                     return;
                 }
 
-                // Submit with chosen username and password to create account!
                 executeGoogleAuth({
                     email: pendingNewGoogleUserData.email,
                     name: username,
@@ -527,7 +606,7 @@
             });
         }
 
-        // Reset to Step 1 when modal is completely closed
+        // Reset to Step 1 when modal is closed
         modalEl.addEventListener('hidden.bs.modal', () => {
             const mainBody = document.getElementById('googleMainBody');
             const newUserBody = document.getElementById('googleNewUserBody');
@@ -565,9 +644,7 @@
             saveClientIdBtn.addEventListener('click', async () => {
                 const clientId = clientIdInput.value.trim();
                 if (!clientId) {
-                    if (window.showToast) {
-                        window.showToast('Please enter a valid Google OAuth Client ID', 'warning');
-                    }
+                    showAuthAlert('Please enter a valid Google OAuth Client ID', 'warning');
                     return;
                 }
 
@@ -585,24 +662,15 @@
                         cachedClientId = clientId;
                         saveClientIdBtn.className = 'btn btn-success btn-sm w-100 mb-2';
                         saveClientIdBtn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Saved! Initializing Google...';
-
-                        // Initialize Google SDK
                         checkAndInitGSI();
-
                         setTimeout(() => {
-                            if (window.google && window.google.accounts) {
-                                try {
-                                    window.google.accounts.id.prompt();
-                                } catch (e) {
-                                    console.warn('Google prompt notice:', e);
-                                }
+                            if (tokenClient) {
+                                tokenClient.requestAccessToken({ prompt: 'select_account' });
                             }
                         }, 500);
                     }
                 } catch (err) {
-                    if (window.showToast) {
-                        window.showToast('Could not save Google Client ID.', 'danger');
-                    }
+                    showAuthAlert('Could not save Google Client ID.', 'danger');
                     saveClientIdBtn.disabled = false;
                     saveClientIdBtn.textContent = 'Save & Launch Real Google Popup';
                 }
@@ -612,6 +680,10 @@
 
     // Open Google Login Flow
     function openGoogleLoginModal() {
+        if (!tokenClient) {
+            checkAndInitGSI();
+        }
+
         if (tokenClient) {
             try {
                 tokenClient.requestAccessToken({ prompt: 'select_account' });
@@ -620,6 +692,31 @@
                 console.warn('OAuth request error, falling back to modal:', e);
             }
         }
+
+        // If Google GSI SDK is still loading, wait up to 3 seconds with spinner
+        if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
+            setButtonsLoading(true, 'Connecting to Google...');
+            let attempts = 0;
+            const interval = setInterval(() => {
+                attempts++;
+                checkAndInitGSI();
+                if (tokenClient) {
+                    clearInterval(interval);
+                    setButtonsLoading(false);
+                    try {
+                        tokenClient.requestAccessToken({ prompt: 'select_account' });
+                    } catch (e) {
+                        showModal();
+                    }
+                } else if (attempts >= 10) {
+                    clearInterval(interval);
+                    setButtonsLoading(false);
+                    showModal();
+                }
+            }, 300);
+            return;
+        }
+
         showModal();
     }
 
