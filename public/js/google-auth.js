@@ -55,15 +55,16 @@
                     cancel_on_tap_outside: true
                 });
 
-                // Render the official Google Sign-In Button directly
+                // Render standard neutral Google Sign-In button (allows choosing any account)
                 const gsiContainer = document.getElementById('googleGsiButtonContainer');
                 if (gsiContainer) {
                     window.google.accounts.id.renderButton(gsiContainer, {
+                        type: 'standard',
                         theme: 'outline',
                         size: 'large',
                         width: 380,
                         shape: 'pill',
-                        text: 'continue_with',
+                        text: 'signin_with',
                         logo_alignment: 'left'
                     });
 
@@ -72,13 +73,6 @@
                     if (fallbackBtn) {
                         fallbackBtn.style.display = 'none';
                     }
-                }
-
-                // Also trigger Google One-Tap prompt
-                try {
-                    window.google.accounts.id.prompt();
-                } catch (e) {
-                    console.log('Google prompt:', e);
                 }
             } catch (err) {
                 console.warn('GSI Init Notice:', err);
