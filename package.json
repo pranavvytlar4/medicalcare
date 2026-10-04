@@ -9,7 +9,7 @@
     "seed": "node seed.js",
     "build:vite": "vite build",
     "build:otp": "vite build --config vite.otp.config.mjs",
-    "build": "node -e \"console.log('Build ready for deployment')\"",
+    "build": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive:true, force:true}); fs.cpSync('public', 'dist', {recursive:true}); console.log('Public folder built to dist successfully!');\"",
     "vite": "vite"
   },
   "engines": {
