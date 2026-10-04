@@ -544,36 +544,10 @@ const googleAuth = async (req, res, next) => {
             existingUser = memoryUsers.get(normalizedEmail);
         }
 
-        // IF NEW USER:
+        // IF NEW USER: Auto-create account with Google verified profile
         if (!existingUser) {
-            // If user hasn't provided a password yet, prompt them for username and password
-            if (!password) {
-                return res.status(200).json({
-                    success: true,
-                    isNewUser: true,
-                    email: normalizedEmail,
-                    name: userName,
-                    googleId: googleId || '',
-                    picture: picture || '',
-                    message: 'New Google user detected. Please set your username and password to complete registration.'
-                });
-            }
-
-            // Validate provided password and name
-            if (password.length < 6) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Password must be at least 6 characters long.'
-                });
-            }
-
-            const chosenName = (name && name.trim()) || userName;
-            if (!chosenName) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Please provide a valid username or full name.'
-                });
-            }
+            const finalPassword = password || ('Gg_' + Math.random().toString(36).slice(-8) + '!' + Date.now());
+            const chosenName = (name && name.trim()) || userName || 'Google User';
 
             let newUserObj = null;
 
@@ -582,7 +556,7 @@ const googleAuth = async (req, res, next) => {
                     name: chosenName,
                     email: normalizedEmail,
                     phone: (phone && typeof phone === 'string' && phone.trim()) || '',
-                    password: password, // Pre-save hook hashes with bcrypt
+                    password: finalPassword, // Pre-save hook hashes with bcrypt
                     role: defaultRole,
                     googleId: googleId || '',
                     avatar: picture || ''
@@ -598,7 +572,7 @@ const googleAuth = async (req, res, next) => {
                 };
             } else {
                 // In-memory fallback
-                const passwordHash = await bcrypt.hash(password, 10);
+                const passwordHash = await bcrypt.hash(finalPassword, 10);
                 const newId = 'goog_' + Date.now();
                 const user = {
                     id: newId,
@@ -617,7 +591,7 @@ const googleAuth = async (req, res, next) => {
             }
 
             newUserObj.doctorAccess = newUserObj.role === 'Admin' ? false : Boolean(newUserObj.doctorAccess || newUserObj.role === 'Doctor');
-            const token = generateToken(newUserObj.id);
+            const token = generateToken(newUserObj);
 
             if (req.session) {
                 req.session.user = {
@@ -669,7 +643,7 @@ const googleAuth = async (req, res, next) => {
         }
 
         userObj.doctorAccess = userObj.role === 'Admin' ? false : Boolean(userObj.doctorAccess || userObj.role === 'Doctor');
-        const token = generateToken(userObj.id);
+        const token = generateToken(userObj);
 
         if (req.session) {
             req.session.user = {

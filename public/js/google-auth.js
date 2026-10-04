@@ -380,8 +380,15 @@
 
             setTimeout(() => {
                 if (modalInstance) modalInstance.hide();
-                window.location.href = 'dashboard.html';
-            }, 900);
+                const u = data.user;
+                if (u && u.role === 'Admin') {
+                    window.location.href = getPrefix() + 'admin/index.html';
+                } else if (u && (u.role === 'Doctor' || u.doctorAccess)) {
+                    window.location.href = getPrefix() + 'doctor/index.html';
+                } else {
+                    window.location.href = getPrefix() + 'dashboard.html';
+                }
+            }, 600);
 
         } catch (err) {
             console.error('Google Auth Error:', err);
@@ -638,20 +645,26 @@
         }
     }
 
-    // Init on DOM ready
-    document.addEventListener('DOMContentLoaded', () => {
+    // Init on DOM ready or immediately if already loaded
+    function init() {
         loadGoogleGSI();
         fetchAuthConfig();
         injectGoogleModal();
 
         const googleButtons = document.querySelectorAll('#googleSignUpBtn, #googleSignInBtn, .btn-google-trigger');
         googleButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.onclick = (e) => {
                 e.preventDefault();
                 openGoogleLoginModal();
-            });
+            };
         });
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 
     window.GoogleAuth = {
         openModal: openGoogleLoginModal,
