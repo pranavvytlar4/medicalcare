@@ -94,10 +94,13 @@
     async function fetchAuthConfig() {
         try {
             const res = await fetch('/api/auth/config');
-            const data = await res.json();
-            if (data.success && data.googleClientId) {
-                cachedClientId = String(data.googleClientId).trim();
-                checkAndInitGSI();
+            const cType = res.headers.get('content-type') || '';
+            if (res.ok && cType.includes('application/json')) {
+                const data = await res.json();
+                if (data.success && data.googleClientId) {
+                    cachedClientId = String(data.googleClientId).trim();
+                    checkAndInitGSI();
+                }
             }
         } catch (e) {
             console.warn('Could not fetch auth config:', e);
@@ -119,6 +122,10 @@
                                 const userRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                                 });
+                                const uType = userRes.headers.get('content-type') || '';
+                                if (!uType.includes('application/json')) {
+                                    throw new Error('Google returned a non-JSON profile response.');
+                                }
                                 const profile = await userRes.json();
                                 if (profile && profile.email) {
                                     await executeGoogleAuth({
@@ -378,10 +385,17 @@
                 body: JSON.stringify(payload)
             });
 
-            const data = await response.json();
+            const cType = response.headers.get('content-type') || '';
+            let data = null;
+            if (cType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                throw new Error(text && text.length < 150 ? text : `Server request error (${response.status})`);
+            }
 
-            if (!response.ok || !data.success) {
-                throw new Error(data.message || 'Google authentication failed');
+            if (!response.ok || !data || !data.success) {
+                throw new Error((data && data.message) || 'Google authentication failed');
             }
 
             // CASE 1: NEW USER - Ask for Username and Password if server requests it

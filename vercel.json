@@ -1,11 +1,95 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/login.html",
+      "destination": "/login",
+      "permanent": true
+    },
+    {
+      "source": "/register.html",
+      "destination": "/register",
+      "permanent": true
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/dashboard",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/register.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/appointment/doctors",
+      "destination": "/appointment/doctors.html"
+    },
+    {
+      "source": "/appointment/book",
+      "destination": "/appointment/book.html"
+    },
+    {
+      "source": "/appointment/appointments",
+      "destination": "/appointment/appointments.html"
+    },
+    {
+      "source": "/donor/donors",
+      "destination": "/donor/donors.html"
+    },
+    {
+      "source": "/donor/register",
+      "destination": "/donor/register.html"
+    },
+    {
+      "source": "/medicine/medicines",
+      "destination": "/medicine/medicines.html"
+    },
+    {
+      "source": "/medicine/add",
+      "destination": "/medicine/add.html"
+    },
+    {
+      "source": "/wellness/records",
+      "destination": "/wellness/records.html"
+    },
+    {
+      "source": "/wellness/add",
+      "destination": "/wellness/add.html"
+    },
+    {
+      "source": "/medical/records",
+      "destination": "/medical/records.html"
+    },
+    {
+      "source": "/medical/add",
+      "destination": "/medical/add.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/doctor",
+      "destination": "/doctor/index.html"
     }
   ]
 }
