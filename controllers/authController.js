@@ -64,21 +64,23 @@ loadPersistedUsers();
 // Helper to generate JWT token (supports user object or id)
 const generateToken = (userOrId) => {
     let payload = {};
-    if (userOrId && typeof userOrId === 'object') {
+    if (userOrId && typeof userOrId === 'object' && !(userOrId instanceof mongoose.Types.ObjectId)) {
+        const userId = (userOrId._id || userOrId.id || userOrId).toString();
         const isAdmin = userOrId.role === 'Admin' || (userOrId.email && userOrId.email.toLowerCase().trim() === 'pranavvaitla2@gmail.com');
         payload = {
-            id: userOrId.id || userOrId._id,
+            id: userId,
             email: userOrId.email,
             name: userOrId.name,
             role: userOrId.role,
             doctorAccess: isAdmin ? false : Boolean(userOrId.doctorAccess || userOrId.role === 'Doctor')
         };
     } else {
-        payload = { id: userOrId };
+        const userId = userOrId ? userOrId.toString() : '';
+        payload = { id: userId };
     }
     return jwt.sign(
         payload,
-        process.env.JWT_SECRET || 'medical_care_jwt_super_secret_key_2026_secure',
+        (process.env.JWT_SECRET || 'medical_care_jwt_super_secret_key_2026_secure').trim(),
         { expiresIn: '7d' }
     );
 };
@@ -294,7 +296,7 @@ const loginUser = async (req, res, next) => {
                 }
             }
 
-            const token = generateToken(user._id);
+            const token = generateToken(user);
             const isDoctorPermitted = user.role === 'Admin' ? false : Boolean(user.doctorAccess || user.role === 'Doctor');
 
             if (req.session) {

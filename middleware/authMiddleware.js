@@ -19,27 +19,43 @@ const protect = async (req, res, next) => {
             token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(
                 token,
-                process.env.JWT_SECRET || 'medical_care_jwt_super_secret_key_2026_secure'
+                (process.env.JWT_SECRET || 'medical_care_jwt_super_secret_key_2026_secure').trim()
             );
 
+            // Robustly extract user ID whether encoded as string, ObjectId hex, or legacy Buffer object
+            let userId = decoded.id;
+            if (userId && typeof userId === 'object') {
+                if (userId.data && Array.isArray(userId.data)) {
+                    userId = Buffer.from(userId.data).toString('hex');
+                } else if (userId._id || userId.id) {
+                    userId = (userId._id || userId.id).toString();
+                }
+            } else if (userId) {
+                userId = String(userId);
+            }
+
             if (isDbConnected) {
-                req.user = await User.findById(decoded.id).select('-password');
-                if (!req.user) {
+                let user = null;
+                if (userId && mongoose.Types.ObjectId.isValid(userId)) {
+                    user = await User.findById(userId).select('-password');
+                }
+                if (!user && decoded.email) {
+                    user = await User.findOne({ email: decoded.email.toLowerCase().trim() }).select('-password');
+                }
+                if (!user) {
                     return res.status(401).json({
                         success: false,
                         message: 'User belonging to this token no longer exists.'
                     });
                 }
+                req.user = user;
             } else {
                 const { memoryUsers } = require('../controllers/authController');
-                let user = memoryUsers.get(decoded.id);
-                if (!user && decoded.email) {
-                    user = memoryUsers.get(decoded.email);
-                }
+                let user = memoryUsers.get(userId) || (decoded.email ? memoryUsers.get(decoded.email.toLowerCase().trim()) : null);
                 if (!user) {
                     const isAdmin = decoded.role === 'Admin' || decoded.email === 'admin@medicalcare.com' || decoded.email === 'pranavvaitla2@gmail.com';
                     user = {
-                        id: decoded.id,
+                        id: userId || 'mem_' + Date.now(),
                         name: decoded.name || (isAdmin ? 'System Admin' : 'Authenticated User'),
                         email: decoded.email || (isAdmin ? 'admin@medicalcare.com' : 'user@example.com'),
                         role: isAdmin ? 'Admin' : (decoded.role || 'Patient'),
