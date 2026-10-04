@@ -2943,6 +2943,21 @@ a:hover {
         color: #2563eb !important;
     }
 
+    .navbar .nav-item.dropdown:not(.show) > .dropdown-toggle::after,
+    .navbar .dropdown:not(.show) > .dropdown-toggle::after,
+    #userDropdownWrapper:not(.show) > .dropdown-toggle::after,
+    #userNavDropdown[aria-expanded="false"]::after {
+        transform: none !important;
+    }
+
+    #userNavDropdown[aria-expanded="true"]::after,
+    #userNavDropdown.show::after,
+    #userDropdownWrapper.show > .dropdown-toggle::after,
+    #userDropdownWrapper.show #userNavDropdown::after {
+        transform: rotate(180deg) !important;
+        color: #2563eb !important;
+    }
+
     /* Hide 3D floating banners that overlap text on phones and tablets */
     .left-image-banner,
     .right-image-banner {
@@ -2971,8 +2986,12 @@ a:hover {
         display: none !important;
     }
 
+    .hero-ecg-track {
+        display: none !important;
+    }
+
     .home-banner-section {
-        padding: 44px 16px 36px !important;
+        padding: 44px 16px 40px !important;
         min-height: auto !important;
     }
 
@@ -3400,7 +3419,7 @@ a:hover {
 
     /* 3. Homepage Hero Banner on Phone */
     .home-banner-section {
-        padding: 36px 14px 28px !important;
+        padding: 38px 16px 42px !important;
         min-height: auto !important;
     }
 

@@ -454,7 +454,7 @@ const renderNavbarAuth = () => {
         authContainer.innerHTML = `
             <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
                 <div class="dropdown nav-item flex-shrink-0" id="userDropdownWrapper">
-                    <button id="userNavDropdown" class="btn btn-sm btn-light border rounded-pill dropdown-toggle d-flex align-items-center gap-2 px-3 py-1 text-nowrap shadow-sm" type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="font-size: 0.86rem; cursor: pointer;">
+                    <button id="userNavDropdown" class="btn btn-sm btn-light border rounded-pill dropdown-toggle d-flex align-items-center gap-2 px-3 py-1 text-nowrap shadow-sm" type="button" aria-expanded="false" style="font-size: 0.86rem; cursor: pointer;">
                         <i class="bi bi-person-circle text-primary fs-6"></i>
                         <span class="fw-bold">${cleanName}</span>
                     </button>
@@ -485,35 +485,63 @@ const renderNavbarAuth = () => {
         const userMenu = userWrapper?.querySelector('.dropdown-menu');
 
         if (userBtn && userWrapper && userMenu) {
+            // Remove any legacy Bootstrap toggle attributes to prevent library collision
+            userBtn.removeAttribute('data-bs-toggle');
+            userBtn.removeAttribute('data-bs-display');
+
+            if (window.bootstrap && window.bootstrap.Dropdown) {
+                try {
+                    const inst = window.bootstrap.Dropdown.getInstance(userBtn);
+                    if (inst) inst.dispose();
+                } catch (e) {}
+            }
+
+            const isDesktop = () => window.innerWidth >= 992;
+
             const toggleUserDropdown = (forceState) => {
-                const isOpen = userWrapper.classList.contains('show') ||
-                               userMenu.classList.contains('show') ||
-                               userBtn.classList.contains('show') ||
-                               userBtn.getAttribute('aria-expanded') === 'true';
-                const shouldOpen = forceState !== undefined ? forceState : !isOpen;
+                const isCurrentlyOpen = userWrapper.classList.contains('show') || userBtn.getAttribute('aria-expanded') === 'true';
+                const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
 
                 if (shouldOpen) {
+                    if (typeof closeAllNavbarDropdowns === 'function') {
+                        closeAllNavbarDropdowns(userWrapper);
+                    }
                     userWrapper.classList.add('show');
                     userMenu.classList.add('show');
                     userBtn.classList.add('show');
                     userBtn.setAttribute('aria-expanded', 'true');
-                    userMenu.style.setProperty('display', 'block', 'important');
-                    userMenu.style.setProperty('visibility', 'visible', 'important');
-                    userMenu.style.setProperty('opacity', '1', 'important');
-                    userMenu.style.setProperty('position', 'static', 'important');
-                    userMenu.style.setProperty('width', '100%', 'important');
+                    if (!isDesktop()) {
+                        userMenu.style.setProperty('display', 'block', 'important');
+                        userMenu.style.setProperty('visibility', 'visible', 'important');
+                        userMenu.style.setProperty('opacity', '1', 'important');
+                    }
                 } else {
                     userWrapper.classList.remove('show', 'hover-open');
                     userMenu.classList.remove('show');
                     userBtn.classList.remove('show');
                     userBtn.setAttribute('aria-expanded', 'false');
-                    userMenu.style.setProperty('display', 'none', 'important');
+                    userMenu.style.removeProperty('display');
                     userMenu.style.removeProperty('visibility');
                     userMenu.style.removeProperty('opacity');
-                    userMenu.style.removeProperty('position');
-                    userMenu.style.removeProperty('width');
                 }
             };
+
+            // Desktop hover support for user dropdown
+            userWrapper.addEventListener('mouseenter', () => {
+                if (isDesktop()) {
+                    if (userWrapper._closeTimer) clearTimeout(userWrapper._closeTimer);
+                    toggleUserDropdown(true);
+                }
+            });
+
+            userWrapper.addEventListener('mouseleave', () => {
+                if (isDesktop()) {
+                    if (userWrapper._closeTimer) clearTimeout(userWrapper._closeTimer);
+                    userWrapper._closeTimer = setTimeout(() => {
+                        toggleUserDropdown(false);
+                    }, 120);
+                }
+            });
 
             userBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -602,6 +630,7 @@ const initNavbarHover = () => {
 
     const setupDropdowns = () => {
         document.querySelectorAll('.navbar .nav-item.dropdown, .navbar .dropdown').forEach((item) => {
+            if (item.id === 'userDropdownWrapper') return;
             if (item.dataset.curemedHoverInit === 'true') return;
             item.dataset.curemedHoverInit = 'true';
 
