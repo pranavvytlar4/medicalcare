@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css?v=41.0">
     <link rel="stylesheet" href="../css/day-picker.css?v=2.0">
-    <link rel="stylesheet" href="../admin/admin.css?v=29.0">
-    <link rel="stylesheet" href="doctor.css?v=5.0">
+    <link rel="stylesheet" href="../admin/admin.css?v=30.0">
+    <link rel="stylesheet" href="doctor.css?v=6.0">
 </head>
 <body class="admin-body">
 
@@ -130,7 +130,7 @@
                             </h5>
 
                             <!-- Status Filter Pills -->
-                            <div class="d-flex align-items-center gap-1 flex-wrap">
+                            <div class="d-flex align-items-center gap-1 flex-wrap status-filter-pills-wrap">
                                 <button class="status-badge-btn active" data-filter="All" onclick="filterByStatus('All')" type="button">
                                     All (<span id="filterCountAll">0</span>)
                                 </button>
@@ -164,7 +164,7 @@
                                 <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-2 status-dropdown-menu" style="min-width: 180px;">
                                     <li>
                                         <button type="button" class="dropdown-item rounded-3 py-2 date-filter-item active fw-bold" data-value="all" onclick="selectDateFilter('all', 'All Dates')">
-                                            <i class="bi bi-calendar2 me-2 text-primary"></i> All Dates
+                                             <i class="bi bi-calendar2 me-2 text-primary"></i> All Dates
                                         </button>
                                     </li>
                                     <li>
@@ -209,8 +209,8 @@
                                 </tr>
                             </thead>
                             <tbody id="appointmentsTableBody">
-                                <tr>
-                                    <td colspan="7" class="text-center py-5">
+                                <tr class="adm-empty-row">
+                                    <td colspan="7" class="adm-empty-cell text-center py-5">
                                         <div class="spinner-border text-primary" role="status"></div>
                                         <p class="text-muted mt-2 mb-0">Loading patient appointments...</p>
                                     </td>
@@ -631,7 +631,7 @@
     <script src="../js/custom-select.js?v=6.0"></script>
     <script src="../js/day-picker.js?v=2.0"></script>
     <script src="../js/auth.js?v=13.0"></script>
-    <script src="doctor.js?v=5.0"></script>
+    <script src="doctor.js?v=6.0"></script>
 </body>
 </html>
 

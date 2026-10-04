@@ -165,3 +165,193 @@
     font-size: 0.85rem;
     flex-shrink: 0;
 }
+
+/* Status & Reminder Badges */
+.badge-status-pending {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    white-space: nowrap;
+}
+
+.badge-status-confirmed {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    white-space: nowrap;
+}
+
+.badge-status-completed {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    background: #ede9fe;
+    color: #7c3aed;
+    border: 1px solid #ddd6fe;
+    white-space: nowrap;
+}
+
+.badge-status-cancelled {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    white-space: nowrap;
+}
+
+.badge-reminder-sent {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    white-space: nowrap;
+}
+
+.badge-reminder-none {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+/* =========================================================================
+   Doctor Console Mobile Phone View Responsiveness (<= 768px)
+   ========================================================================= */
+@media (max-width: 768px) {
+    /* 1. Header & Controls Stacking */
+    .adm-panel-header {
+        padding: 14px 12px !important;
+        gap: 12px !important;
+    }
+
+    .adm-panel-header > .d-flex {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+
+    /* 2. Horizontally scrollable status filter pills */
+    .status-filter-pills-wrap,
+    .adm-panel-header .d-flex.align-items-center.gap-1 {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 6px !important;
+        padding-bottom: 4px !important;
+        width: 100% !important;
+        scrollbar-width: none !important;
+    }
+    .status-filter-pills-wrap::-webkit-scrollbar,
+    .adm-panel-header .d-flex.align-items-center.gap-1::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .status-badge-btn {
+        flex-shrink: 0 !important;
+        font-size: 0.76rem !important;
+        padding: 6px 12px !important;
+        white-space: nowrap !important;
+    }
+
+    /* 3. Search and Date dropdown row on mobile */
+    .adm-panel-header .d-flex.align-items-center.gap-2.flex-wrap {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+
+    .admin-search-wrap {
+        flex: 1 1 auto !important;
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    /* 4. Action Buttons Mobile Ergonomics */
+    .btn-accept-apt,
+    .btn-remind-apt,
+    .btn-prescribe-apt {
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* 5. Mobile Card adjustments for doctor cards */
+    .adm-doc-apt-row {
+        padding: 14px 14px 12px !important;
+    }
+
+    .adm-doc-apt-row .adm-td-actions {
+        display: flex !important;
+        justify-content: flex-end !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+
+    .adm-doc-apt-row .adm-td-actions > div {
+        width: 100% !important;
+        justify-content: flex-end !important;
+    }
+
+    /* 6. Top KPI Statistics Grid on Phone View */
+    .adm-stat-card {
+        padding: 12px 10px !important;
+        border-radius: 16px !important;
+    }
+
+    .adm-stat-value {
+        font-size: 1.4rem !important;
+    }
+
+    .adm-stat-label {
+        font-size: 0.68rem !important;
+    }
+
+    /* 7. Consultation Breakdown Cards */
+    .adm-panel-body .col-6 .p-3 {
+        padding: 10px 8px !important;
+        border-radius: 14px !important;
+    }
+    .adm-panel-body .display-6 {
+        font-size: 1.45rem !important;
+    }
+}

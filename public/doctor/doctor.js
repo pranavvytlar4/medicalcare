@@ -203,8 +203,8 @@
         tableBody = document.getElementById('appointmentsTableBody');
         if (tableBody) {
             tableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center py-5">
+                <tr class="adm-empty-row">
+                    <td colspan="7" class="adm-empty-cell text-center py-5">
                         <div class="spinner-border text-primary" role="status"></div>
                         <p class="text-muted mt-2 mb-0">Syncing clinic queue...</p>
                     </td>
@@ -299,10 +299,13 @@
         const list = state.appointments.slice(0, 5);
         if (list.length === 0) {
             recentBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="text-center py-4 text-muted">
-                        <i class="bi bi-calendar2-heart text-secondary fs-4 d-block mb-1"></i>
-                        No patient consultations in queue yet.
+                <tr class="adm-empty-row">
+                    <td colspan="6" class="adm-empty-cell text-center py-4 text-muted">
+                        <div class="adm-empty-icon-wrap mb-2">
+                            <i class="bi bi-calendar2-heart text-primary fs-3"></i>
+                        </div>
+                        <div class="fw-bold text-dark small mb-1">No Consultations in Queue</div>
+                        <div class="text-muted" style="font-size: 0.78rem;">Patient visits will appear here when scheduled.</div>
                     </td>
                 </tr>
             `;
@@ -335,45 +338,50 @@
             let actionBtn = '';
             if (status === 'Pending') {
                 actionBtn = `
-                    <button class="btn btn-sm btn-outline-success rounded-pill px-2 py-1 fw-bold" onclick="openAcceptAptModal('${apt._id}')" title="Accept Visit">
+                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" onclick="openAcceptAptModal('${apt._id}')" title="Accept Visit">
                         <i class="bi bi-check2"></i> Accept
                     </button>
                 `;
             } else if (status === 'Confirmed') {
                 actionBtn = `
-                    <button class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 fw-bold" onclick="openCompleteAptModal('${apt._id}')" title="Mark Done">
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-bold" onclick="openCompleteAptModal('${apt._id}')" title="Mark Done">
                         <i class="bi bi-heart-pulse"></i> Done
                     </button>
                 `;
             } else {
                 actionBtn = `
-                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1" onclick="switchNavTab('appointments')" title="View in Queue">
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onclick="switchNavTab('appointments')" title="View in Queue">
                         View
                     </button>
                 `;
             }
 
             return `
-                <tr>
-                    <td class="fw-bold text-muted small">${index + 1}</td>
+                <tr class="adm-card-row">
+                    <td class="d-none d-md-table-cell fw-bold text-muted small">${index + 1}</td>
                     <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="patient-avatar">${initials}</div>
-                            <div>
-                                <div class="fw-bold text-dark">${patientName}</div>
-                                <div class="small text-muted">${patientEmail}</div>
+                        <div class="d-flex align-items-center justify-content-between mb-2 mb-md-0">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="patient-avatar">${initials}</div>
+                                <div>
+                                    <div class="fw-bold text-dark">${patientName}</div>
+                                    <div class="small text-muted">${patientEmail}</div>
+                                </div>
                             </div>
+                            <div class="d-md-none">${statusBadge}</div>
                         </div>
                     </td>
                     <td>
-                        <span class="badge ${relative.badge} rounded-pill px-2 py-1 mb-1 small">${relative.label}</span>
-                        <div class="small text-muted">${formatReadableDate(aptDate)}</div>
+                        <div class="d-flex align-items-center justify-content-between small text-muted mb-1 mb-md-0">
+                            <span class="badge ${relative.badge} rounded-pill px-2 py-1">${relative.label}</span>
+                            <span>${formatReadableDate(aptDate)} (${aptTime})</span>
+                        </div>
                     </td>
                     <td>
-                        <div class="text-dark small fw-semibold" style="max-width: 240px; word-break: break-word;">${reason}</div>
+                        <div class="text-dark small fw-semibold text-truncate" style="max-width: 240px;">${reason}</div>
                     </td>
-                    <td>${statusBadge}</td>
-                    <td class="text-end">${actionBtn}</td>
+                    <td class="d-none d-md-table-cell">${statusBadge}</td>
+                    <td class="text-end pt-2 border-top border-md-0 pt-md-0">${actionBtn}</td>
                 </tr>
             `;
         }).join('');
@@ -423,8 +431,8 @@
         if (list.length === 0) {
             const hasFilter = state.activeStatusFilter !== 'All' || state.activeDateFilter !== 'all' || (state.searchQuery && state.searchQuery.trim() !== '');
             tableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="p-0">
+                <tr class="adm-empty-row">
+                    <td colspan="7" class="adm-empty-cell text-center p-0">
                         <div class="doctor-empty-state">
                             <div class="empty-icon-circle shadow-sm">
                                 <i class="bi bi-calendar2-heart"></i>
@@ -539,31 +547,56 @@
             }
 
             return `
-                <tr>
-                    <td class="fw-bold text-muted small">${index + 1}</td>
-                    <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="patient-avatar">${initials}</div>
-                            <div>
-                                <div class="fw-bold text-dark">${patientName}</div>
-                                <div class="small text-muted">
-                                    <a href="mailto:${patientEmail}" class="text-decoration-none text-muted">${patientEmail}</a> &bull; 
-                                    <a href="tel:${patientPhone}" class="text-decoration-none text-muted">${patientPhone}</a>
+                <tr class="adm-card-row adm-doc-apt-row">
+                    <td class="d-none d-md-table-cell fw-bold text-muted small">${index + 1}</td>
+                    <td class="adm-td-patient">
+                        <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="patient-avatar">${initials}</div>
+                                <div>
+                                    <div class="fw-bold text-dark fs-6">${patientName}</div>
+                                    <div class="small text-muted">
+                                        <a href="tel:${patientPhone}" class="text-decoration-none text-muted">
+                                            <i class="bi bi-telephone text-primary me-1"></i>${patientPhone}
+                                        </a>
+                                        <span class="d-none d-md-inline">&bull; <a href="mailto:${patientEmail}" class="text-decoration-none text-muted">${patientEmail}</a></span>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="d-md-none">
+                                ${statusBadge}
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <span class="badge ${relative.badge} rounded-pill px-2 py-1 mb-1 small">${relative.label}</span>
-                        <div class="small text-muted">${formatReadableDate(aptDate)}</div>
+                    <td class="adm-td-schedule">
+                        <div class="adm-card-pill bg-light rounded-3 p-2 mb-2 mb-md-0 d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge ${relative.badge} rounded-pill px-2 py-1 small">${relative.label}</span>
+                                <span class="fw-semibold text-dark small">${formatReadableDate(aptDate)}</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-clock text-muted"></i>
+                                <span class="text-muted small">${aptTime}</span>
+                            </div>
+                        </div>
                     </td>
-                    <td>
-                        <div class="text-dark small fw-semibold" style="max-width: 240px; word-break: break-word;">${reason}</div>
-                        ${apt.doctorNotes ? `<div class="small text-primary mt-1 fst-italic"><i class="bi bi-chat-left-quote me-1"></i>${apt.doctorNotes}</div>` : ''}
+                    <td class="adm-td-reason">
+                        <div class="small text-muted mb-2 mb-md-0">
+                            <i class="bi bi-clipboard2-pulse me-1 text-secondary"></i>
+                            <span class="text-dark fw-semibold">${reason}</span>
+                            ${apt.doctorNotes ? `<div class="small text-primary mt-1 fst-italic"><i class="bi bi-chat-left-quote me-1"></i>${apt.doctorNotes}</div>` : ''}
+                        </div>
                     </td>
-                    <td>${statusBadge}</td>
-                    <td>${reminderBadge}</td>
-                    <td class="text-end">${actionButtons}</td>
+                    <td class="adm-td-status d-none d-md-table-cell">${statusBadge}</td>
+                    <td class="adm-td-reminder">
+                        <div class="d-flex align-items-center justify-content-between py-1 mb-2 mb-md-0">
+                            <span class="small fw-bold text-uppercase text-secondary d-md-none" style="font-size: 0.70rem; letter-spacing: 0.5px;">Reminder Status</span>
+                            <div>${reminderBadge}</div>
+                        </div>
+                    </td>
+                    <td class="adm-td-actions text-end pt-2 border-top border-md-0 pt-md-0">
+                        ${actionButtons}
+                    </td>
                 </tr>
             `;
         }).join('');
@@ -1090,21 +1123,38 @@
         if (historyBody) {
             const sentList = state.appointments.filter(a => a.reminderSent);
             if (sentList.length === 0) {
-                historyBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">No reminders recorded yet.</td></tr>`;
+                historyBody.innerHTML = `
+                    <tr class="adm-empty-row">
+                        <td colspan="5" class="adm-empty-cell text-center py-4 text-muted">
+                            <div class="adm-empty-icon-wrap mb-2">
+                                <i class="bi bi-bell-slash text-warning fs-3"></i>
+                            </div>
+                            <div class="fw-bold text-dark small mb-1">No Reminders Recorded</div>
+                            <div class="text-muted" style="font-size: 0.78rem;">Sent appointment reminders will be logged here.</div>
+                        </td>
+                    </tr>
+                `;
             } else {
                 historyBody.innerHTML = sentList.map(apt => {
                     const p = apt.patient || {};
                     const sentAt = apt.reminderSentAt ? new Date(apt.reminderSentAt).toLocaleString() : 'Recently';
                     return `
-                        <tr>
+                        <tr class="adm-card-row">
                             <td>
-                                <div class="fw-bold text-dark">${p.name || 'Patient'}</div>
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <div class="fw-bold text-dark">${p.name || 'Patient'}</div>
+                                    <div class="d-md-none"><span class="badge bg-success-subtle text-success rounded-pill"><i class="bi bi-check2"></i> Delivered</span></div>
+                                </div>
                                 <div class="small text-muted">${p.phone || ''}</div>
                             </td>
-                            <td>${formatReadableDate(apt.appointmentDate || apt.date)} at ${apt.appointmentTime || apt.time || '10:00 AM'}</td>
-                            <td class="small text-dark" style="max-width: 300px;">${apt.reminderNotes || 'Appointment reminder dispatched'}</td>
+                            <td>
+                                <div class="small text-muted"><i class="bi bi-calendar3 me-1 text-primary"></i>${formatReadableDate(apt.appointmentDate || apt.date)} at ${apt.appointmentTime || apt.time || '10:00 AM'}</div>
+                            </td>
+                            <td class="small text-dark" style="max-width: 300px;">
+                                <div class="bg-light p-2 rounded-2 mt-1"><i class="bi bi-chat-left-text me-1 text-secondary"></i>${apt.reminderNotes || 'Appointment reminder dispatched'}</div>
+                            </td>
                             <td class="small text-muted">${sentAt}</td>
-                            <td><span class="badge bg-success-subtle text-success rounded-pill"><i class="bi bi-check2"></i> Delivered</span></td>
+                            <td class="d-none d-md-table-cell"><span class="badge bg-success-subtle text-success rounded-pill"><i class="bi bi-check2"></i> Delivered</span></td>
                         </tr>
                     `;
                 }).join('');
