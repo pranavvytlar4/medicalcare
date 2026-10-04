@@ -42,50 +42,47 @@
         } catch (e) {
             console.warn('Could not fetch auth config:', e);
         }
-    }
+    let tokenClient = null;
 
-    // Initialize official Google Identity Services if client ID is available
+    // Initialize official Google Identity Services OAuth2 token client
     function checkAndInitGSI() {
-        if (window.google && window.google.accounts && cachedClientId) {
+        if (window.google && window.google.accounts && window.google.accounts.oauth2 && cachedClientId) {
             try {
-                window.google.accounts.id.initialize({
+                tokenClient = window.google.accounts.oauth2.initTokenClient({
                     client_id: cachedClientId,
-                    callback: handleRealGoogleCredential,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
+                    scope: 'email profile openid',
+                    prompt: 'select_account',
+                    callback: async (tokenResponse) => {
+                        if (tokenResponse && tokenResponse.access_token) {
+                            try {
+                                const userRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                                });
+                                const profile = await userRes.json();
+                                if (profile && profile.email) {
+                                    await executeGoogleAuth({
+                                        email: profile.email,
+                                        name: profile.name || '',
+                                        googleId: profile.sub || '',
+                                        picture: profile.picture || ''
+                                    });
+                                }
+                            } catch (err) {
+                                console.error('Google profile fetch error:', err);
+                            }
+                        }
+                    }
                 });
 
-                // Render standard neutral Google Sign-In button (allows choosing any account)
-                const gsiContainer = document.getElementById('googleGsiButtonContainer');
-                if (gsiContainer) {
-                    window.google.accounts.id.renderButton(gsiContainer, {
-                        type: 'standard',
-                        theme: 'outline',
-                        size: 'large',
-                        width: 380,
-                        shape: 'pill',
-                        text: 'signin_with',
-                        logo_alignment: 'left'
-                    });
-
-                    // Hide fallback button once official Google button is mounted
-                    const fallbackBtn = document.getElementById('googleSignUpBtn') || document.getElementById('googleSignInBtn');
-                    if (fallbackBtn) {
-                        fallbackBtn.style.display = 'none';
-                    }
+                // Ensure our custom clean Google button is always visible
+                const fallbackBtn = document.getElementById('googleSignUpBtn') || document.getElementById('googleSignInBtn');
+                if (fallbackBtn) {
+                    fallbackBtn.style.display = '';
                 }
             } catch (err) {
-                console.warn('GSI Init Notice:', err);
+                console.warn('OAuth2 client init notice:', err);
             }
         }
-    }
-
-    // Callback when Google returns a verified real credential token
-    async function handleRealGoogleCredential(response) {
-        if (!response || !response.credential) return;
-        const modalEl = document.getElementById(GOOGLE_MODAL_ID);
-        const modalInstance = modalEl ? bootstrap.Modal.getOrCreateInstance(modalEl) : null;
-        await executeGoogleAuth({ credential: response.credential }, modalInstance);
     }
 
     // Inject the Modal into DOM
@@ -606,19 +603,14 @@
         }
     }
 
-    // Open Modal
+    // Open Google Login Flow
     function openGoogleLoginModal() {
-        // If official GSI is active and client ID is ready, trigger Google's native one-tap or prompt first
-        if (window.google && window.google.accounts && cachedClientId) {
+        if (tokenClient) {
             try {
-                window.google.accounts.id.prompt((notification) => {
-                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        showModal();
-                    }
-                });
+                tokenClient.requestAccessToken({ prompt: 'select_account' });
                 return;
             } catch (e) {
-                // Fall back to modal
+                console.warn('OAuth request error, falling back to modal:', e);
             }
         }
         showModal();
