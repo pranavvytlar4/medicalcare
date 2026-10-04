@@ -36,7 +36,7 @@
             const res = await fetch('/api/auth/config');
             const data = await res.json();
             if (data.success && data.googleClientId) {
-                cachedClientId = data.googleClientId;
+                cachedClientId = String(data.googleClientId).trim();
                 checkAndInitGSI();
             }
         } catch (e) {

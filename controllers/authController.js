@@ -699,7 +699,7 @@ const googleAuth = async (req, res, next) => {
 const getAuthConfig = (req, res) => {
     res.status(200).json({
         success: true,
-        googleClientId: process.env.GOOGLE_CLIENT_ID || ''
+        googleClientId: (process.env.GOOGLE_CLIENT_ID || '').trim()
     });
 };
 
