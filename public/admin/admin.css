@@ -1192,13 +1192,142 @@ body.admin-body {
         line-height: 1.2 !important;
     }
 
-    /* General Table Responsiveness for Other Tabs (Doctors, Appointments, Donors, etc.) */
+    /* 4. Doctors Directory Mobile Grid */
+    #doctorsGridContainer {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        padding: 12px 6px !important;
+        margin-left: -6px !important;
+        margin-right: -6px !important;
+    }
+
+    #doctorsGridContainer > [class*="col-"] {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+        width: 100% !important;
+    }
+
+    .doctor-adm-card {
+        border-radius: 16px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .doctor-adm-img-wrap {
+        height: 165px !important;
+    }
+
+    /* 5. Filter bars across all tabs (Doctors, Appointments, Donors) */
+    .p-3.border-bottom.bg-light {
+        padding: 12px 10px !important;
+    }
+
+    .p-3.border-bottom.bg-light .form-control,
+    .p-3.border-bottom.bg-light .form-select {
+        font-size: 15px !important;
+        border-radius: 9999px !important;
+    }
+
+    .p-3.border-bottom.bg-light .input-group-text {
+        border-radius: 9999px 0 0 9999px !important;
+        background-color: #ffffff !important;
+    }
+
+    .p-3.border-bottom.bg-light .input-group .form-control {
+        border-radius: 0 9999px 9999px 0 !important;
+    }
+
+    /* 6. General Table Responsiveness for All Tabs (Appointments, Donors, Medicines, Records) */
     .table-responsive {
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
+        position: relative !important;
     }
     
     .table-responsive > .adm-table:not(.adm-user-table) {
-        min-width: 680px !important;
+        min-width: 720px !important;
+    }
+
+    /* Custom subtle touch scrollbar for smooth swiping */
+    .table-responsive::-webkit-scrollbar {
+        height: 6px !important;
+    }
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #cbd5e1 !important;
+        border-radius: 9999px !important;
+    }
+
+    /* 7. Modal Responsiveness on Mobile View */
+    .modal-dialog {
+        margin: 12px auto !important;
+        max-width: calc(100% - 24px) !important;
+    }
+
+    .modal-content.adm-modal {
+        border-radius: 18px !important;
+    }
+
+    .modal-header.adm-modal-header {
+        padding: 14px 16px !important;
+    }
+
+    .modal-body {
+        padding: 14px 12px !important;
+    }
+
+    .modal-footer {
+        padding: 12px 14px !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .modal-footer .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .adm-dropzone {
+        padding: 16px 10px !important;
+    }
+
+    /* 8. Dashboard Welcome Card on Phone View */
+    .dashboard-welcome-card {
+        padding: 18px 14px !important;
+        border-radius: 18px !important;
+    }
+
+    .dashboard-welcome-card .page-title {
+        font-size: 1.25rem !important;
+    }
+
+    .dashboard-welcome-card .page-subtitle {
+        font-size: 0.84rem !important;
+        margin-bottom: 12px !important;
+    }
+
+    .dashboard-welcome-card .d-flex.gap-2 {
+        width: 100% !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .dashboard-welcome-card .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        font-size: 0.88rem !important;
+        padding: 10px 16px !important;
+    }
+
+    /* Appointment breakdown cards */
+    .adm-panel-body .col-6 .p-3 {
+        padding: 10px 8px !important;
+        border-radius: 14px !important;
+    }
+    .adm-panel-body .display-6 {
+        font-size: 1.45rem !important;
+    }
+    .adm-panel-body .small.fw-bold {
+        font-size: 0.68rem !important;
+        letter-spacing: 0.4px !important;
     }
 }
+
