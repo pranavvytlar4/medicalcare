@@ -971,4 +971,25 @@ if (document.readyState === 'loading') {
     initGlobalPageAnimations();
 }
 
+// Auto-collapse mobile navbar when clicking non-dropdown nav links or dropdown items
+document.addEventListener('click', (e) => {
+    const mainNav = document.getElementById('mainNavbar');
+    if (!mainNav || !mainNav.classList.contains('show')) return;
+
+    const clickedItem = e.target.closest('.navbar-nav .nav-link:not(.dropdown-toggle), .navbar .dropdown-item');
+    if (clickedItem) {
+        try {
+            if (window.bootstrap && window.bootstrap.Collapse) {
+                const bsCollapse = window.bootstrap.Collapse.getInstance(mainNav) || new window.bootstrap.Collapse(mainNav, { toggle: false });
+                bsCollapse.hide();
+            } else {
+                mainNav.classList.remove('show');
+            }
+        } catch (err) {
+            mainNav.classList.remove('show');
+        }
+    }
+});
+
+
 
