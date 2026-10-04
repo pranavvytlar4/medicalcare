@@ -85,17 +85,7 @@ body {
 
 /* Ambient animated gradient accent under navbar */
 .navbar::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--mc-border-flow-gradient);
-    background-size: 200% 100%;
-    animation: navBorderFlow 5s linear infinite;
-    pointer-events: none;
-    opacity: 0.9;
+    display: none !important;
 }
 
 @keyframes navBorderFlow {
@@ -589,21 +579,7 @@ body {
 
 /* Flowing Animated Gradient Top Bar */
 .auth-card-top-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, 
-        #06b6d4 0%, 
-        #2563eb 25%, 
-        #8b5cf6 50%, 
-        #06b6d4 75%, 
-        #2563eb 100%
-    );
-    background-size: 250% 100%;
-    animation: navBorderFlow 4s linear infinite;
-    pointer-events: none;
+    display: none !important;
 }
 
 /* Card Header & Brand Pulse Emblem */
