@@ -2905,13 +2905,21 @@ a:hover {
     .navbar-nav .dropdown.show > .dropdown-menu,
     #userDropdownWrapper.show .dropdown-menu,
     #userDropdownWrapper .dropdown-menu.show,
+    #userDropdownWrapper.show > .dropdown-menu,
+    #userDropdownWrapper > .dropdown-menu.show,
+    #userNavDropdown.show + .dropdown-menu,
+    #userNavDropdown[aria-expanded="true"] + .dropdown-menu,
     #navbarAuthSection .dropdown-menu.show,
-    #navbarAuthSection .dropdown.show > .dropdown-menu {
+    #navbarAuthSection .dropdown.show > .dropdown-menu,
+    #navbarAuthSection [aria-expanded="true"] + .dropdown-menu {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
         transform: none !important;
+        position: static !important;
+        float: none !important;
+        width: 100% !important;
         animation: mobileMenuDrop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 

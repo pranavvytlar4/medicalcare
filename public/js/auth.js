@@ -454,7 +454,7 @@ const renderNavbarAuth = () => {
         authContainer.innerHTML = `
             <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
                 <div class="dropdown nav-item flex-shrink-0" id="userDropdownWrapper">
-                    <button id="userNavDropdown" class="btn btn-sm btn-light border rounded-pill dropdown-toggle d-flex align-items-center gap-2 px-3 py-1 text-nowrap shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.86rem; cursor: pointer;">
+                    <button id="userNavDropdown" class="btn btn-sm btn-light border rounded-pill dropdown-toggle d-flex align-items-center gap-2 px-3 py-1 text-nowrap shadow-sm" type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="font-size: 0.86rem; cursor: pointer;">
                         <i class="bi bi-person-circle text-primary fs-6"></i>
                         <span class="fw-bold">${cleanName}</span>
                     </button>
@@ -486,42 +486,32 @@ const renderNavbarAuth = () => {
 
         if (userBtn && userWrapper && userMenu) {
             const toggleUserDropdown = (forceState) => {
-                const isCurrentlyOpen = userWrapper.classList.contains('show') || userMenu.classList.contains('show');
-                const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
+                const isOpen = userWrapper.classList.contains('show') ||
+                               userMenu.classList.contains('show') ||
+                               userBtn.classList.contains('show') ||
+                               userBtn.getAttribute('aria-expanded') === 'true';
+                const shouldOpen = forceState !== undefined ? forceState : !isOpen;
 
                 if (shouldOpen) {
                     userWrapper.classList.add('show');
                     userMenu.classList.add('show');
-                    userBtn.setAttribute('aria-expanded', 'true');
                     userBtn.classList.add('show');
-
-                    // On mobile (< 992px), enforce direct styles so no external rule or cache can ever suppress it
-                    if (window.innerWidth < 992) {
-                        userMenu.style.setProperty('display', 'block', 'important');
-                        userMenu.style.setProperty('visibility', 'visible', 'important');
-                        userMenu.style.setProperty('opacity', '1', 'important');
-                        userMenu.style.setProperty('pointer-events', 'auto', 'important');
-                        userMenu.style.setProperty('transform', 'none', 'important');
-                        userMenu.style.setProperty('position', 'static', 'important');
-                        userMenu.style.setProperty('float', 'none', 'important');
-                        userMenu.style.setProperty('width', '100%', 'important');
-                    }
+                    userBtn.setAttribute('aria-expanded', 'true');
+                    userMenu.style.setProperty('display', 'block', 'important');
+                    userMenu.style.setProperty('visibility', 'visible', 'important');
+                    userMenu.style.setProperty('opacity', '1', 'important');
+                    userMenu.style.setProperty('position', 'static', 'important');
+                    userMenu.style.setProperty('width', '100%', 'important');
                 } else {
                     userWrapper.classList.remove('show', 'hover-open');
                     userMenu.classList.remove('show');
-                    userBtn.setAttribute('aria-expanded', 'false');
                     userBtn.classList.remove('show');
-
-                    if (window.innerWidth < 992) {
-                        userMenu.style.setProperty('display', 'none', 'important');
-                        userMenu.style.removeProperty('visibility');
-                        userMenu.style.removeProperty('opacity');
-                        userMenu.style.removeProperty('pointer-events');
-                        userMenu.style.removeProperty('transform');
-                        userMenu.style.removeProperty('position');
-                        userMenu.style.removeProperty('float');
-                        userMenu.style.removeProperty('width');
-                    }
+                    userBtn.setAttribute('aria-expanded', 'false');
+                    userMenu.style.setProperty('display', 'none', 'important');
+                    userMenu.style.removeProperty('visibility');
+                    userMenu.style.removeProperty('opacity');
+                    userMenu.style.removeProperty('position');
+                    userMenu.style.removeProperty('width');
                 }
             };
 
@@ -529,6 +519,14 @@ const renderNavbarAuth = () => {
                 e.preventDefault();
                 e.stopPropagation();
                 toggleUserDropdown();
+            });
+
+            userMenu.addEventListener('click', (e) => {
+                if (e.target.closest('a, button')) {
+                    toggleUserDropdown(false);
+                    return;
+                }
+                e.stopPropagation();
             });
 
             document.addEventListener('click', (e) => {
