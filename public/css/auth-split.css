@@ -1077,6 +1077,11 @@ body {
         opacity: 0.85 !important;
         overflow: hidden !important;
     }
+    .auth-page-hero {
+        padding: 24px 16px 64px !important;
+        min-height: auto !important;
+        position: relative !important;
+    }
     .auth-card-container,
     .auth-card-container.auth-card-wide {
         width: 100% !important;
@@ -1110,7 +1115,7 @@ body {
 
 @media (max-width: 480px) {
     .auth-page-hero {
-        padding: 12px 10px 24px !important;
+        padding: 16px 12px 64px !important;
     }
     .auth-glass-card {
         padding: 18px 14px 16px !important;
@@ -1121,3 +1126,4 @@ body {
         font-size: 1.2rem !important;
     }
 }
+
