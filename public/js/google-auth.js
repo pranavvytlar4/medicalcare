@@ -295,13 +295,25 @@
                                 <!-- Username / Full Name -->
                                 <div class="mb-3">
                                     <label for="googleRegUsername" class="form-label small fw-bold text-dark mb-1">
-                                        <i class="bi bi-person-fill text-primary me-1"></i> User Name / Full Name
+                                        <i class="bi bi-person-fill text-primary me-1"></i> User Name <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-person"></i></span>
                                         <input type="text" class="form-control border-start-0 ps-1" id="googleRegUsername" placeholder="e.g. John Doe" required autocomplete="name">
                                     </div>
                                     <div class="form-text text-muted" style="font-size: 0.74rem;">This name will appear on your medical records and appointments</div>
+                                </div>
+
+                                <!-- Phone Number -->
+                                <div class="mb-3">
+                                    <label for="googleRegPhone" class="form-label small fw-bold text-dark mb-1">
+                                        <i class="bi bi-telephone-fill text-primary me-1"></i> Phone Number <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-telephone"></i></span>
+                                        <input type="tel" class="form-control border-start-0 ps-1" id="googleRegPhone" placeholder="10-digit mobile number" maxlength="10" required autocomplete="tel">
+                                    </div>
+                                    <div class="form-text text-muted" style="font-size: 0.74rem;">Required for appointment alerts and emergency care</div>
                                 </div>
 
                                 <!-- Password -->
@@ -417,11 +429,16 @@
 
                 const emailDisplay = document.getElementById('googleNewUserEmailDisplay');
                 const usernameInput = document.getElementById('googleRegUsername');
+                const phoneInput = document.getElementById('googleRegPhone');
                 const passwordInput = document.getElementById('googleRegPassword');
                 const confirmPasswordInput = document.getElementById('googleRegConfirmPassword');
 
                 if (emailDisplay) emailDisplay.textContent = data.email;
                 if (usernameInput) usernameInput.value = data.name || '';
+                const pagePhone = document.getElementById('regPhone') || document.getElementById('phone');
+                if (phoneInput) {
+                    phoneInput.value = (pagePhone && pagePhone.value) ? pagePhone.value.trim() : '';
+                }
                 if (passwordInput) passwordInput.value = '';
                 if (confirmPasswordInput) confirmPasswordInput.value = '';
 
@@ -439,6 +456,8 @@
                 setTimeout(() => {
                     if (usernameInput && !usernameInput.value) {
                         usernameInput.focus();
+                    } else if (phoneInput && !phoneInput.value) {
+                        phoneInput.focus();
                     } else if (passwordInput) {
                         passwordInput.focus();
                     }
@@ -536,6 +555,7 @@
                 if (alertEl) alertEl.classList.add('d-none');
 
                 const username = document.getElementById('googleRegUsername').value.trim();
+                const phone = document.getElementById('googleRegPhone') ? document.getElementById('googleRegPhone').value.trim() : '';
                 const password = document.getElementById('googleRegPassword').value;
                 const confirmPassword = document.getElementById('googleRegConfirmPassword').value;
 
@@ -545,6 +565,16 @@
                         alertEl.classList.remove('d-none');
                     }
                     document.getElementById('googleRegUsername')?.focus();
+                    return;
+                }
+
+                const digitsOnly = phone.replace(/[^\d]/g, '');
+                if (!phone || digitsOnly.length < 10) {
+                    if (alertEl) {
+                        alertEl.textContent = 'Please enter a valid 10-digit mobile phone number.';
+                        alertEl.classList.remove('d-none');
+                    }
+                    document.getElementById('googleRegPhone')?.focus();
                     return;
                 }
 
@@ -577,11 +607,19 @@
                 executeGoogleAuth({
                     email: pendingNewGoogleUserData.email,
                     name: username,
+                    phone: digitsOnly.slice(-10),
                     password: password,
                     googleId: pendingNewGoogleUserData.googleId,
                     picture: pendingNewGoogleUserData.picture
                 }, modalInstance);
             });
+
+            const phoneInputEl = document.getElementById('googleRegPhone');
+            if (phoneInputEl) {
+                phoneInputEl.addEventListener('input', () => {
+                    phoneInputEl.value = phoneInputEl.value.replace(/[^\d]/g, '').slice(0, 10);
+                });
+            }
         }
 
         // Password Show/Hide Toggles

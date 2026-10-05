@@ -684,19 +684,57 @@ const googleAuth = async (req, res, next) => {
             existingUser = memoryUsers.get(normalizedEmail);
         }
 
-        // IF NEW USER: Auto-create account with Google verified profile
+        // IF NEW USER:
         if (!existingUser) {
-            const finalPassword = password || ('Gg_' + Math.random().toString(36).slice(-8) + '!' + Date.now());
-            const chosenName = (name && name.trim()) || userName || 'Google User';
+            const cleanPhone = (phone && typeof phone === 'string') ? phone.trim() : '';
+
+            // If user has not provided password or phone yet, prompt client to complete registration
+            if (!password || !cleanPhone) {
+                return res.status(200).json({
+                    success: true,
+                    isNewUser: true,
+                    message: 'New user detected! Please provide your User Name, Password, and Phone Number to complete registration.',
+                    email: normalizedEmail,
+                    name: userName,
+                    googleId: googleId || '',
+                    picture: picture || ''
+                });
+            }
+
+            // Client provided password and phone: validate fields
+            const chosenName = (name && name.trim()) || userName;
+            if (!chosenName || chosenName.trim().length < 2) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please provide a valid user name (at least 2 characters).'
+                });
+            }
+
+            if (password.length < 6) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password must be at least 6 characters long.'
+                });
+            }
+
+            const digitsOnly = cleanPhone.replace(/[^\d]/g, '');
+            if (digitsOnly.length < 10) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please enter a valid 10-digit mobile phone number.'
+                });
+            }
+
+            const formattedPhone = digitsOnly.length === 10 ? digitsOnly : digitsOnly.slice(-10);
 
             let newUserObj = null;
 
             if (isDbConnected()) {
                 const user = await User.create({
-                    name: chosenName,
+                    name: chosenName.trim(),
                     email: normalizedEmail,
-                    phone: (phone && typeof phone === 'string' && phone.trim()) || '',
-                    password: finalPassword, // Pre-save hook hashes with bcrypt
+                    phone: formattedPhone,
+                    password: password, // Pre-save hook hashes with bcrypt
                     role: defaultRole,
                     googleId: googleId || '',
                     avatar: picture || ''
@@ -706,19 +744,32 @@ const googleAuth = async (req, res, next) => {
                     id: user._id.toString(),
                     name: user.name,
                     email: user.email,
-                    phone: user.phone || '',
+                    phone: user.phone || formattedPhone,
                     role: user.role,
                     avatar: user.avatar || picture || ''
                 };
+
+                // Sync to in-memory store
+                const memUserSync = {
+                    id: user._id.toString(),
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone || formattedPhone,
+                    role: user.role,
+                    doctorAccess: false
+                };
+                memoryUsers.set(normalizedEmail, memUserSync);
+                memoryUsers.set(memUserSync.id, memUserSync);
+                savePersistedUsers();
             } else {
                 // In-memory fallback
-                const passwordHash = await bcrypt.hash(finalPassword, 10);
+                const passwordHash = await bcrypt.hash(password, 10);
                 const newId = 'goog_' + Date.now();
                 const user = {
                     id: newId,
-                    name: chosenName,
+                    name: chosenName.trim(),
                     email: normalizedEmail,
-                    phone: (phone && typeof phone === 'string' && phone.trim()) || '',
+                    phone: formattedPhone,
                     passwordHash: passwordHash,
                     role: defaultRole,
                     avatar: picture || ''
