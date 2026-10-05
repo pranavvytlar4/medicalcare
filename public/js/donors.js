@@ -83,9 +83,12 @@ const renderDonorsList = async () => {
     const search = searchInput ? searchInput.value.trim() : '';
     const bloodGroup = groupSelect ? groupSelect.value : '';
 
+    const tableResponsive = tableBody.closest('.table-responsive');
+
+    if (tableResponsive) tableResponsive.classList.add('table-empty-view');
     tableBody.innerHTML = `
-        <tr>
-            <td colspan="6" class="text-center py-4">
+        <tr class="empty-state-row">
+            <td colspan="6" class="text-center py-4 empty-state-cell">
                 <div class="spinner-border text-danger" role="status"></div>
                 <div class="text-muted mt-2">Loading blood donors...</div>
             </td>
@@ -105,17 +108,19 @@ const renderDonorsList = async () => {
         const donors = data.data || [];
 
         if (donors.length === 0) {
+            if (tableResponsive) tableResponsive.classList.add('table-empty-view');
             tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="text-center py-5 text-muted">
+                <tr class="empty-state-row">
+                    <td colspan="6" class="text-center py-5 text-muted empty-state-cell">
                         <i class="bi bi-droplet-half fs-1 d-block mb-2 text-danger opacity-50"></i>
-                        No donors found for the specified criteria.
+                        <span>No donors found for the specified criteria.</span>
                     </td>
                 </tr>
             `;
             return;
         }
 
+        if (tableResponsive) tableResponsive.classList.remove('table-empty-view');
         tableBody.innerHTML = donors.map((donor, index) => `
             <tr>
                 <td class="fw-bold text-secondary">${index + 1}</td>
@@ -148,9 +153,10 @@ const renderDonorsList = async () => {
         `).join('');
     } catch (error) {
         console.error('renderDonorsList Error:', error);
+        if (tableResponsive) tableResponsive.classList.add('table-empty-view');
         tableBody.innerHTML = `
-            <tr>
-                <td colspan="6" class="text-center py-4 text-danger">
+            <tr class="empty-state-row">
+                <td colspan="6" class="text-center py-4 text-danger empty-state-cell">
                     Failed to load donors: ${error.message}
                 </td>
             </tr>

@@ -281,9 +281,12 @@ const renderAppointmentsTable = async () => {
     const tableBody = document.getElementById('appointmentsTableBody');
     if (!tableBody) return;
 
+    const tableResponsive = tableBody.closest('.table-responsive');
+
+    if (tableResponsive) tableResponsive.classList.add('table-empty-view');
     tableBody.innerHTML = `
-        <tr>
-            <td colspan="7" class="text-center py-4">
+        <tr class="empty-state-row">
+            <td colspan="7" class="text-center py-4 empty-state-cell">
                 <div class="spinner-border text-primary" role="status"></div>
                 <div class="text-muted mt-2">Loading appointments...</div>
             </td>
@@ -298,17 +301,19 @@ const renderAppointmentsTable = async () => {
         const user = window.Auth.getCurrentUser();
 
         if (appointments.length === 0) {
+            if (tableResponsive) tableResponsive.classList.add('table-empty-view');
             tableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center py-5 text-muted">
+                <tr class="empty-state-row">
+                    <td colspan="7" class="text-center py-5 text-muted empty-state-cell">
                         <i class="bi bi-calendar-x fs-1 d-block mb-2 text-secondary"></i>
-                        No appointments found. <a href="book.html" class="fw-bold">Book an appointment now</a>.
+                        <span>No appointments found. <a href="book.html" class="fw-bold">Book an appointment now</a>.</span>
                     </td>
                 </tr>
             `;
             return;
         }
 
+        if (tableResponsive) tableResponsive.classList.remove('table-empty-view');
         tableBody.innerHTML = appointments.map((apt, index) => {
             const statusClasses = {
                 Pending: 'status-pending',
@@ -358,9 +363,10 @@ const renderAppointmentsTable = async () => {
         }).join('');
     } catch (error) {
         console.error('renderAppointmentsTable Error:', error);
+        if (tableResponsive) tableResponsive.classList.add('table-empty-view');
         tableBody.innerHTML = `
-            <tr>
-                <td colspan="7" class="text-center py-4 text-danger">
+            <tr class="empty-state-row">
+                <td colspan="7" class="text-center py-4 text-danger empty-state-cell">
                     Failed to load appointments: ${error.message}
                 </td>
             </tr>

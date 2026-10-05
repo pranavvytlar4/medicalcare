@@ -76,9 +76,12 @@ const renderMedicalRecordsList = async () => {
     const tableBody = document.getElementById('recordsTableBody');
     if (!tableBody) return;
 
+    const tableResponsive = tableBody.closest('.table-responsive');
+
+    if (tableResponsive) tableResponsive.classList.add('table-empty-view');
     tableBody.innerHTML = `
-        <tr>
-            <td colspan="7" class="text-center py-4">
+        <tr class="empty-state-row">
+            <td colspan="7" class="text-center py-4 empty-state-cell">
                 <div class="spinner-border text-success" role="status"></div>
                 <div class="text-muted mt-2">Loading medical records...</div>
             </td>
@@ -92,17 +95,19 @@ const renderMedicalRecordsList = async () => {
         const records = data.data || [];
 
         if (records.length === 0) {
+            if (tableResponsive) tableResponsive.classList.add('table-empty-view');
             tableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center py-5 text-muted">
+                <tr class="empty-state-row">
+                    <td colspan="7" class="text-center py-5 text-muted empty-state-cell">
                         <i class="bi bi-journal-medical fs-1 d-block mb-2 text-success opacity-50"></i>
-                        No medical records found. <a href="add.html" class="fw-bold">Create your first medical record</a>.
+                        <span>No medical records found. <a href="add.html" class="fw-bold">Create your first medical record</a>.</span>
                     </td>
                 </tr>
             `;
             return;
         }
 
+        if (tableResponsive) tableResponsive.classList.remove('table-empty-view');
         tableBody.innerHTML = records.map((rec, index) => `
             <tr>
                 <td class="fw-bold text-secondary">${index + 1}</td>
@@ -141,9 +146,10 @@ const renderMedicalRecordsList = async () => {
         `).join('');
     } catch (error) {
         console.error('renderMedicalRecordsList Error:', error);
+        if (tableResponsive) tableResponsive.classList.add('table-empty-view');
         tableBody.innerHTML = `
-            <tr>
-                <td colspan="7" class="text-center py-4 text-danger">
+            <tr class="empty-state-row">
+                <td colspan="7" class="text-center py-4 text-danger empty-state-cell">
                     Failed to load medical records: ${error.message}
                 </td>
             </tr>

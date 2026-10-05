@@ -78,9 +78,12 @@ const renderMedicinesList = async () => {
     const tableBody = document.getElementById('medicinesTableBody');
     if (!tableBody) return;
 
+    const tableResponsive = tableBody.closest('.table-responsive');
+
+    if (tableResponsive) tableResponsive.classList.add('table-empty-view');
     tableBody.innerHTML = `
-        <tr>
-            <td colspan="6" class="text-center py-4">
+        <tr class="empty-state-row">
+            <td colspan="7" class="text-center py-4 empty-state-cell">
                 <div class="spinner-border text-warning" role="status"></div>
                 <div class="text-muted mt-2">Loading medicine schedule...</div>
             </td>
@@ -94,17 +97,19 @@ const renderMedicinesList = async () => {
         const medicines = data.data || [];
 
         if (medicines.length === 0) {
+            if (tableResponsive) tableResponsive.classList.add('table-empty-view');
             tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="text-center py-5 text-muted">
+                <tr class="empty-state-row">
+                    <td colspan="7" class="text-center py-5 text-muted empty-state-cell">
                         <i class="bi bi-capsule fs-1 d-block mb-2 text-warning opacity-50"></i>
-                        No medicine reminders logged yet. <a href="add.html" class="fw-bold">Add your first reminder</a>.
+                        <span>No medicine reminders logged yet. <a href="add.html" class="fw-bold">Add your first reminder</a>.</span>
                     </td>
                 </tr>
             `;
             return;
         }
 
+        if (tableResponsive) tableResponsive.classList.remove('table-empty-view');
         tableBody.innerHTML = medicines.map((med, index) => `
             <tr>
                 <td class="fw-bold text-secondary">${index + 1}</td>
@@ -142,9 +147,10 @@ const renderMedicinesList = async () => {
         `).join('');
     } catch (error) {
         console.error('renderMedicinesList Error:', error);
+        if (tableResponsive) tableResponsive.classList.add('table-empty-view');
         tableBody.innerHTML = `
-            <tr>
-                <td colspan="6" class="text-center py-4 text-danger">
+            <tr class="empty-state-row">
+                <td colspan="7" class="text-center py-4 text-danger empty-state-cell">
                     Failed to load medicines: ${error.message}
                 </td>
             </tr>

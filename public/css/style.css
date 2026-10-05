@@ -3275,6 +3275,50 @@ a:hover {
         white-space: nowrap !important;
     }
 
+    /* Clean Centered Mobile Empty & Loading States in Tables */
+    .table-responsive:has(tbody tr:only-child td[colspan]) thead,
+    .table-responsive:has(tbody tr.empty-state-row) thead,
+    .table-responsive.table-empty-view thead {
+        display: none !important;
+    }
+
+    .table-responsive:has(tbody tr:only-child td[colspan]) table,
+    .table-responsive:has(tbody tr.empty-state-row) table,
+    .table-responsive.table-empty-view table {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        table-layout: auto !important;
+    }
+
+    .custom-table td[colspan],
+    .table td[colspan],
+    .empty-state-cell,
+    .table-empty-cell {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        text-align: center !important;
+        padding: 40px 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    .table-responsive:has(tbody tr:only-child td[colspan]) tr,
+    .table-responsive:has(tbody tr.empty-state-row) tr,
+    .table-responsive.table-empty-view tr {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .table-responsive:has(tbody tr:only-child td[colspan]) tbody,
+    .table-responsive:has(tbody tr.empty-state-row) tbody,
+    .table-responsive.table-empty-view tbody {
+        display: block !important;
+        width: 100% !important;
+    }
+
     .custom-table .btn-sm,
     .table .btn-sm {
         padding: 5px 10px !important;
