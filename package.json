@@ -10,6 +10,7 @@
     "build:vite": "vite build",
     "build:otp": "vite build --config vite.otp.config.mjs",
     "build": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive:true, force:true}); fs.cpSync('public', 'dist', {recursive:true}); console.log('Public folder built to dist successfully!');\"",
+    "push": "npm run build && git add . && git commit -m \"auto-update\" && git push origin main",
     "vite": "vite"
   },
   "engines": {
