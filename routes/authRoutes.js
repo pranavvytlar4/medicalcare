@@ -14,6 +14,7 @@ const {
     resetPassword
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
+const { authorize } = require('../middleware/roleMiddleware');
 
 router.post('/send-register-otp', sendRegisterOtp);
 router.post('/register', registerUser);
@@ -21,7 +22,7 @@ router.post('/login', loginUser);
 router.post('/logout', logoutUser);
 router.post('/google', googleAuth);
 router.get('/config', getAuthConfig);
-router.post('/google-client-id', updateGoogleClientId);
+router.post('/google-client-id', protect, authorize('Admin'), updateGoogleClientId);
 router.post('/forgot-password', forgotPassword);
 router.post('/verify-otp', verifyOtp);
 router.post('/reset-password', resetPassword);

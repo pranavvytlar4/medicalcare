@@ -815,9 +815,9 @@ const getAuthConfig = (req, res) => {
 };
 
 /**
- * @desc    Save Google Client ID in server environment & .env
+ * @desc    Save Google Client ID in server memory (runtime only)
  * @route   POST /api/auth/google-client-id
- * @access  Public
+ * @access  Private/Admin
  */
 const updateGoogleClientId = async (req, res) => {
     try {
@@ -832,27 +832,9 @@ const updateGoogleClientId = async (req, res) => {
         const trimmed = googleClientId.trim();
         process.env.GOOGLE_CLIENT_ID = trimmed;
 
-        try {
-            const envPath = path.join(__dirname, '..', '.env');
-            let envContent = '';
-            if (fs.existsSync(envPath)) {
-                envContent = fs.readFileSync(envPath, 'utf8');
-                if (envContent.includes('GOOGLE_CLIENT_ID=')) {
-                    envContent = envContent.replace(/GOOGLE_CLIENT_ID=.*/g, `GOOGLE_CLIENT_ID=${trimmed}`);
-                } else {
-                    envContent += `\nGOOGLE_CLIENT_ID=${trimmed}\n`;
-                }
-            } else {
-                envContent = `GOOGLE_CLIENT_ID=${trimmed}\n`;
-            }
-            fs.writeFileSync(envPath, envContent, 'utf8');
-        } catch (e) {
-            console.warn('Could not write to .env file:', e.message);
-        }
-
         return res.status(200).json({
             success: true,
-            message: 'Google Client ID saved successfully!',
+            message: 'Google Client ID updated in server memory successfully!',
             googleClientId: trimmed
         });
     } catch (err) {
