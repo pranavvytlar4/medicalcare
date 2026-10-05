@@ -10,63 +10,7 @@ const { sendOtpEmail } = require('../config/email');
 
 const USERS_FILE = path.join(__dirname, '..', 'data', 'persistedUsers.json');
 
-// In-memory user store fallback for environments where MongoDB is offline/disconnected.
-// Preloads master admin, standard admin, demo doctor, and demo patient.
-const initialMemoryUserList = [
-    {
-        id: 'mem_admin_pranav',
-        name: 'Pranav Vaitla',
-        email: 'pranavvaitla2@gmail.com',
-        phone: '9876543210',
-        passwordHash: bcrypt.hashSync('password123', 10),
-        role: 'Admin',
-        doctorAccess: false,
-        createdAt: new Date('2026-01-01')
-    },
-    {
-        id: 'mem_admin_sys',
-        name: 'System Admin',
-        email: 'admin@medicalcare.com',
-        phone: '9876543211',
-        passwordHash: bcrypt.hashSync('admin123', 10),
-        role: 'Admin',
-        doctorAccess: false,
-        createdAt: new Date('2026-01-01')
-    },
-    {
-        id: 'mem_pat_vishal',
-        name: 'Sai vishal Chikoti',
-        email: 'chikotisaivishal@gmail.com',
-        phone: '',
-        passwordHash: '$2a$10$z163nXnc9A1h5Sx3vkDre.yrCJiKcvQuQNGBu.YC65gE5ZXGQ.q6.',
-        role: 'Patient',
-        doctorAccess: false,
-        googleId: '102937758125643307446',
-        avatar: 'https://lh3.googleusercontent.com/a/ACg8ocJxHYqPDM6pZCSZKKA6__jhyJr4Iy6ehwECT7hEjnoJ-nfTAT5Z=s96-c',
-        createdAt: new Date('2026-10-04')
-    },
-    {
-        id: 'mem_doc_demo',
-        name: 'Dr. Sarah Jenkins',
-        email: 'doctor@medicalcare.com',
-        phone: '9876543212',
-        passwordHash: bcrypt.hashSync('doctor123', 10),
-        role: 'Doctor',
-        doctorAccess: true,
-        createdAt: new Date('2026-01-01')
-    },
-    {
-        id: 'mem_pat_demo',
-        name: 'Rahul Sharma',
-        email: 'patient@medicalcare.com',
-        phone: '9876543213',
-        passwordHash: bcrypt.hashSync('patient123', 10),
-        role: 'Patient',
-        doctorAccess: false,
-        createdAt: new Date('2026-01-01')
-    }
-];
-
+// In-memory user store fallback (no default accounts — use scripts/seedAdmin.js).
 const memoryUsers = new Map();
 
 // Helper to save registered users to persisted file
@@ -98,11 +42,6 @@ const loadPersistedUsers = () => {
     }
 };
 
-// Populate memoryUsers with default accounts first, then merge persisted users
-initialMemoryUserList.forEach(u => {
-    memoryUsers.set(u.email, u);
-    memoryUsers.set(u.id, u);
-});
 loadPersistedUsers();
 
 // In-memory OTP store fallback
@@ -259,12 +198,7 @@ const registerUser = async (req, res, next) => {
             try { await Otp.deleteMany({ email: normalizedEmail, type: 'register' }); } catch (e) {}
         }
 
-        const isAdminEmail = (
-            normalizedEmail === 'pranavvaitla2@gmail.com' ||
-            normalizedEmail === 'admin@medicalcare.com' ||
-            (normalizedEmail.includes('pranav') && normalizedEmail.endsWith('@gmail.com'))
-        );
-        const userRole = isAdminEmail ? 'Admin' : 'Patient';
+        const userRole = 'Patient';
         const hasDoctorAccess = false;
         const cleanPhone = (phone && typeof phone === 'string') ? phone.trim() : '';
 
@@ -414,14 +348,6 @@ const loginUser = async (req, res, next) => {
             gmailNoDots = local.replace(/\./g, '') + '@' + domain;
         }
 
-        const isAdminIdentifier = (
-            normalizedEmail === 'pranavvaitla2@gmail.com' ||
-            normalizedEmail === 'admin@medicalcare.com' ||
-            (gmailNoDots && gmailNoDots === 'pranavvaitla2@gmail.com') ||
-            (normalizedEmail.includes('pranav') && (normalizedEmail.endsWith('@gmail.com') || normalizedEmail.includes('vaitla'))) ||
-            (phoneFormatted && phoneFormatted === '9876543210')
-        );
-
         // Ensure database connection is active before performing lookup
         await ensureDb();
 
@@ -483,28 +409,11 @@ const loginUser = async (req, res, next) => {
             }
 
             if (!user) {
-                // If it's the designated master admin, auto-create account on first login
-                if (isAdminIdentifier) {
-                    user = await User.create({
-                        name: 'Pranav Vaitla',
-                        email: normalizedEmail.includes('@') ? normalizedEmail : 'pranavvaitla2@gmail.com',
-                        phone: phoneFormatted || '9876543210',
-                        password: password,
-                        role: 'Admin',
-                        doctorAccess: false
-                    });
-                } else {
-                    return res.status(401).json({
-                        success: false,
-                        message: 'Invalid credentials! No account found with this email or mobile number. If you are new, please register first.'
-                    });
-                }
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid credentials! No account found with this email or mobile number. If you are new, please register first.'
+                });
             } else {
-                if (isAdminIdentifier && user.role !== 'Admin') {
-                    user.role = 'Admin';
-                    await user.save();
-                }
-
                 const isMatch = await user.matchPassword(password);
                 if (!isMatch) {
                     // Check if account was registered via Google Sign-In
@@ -573,34 +482,14 @@ const loginUser = async (req, res, next) => {
         });
 
         if (!memUser) {
-            if (isAdminIdentifier) {
-                const newId = 'mem_admin_' + Date.now();
-                memUser = {
-                    id: newId,
-                    name: 'Pranav Vaitla',
-                    email: normalizedEmail.includes('@') ? normalizedEmail : 'pranavvaitla2@gmail.com',
-                    phone: phoneFormatted || '9876543210',
-                    passwordHash: await bcrypt.hash(password, 10),
-                    role: 'Admin',
-                    doctorAccess: false
-                };
-                memoryUsers.set(memUser.email, memUser);
-                memoryUsers.set(newId, memUser);
-            } else {
-                return res.status(401).json({
-                    success: false,
-                    message: 'Invalid credentials! No account found with this email or mobile number. If you are new, please register first.'
-                });
-            }
-        }
-
-        if (isAdminIdentifier) {
-            memUser.role = 'Admin';
-            memUser.doctorAccess = false;
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid credentials! No account found with this email or mobile number. If you are new, please register first.'
+            });
         }
 
         const isMatch = await bcrypt.compare(password, memUser.passwordHash);
-        if (!isMatch && !isAdminIdentifier) {
+        if (!isMatch) {
             if (memUser.googleId || (memUser.avatar && memUser.avatar.includes('googleusercontent.com'))) {
                 return res.status(401).json({
                     success: false,
@@ -786,8 +675,7 @@ const googleAuth = async (req, res, next) => {
 
         const normalizedEmail = email.toLowerCase().trim();
         const userName = name && name.trim() ? name.trim() : normalizedEmail.split('@')[0];
-        const isAdminEmail = (normalizedEmail === 'pranavvaitla2@gmail.com' || normalizedEmail === 'admin@medicalcare.com');
-        const defaultRole = isAdminEmail ? 'Admin' : 'Patient';
+        const defaultRole = 'Patient';
 
         let existingUser = null;
         if (isDbConnected()) {
@@ -868,10 +756,6 @@ const googleAuth = async (req, res, next) => {
         let userObj = null;
         if (isDbConnected()) {
             let updated = false;
-            if (isAdminEmail && existingUser.role !== 'Admin') {
-                existingUser.role = 'Admin';
-                updated = true;
-            }
             if (picture && !existingUser.avatar) {
                 existingUser.avatar = picture;
                 updated = true;
@@ -889,7 +773,6 @@ const googleAuth = async (req, res, next) => {
                 avatar: existingUser.avatar || picture || ''
             };
         } else {
-            if (isAdminEmail) existingUser.role = 'Admin';
             if (picture) existingUser.avatar = picture;
             userObj = existingUser;
         }
@@ -1069,12 +952,7 @@ const forgotPassword = async (req, res, next) => {
             userExists = true;
         }
 
-        const isAdminEmail = (
-            normalizedEmail === 'pranavvaitla2@gmail.com' ||
-            normalizedEmail === 'admin@medicalcare.com' ||
-            (normalizedEmail.includes('pranav') && normalizedEmail.endsWith('@gmail.com'))
-        );
-        if (!userExists && !isAdminEmail) {
+        if (!userExists) {
             return res.status(404).json({ success: false, message: 'No registered user found with this email address.' });
         }
 
