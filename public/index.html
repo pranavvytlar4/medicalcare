@@ -20,7 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/style.css?v=42.0">
+    <link rel="stylesheet" href="css/style.css?v=43.0">
 
     <!-- Critical Inline Styles to Guarantee 100% Styling on Direct File Browsing -->
     <style>
@@ -1821,6 +1821,147 @@
         </div>
     </header>
 
+    <!-- Medical Care Interactive Image Slider Section ("Slide to Left or Right") -->
+    <section class="medical-slider-section py-5 position-relative" id="heroImageSliderSection">
+        <div class="container position-relative">
+            <!-- Section Header -->
+            <div class="text-center max-w-700 mx-auto mb-4 reveal-on-scroll">
+                <span class="curemed-label"><i class="bi bi-hospital me-1"></i> WORLD-CLASS HEALTHCARE</span>
+                <h2 class="display-6 fw-bold mb-2">Excellence in Every Department &amp; Specialty</h2>
+                <p class="text-muted lead fs-6 mb-0">Explore our modern medical facilities, compassionate specialist doctors, and 24/7 patient-first services.</p>
+            </div>
+
+            <!-- Slider Card Wrapper -->
+            <div class="medical-slider-card position-relative reveal-on-scroll shadow-lg">
+                <!-- Viewport -->
+                <div class="medical-slider-viewport" id="medicalSliderViewport">
+                    <!-- Sliding Track -->
+                    <div class="medical-slider-track" id="medicalSliderTrack">
+                        <!-- Slide 1: Doctors -->
+                        <div class="medical-slider-slide active" data-slide-index="0">
+                            <img src="images/slider-doctors.jpg" alt="Dedicated Specialist Doctors" class="slider-bg-img" loading="eager">
+                            <div class="slider-gradient-overlay"></div>
+                            <div class="slider-content-box">
+                                <span class="slider-badge"><i class="bi bi-person-heart me-1"></i> Expert Medical Team</span>
+                                <h3 class="slider-title">Compassionate Doctors Who Put Your Health First</h3>
+                                <p class="slider-desc">From routine consultations to complex interventions, our multidisciplinary team of experienced physicians and specialists are dedicated to your family's lifelong wellness.</p>
+                                <div class="slider-actions">
+                                    <a href="appointment/book" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold me-2 shadow-sm">
+                                        <i class="bi bi-calendar2-check me-2"></i>Book an Appointment
+                                    </a>
+                                    <a href="appointment/doctors" class="btn btn-light bg-white bg-opacity-75 border rounded-pill px-4 py-2 fw-semibold text-dark shadow-sm">
+                                        <i class="bi bi-people me-2"></i>Meet Doctors
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Facilities -->
+                        <div class="medical-slider-slide" data-slide-index="1">
+                            <img src="images/slider-facility.jpg" alt="State-of-the-art Medical Center" class="slider-bg-img" loading="lazy">
+                            <div class="slider-gradient-overlay"></div>
+                            <div class="slider-content-box">
+                                <span class="slider-badge"><i class="bi bi-hospital me-1"></i> Modern Facilities</span>
+                                <h3 class="slider-title">Advanced Clinical Infrastructure Built for Healing</h3>
+                                <p class="slider-desc">Designed for comfort, speed, and safety. Enjoy patient-centric wards, digital consultation lounges, sanitized treatment zones, and rapid emergency triage.</p>
+                                <div class="slider-actions">
+                                    <a href="dashboard" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold me-2 shadow-sm">
+                                        <i class="bi bi-grid-fill me-2"></i>Patient Dashboard
+                                    </a>
+                                    <a href="#aboutUsSection" class="btn btn-light bg-white bg-opacity-75 border rounded-pill px-4 py-2 fw-semibold text-dark shadow-sm">
+                                        <i class="bi bi-info-circle me-2"></i>Why Choose Us
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Consultation -->
+                        <div class="medical-slider-slide" data-slide-index="2">
+                            <img src="images/slider-consultation.jpg" alt="Doctor Consultation" class="slider-bg-img" loading="lazy">
+                            <div class="slider-gradient-overlay"></div>
+                            <div class="slider-content-box">
+                                <span class="slider-badge"><i class="bi bi-chat-heart me-1"></i> Patient-First Care</span>
+                                <h3 class="slider-title">Dedicated Time &amp; Attention for Every Patient</h3>
+                                <p class="slider-desc">No rushed 5-minute visits. Our physicians listen carefully to your complete medical background, answering every question with empathy and clear guidance.</p>
+                                <div class="slider-actions">
+                                    <a href="appointment/book" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold me-2 shadow-sm">
+                                        <i class="bi bi-calendar-plus me-2"></i>Schedule Consultation
+                                    </a>
+                                    <a href="medical/records" class="btn btn-light bg-white bg-opacity-75 border rounded-pill px-4 py-2 fw-semibold text-dark shadow-sm">
+                                        <i class="bi bi-file-earmark-medical me-2"></i>Medical Records
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: Technology -->
+                        <div class="medical-slider-slide" data-slide-index="3">
+                            <img src="images/slider-technology.jpg" alt="Precision Medical Technology" class="slider-bg-img" loading="lazy">
+                            <div class="slider-gradient-overlay"></div>
+                            <div class="slider-content-box">
+                                <span class="slider-badge"><i class="bi bi-cpu me-1"></i> Precision Technology</span>
+                                <h3 class="slider-title">Cutting-Edge Diagnostic &amp; Surgical Precision</h3>
+                                <p class="slider-desc">Powered by modern digital imaging, high-accuracy laboratory diagnostics, and minimally invasive procedures that accelerate recovery times.</p>
+                                <div class="slider-actions">
+                                    <a href="appointment/doctors" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold me-2 shadow-sm">
+                                        <i class="bi bi-search me-2"></i>Find Specialists
+                                    </a>
+                                    <a href="dashboard" class="btn btn-light bg-white bg-opacity-75 border rounded-pill px-4 py-2 fw-semibold text-dark shadow-sm">
+                                        <i class="bi bi-shield-check me-2"></i>Explore Services
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 5: Wellness -->
+                        <div class="medical-slider-slide" data-slide-index="4">
+                            <img src="images/slider-wellness.jpg" alt="Holistic Health & Mental Wellness" class="slider-bg-img" loading="lazy">
+                            <div class="slider-gradient-overlay"></div>
+                            <div class="slider-content-box">
+                                <span class="slider-badge"><i class="bi bi-heart-pulse me-1"></i> Total Wellness</span>
+                                <h3 class="slider-title">Holistic Wellness, Medicine Schedules &amp; Donor Support</h3>
+                                <p class="slider-desc">Track mood and stress levels, set timely prescription dosage alarms, and tap into our lifesaving emergency voluntary blood donor network anytime.</p>
+                                <div class="slider-actions">
+                                    <a href="wellness/records" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold me-2 shadow-sm">
+                                        <i class="bi bi-heart-pulse me-2"></i>Mental Wellness
+                                    </a>
+                                    <a href="donor/donors" class="btn btn-light bg-white bg-opacity-75 border rounded-pill px-4 py-2 fw-semibold text-dark shadow-sm">
+                                        <i class="bi bi-droplet-half text-danger me-2"></i>Blood Donors
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left Navigation Arrow (Slide Left) -->
+                <button type="button" class="slider-nav-btn slider-nav-prev" id="sliderPrevBtn" aria-label="Slide to Left" title="Slide to Left">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <!-- Right Navigation Arrow (Slide Right) -->
+                <button type="button" class="slider-nav-btn slider-nav-next" id="sliderNextBtn" aria-label="Slide to Right" title="Slide to Right">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+
+                <!-- Indicator Dots & Progress -->
+                <div class="slider-controls-footer">
+                    <div class="slider-indicators" id="sliderIndicators" role="tablist" aria-label="Choose Slide">
+                        <button type="button" class="slider-dot active" role="tab" aria-selected="true" aria-label="Slide 1" data-slide-to="0"></button>
+                        <button type="button" class="slider-dot" role="tab" aria-selected="false" aria-label="Slide 2" data-slide-to="1"></button>
+                        <button type="button" class="slider-dot" role="tab" aria-selected="false" aria-label="Slide 3" data-slide-to="2"></button>
+                        <button type="button" class="slider-dot" role="tab" aria-selected="false" aria-label="Slide 4" data-slide-to="3"></button>
+                        <button type="button" class="slider-dot" role="tab" aria-selected="false" aria-label="Slide 5" data-slide-to="4"></button>
+                    </div>
+                    <!-- Auto-play progress bar -->
+                    <div class="slider-timer-bar-track">
+                        <div class="slider-timer-bar" id="sliderTimerBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- "What Makes Us Different" Section (About Us) -->
     <section class="py-5 bg-white" id="aboutUsSection">
         <div class="container">
@@ -2132,7 +2273,7 @@
 
     <!-- Bootstrap Bundle JS & Auth Script (Relative paths) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/auth.js?v=13.0"></script>
+    <script src="js/auth.js?v=14.0"></script>
 
     <!-- CureMed Webflow Animation & Interaction Engine -->
     <script>
@@ -2425,6 +2566,151 @@
                     setTimeout(() => heroActionBtn.classList.remove('auto-shine'), 850);
                 }, 4000);
             }
+
+            // -------------------------------------------------------------
+            // 9. Interactive Medical Showcase Image Slider ("Slide to Left or Right")
+            // -------------------------------------------------------------
+            const initMedicalSlider = () => {
+                const track = document.getElementById('medicalSliderTrack');
+                const viewport = document.getElementById('medicalSliderViewport');
+                const slides = document.querySelectorAll('.medical-slider-slide');
+                const prevBtn = document.getElementById('sliderPrevBtn');
+                const nextBtn = document.getElementById('sliderNextBtn');
+                const dots = document.querySelectorAll('.slider-dot');
+                const timerBar = document.getElementById('sliderTimerBar');
+
+                if (!track || slides.length === 0) return;
+
+                let currentIndex = 0;
+                const totalSlides = slides.length;
+                const AUTO_INTERVAL = 4500;
+                let isPaused = false;
+                let progressTimer = null;
+                let progressStart = Date.now();
+
+                const updateSlider = (index) => {
+                    currentIndex = (index + totalSlides) % totalSlides;
+                    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                    slides.forEach((slide, i) => {
+                        if (i === currentIndex) {
+                            slide.classList.add('active');
+                        } else {
+                            slide.classList.remove('active');
+                        }
+                    });
+
+                    dots.forEach((dot, i) => {
+                        if (i === currentIndex) {
+                            dot.classList.add('active');
+                            dot.setAttribute('aria-selected', 'true');
+                        } else {
+                            dot.classList.remove('active');
+                            dot.setAttribute('aria-selected', 'false');
+                        }
+                    });
+
+                    resetTimer();
+                };
+
+                const nextSlide = () => updateSlider(currentIndex + 1);
+                const prevSlide = () => updateSlider(currentIndex - 1);
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        nextSlide();
+                    });
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        prevSlide();
+                    });
+                }
+
+                dots.forEach((dot) => {
+                    dot.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetIdx = parseInt(dot.getAttribute('data-slide-to'), 10);
+                        if (!isNaN(targetIdx)) {
+                            updateSlider(targetIdx);
+                        }
+                    });
+                });
+
+                // Touch Swipe Gestures: Swiping Left slides to next; Swiping Right slides to prev
+                let touchStartX = 0;
+                let touchStartY = 0;
+
+                viewport.addEventListener('touchstart', (e) => {
+                    if (e.touches && e.touches.length > 0) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                        isPaused = true;
+                    }
+                }, { passive: true });
+
+                viewport.addEventListener('touchend', (e) => {
+                    if (e.changedTouches && e.changedTouches.length > 0) {
+                        const touchEndX = e.changedTouches[0].clientX;
+                        const touchEndY = e.changedTouches[0].clientY;
+                        const diffX = touchEndX - touchStartX;
+                        const diffY = touchEndY - touchStartY;
+
+                        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                            if (diffX < 0) {
+                                nextSlide(); // Swiped left -> move next
+                            } else {
+                                prevSlide(); // Swiped right -> move prev
+                            }
+                        }
+                    }
+                    isPaused = false;
+                    resetTimer();
+                }, { passive: true });
+
+                // Keyboard Left and Right arrows when slider in viewport
+                document.addEventListener('keydown', (e) => {
+                    const rect = viewport.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    if (isVisible) {
+                        if (e.key === 'ArrowRight') nextSlide();
+                        if (e.key === 'ArrowLeft') prevSlide();
+                    }
+                });
+
+                // Hover pause
+                viewport.addEventListener('mouseenter', () => { isPaused = true; });
+                viewport.addEventListener('mouseleave', () => {
+                    isPaused = false;
+                    resetTimer();
+                });
+
+                const resetTimer = () => {
+                    progressStart = Date.now();
+                    if (timerBar) timerBar.style.width = '0%';
+                };
+
+                const progressLoop = () => {
+                    if (!isPaused) {
+                        const elapsed = Date.now() - progressStart;
+                        const pct = Math.min((elapsed / AUTO_INTERVAL) * 100, 100);
+                        if (timerBar) timerBar.style.width = `${pct}%`;
+
+                        if (elapsed >= AUTO_INTERVAL) {
+                            nextSlide();
+                        }
+                    }
+                    progressTimer = requestAnimationFrame(progressLoop);
+                };
+
+                updateSlider(0);
+                progressTimer = requestAnimationFrame(progressLoop);
+            };
+
+            initMedicalSlider();
         });
     </script>
 </body>
