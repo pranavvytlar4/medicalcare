@@ -983,16 +983,15 @@ const initGlobalPageAnimations = () => {
         topBtn.setAttribute('type', 'button');
         topBtn.setAttribute('aria-label', 'Back to top');
         topBtn.innerHTML = `
-            <svg class="progress-ring" viewBox="0 0 48 48">
-                <circle class="progress-ring__track" stroke="rgba(37, 99, 235, 0.12)" stroke-width="3" fill="transparent" r="21" cx="24" cy="24" />
-                <circle class="progress-ring__circle" stroke="#2563eb" stroke-width="3" stroke-linecap="round" fill="transparent" r="21" cx="24" cy="24" stroke-dasharray="131.95" stroke-dashoffset="131.95"/>
+            <svg class="progress-ring" width="46" height="46">
+                <circle class="progress-ring__circle" stroke="#2563eb" stroke-width="2.5" fill="transparent" r="20" cx="23" cy="23" stroke-dasharray="125.6" stroke-dashoffset="125.6"/>
             </svg>
             <i class="bi bi-arrow-up"></i>
         `;
         document.body.appendChild(topBtn);
 
         const circle = topBtn.querySelector('.progress-ring__circle');
-        const radius = 21;
+        const radius = 20;
         const circumference = 2 * Math.PI * radius;
 
         window.addEventListener('scroll', () => {

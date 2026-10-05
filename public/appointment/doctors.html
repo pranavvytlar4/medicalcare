@@ -130,16 +130,6 @@
     <script src="../js/custom-select.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const query = urlParams.get('search');
-            const spec = urlParams.get('specialty') || urlParams.get('specialization');
-            if (query && document.getElementById('doctorSearch')) {
-                document.getElementById('doctorSearch').value = query;
-            }
-            if (spec && document.getElementById('specializationFilter')) {
-                document.getElementById('specializationFilter').value = spec;
-            }
-
             window.AppointmentModule.renderDoctorsList();
 
             document.getElementById('btnFilterDoctors').addEventListener('click', () => {
