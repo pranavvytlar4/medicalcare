@@ -3000,7 +3000,7 @@ a:hover {
     }
 
     .home-banner-section {
-        padding: 44px 16px 90px !important;
+        padding: 44px 16px 120px !important;
         min-height: auto !important;
         position: relative !important;
     }
@@ -3024,7 +3024,7 @@ a:hover {
     }
 
     .home-banner-section .d-flex.flex-wrap.gap-3 {
-        margin-bottom: 28px !important;
+        margin-bottom: 48px !important;
     }
 
     .hero-action-btn,
@@ -3036,7 +3036,7 @@ a:hover {
     }
 
     .partners-block {
-        padding: 26px 0 20px !important;
+        padding: 36px 0 24px !important;
     }
 
     .partner-item {
@@ -3477,7 +3477,7 @@ a:hover {
 
     /* 3. Homepage Hero Banner on Phone */
     .home-banner-section {
-        padding: 40px 16px 100px !important;
+        padding: 40px 16px 130px !important;
         min-height: auto !important;
         position: relative !important;
     }
@@ -3509,7 +3509,7 @@ a:hover {
         gap: 12px !important;
         width: 100% !important;
         max-width: 340px !important;
-        margin: 0 auto 36px !important;
+        margin: 0 auto 52px !important;
     }
 
     .hero-action-btn,
@@ -3524,7 +3524,7 @@ a:hover {
 
     /* 4. Partners / Trust Badges on Phone */
     .partners-block {
-        padding: 28px 8px 18px !important;
+        padding: 38px 8px 24px !important;
     }
 
     .partners-block .row {
@@ -3536,7 +3536,7 @@ a:hover {
 
     .partners-block .col-auto:first-child {
         grid-column: 1 / -1 !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 16px !important;
     }
 
     .partner-item {
