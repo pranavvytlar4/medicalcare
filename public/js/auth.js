@@ -569,6 +569,38 @@ const renderNavbarAuth = () => {
             setTimeout(initNavbarHover, 50);
         }
     } else {
+        const path = (window.location.pathname || '').toLowerCase();
+        const isLoginPage = path.includes('/login') || path.endsWith('login.html') || path.endsWith('/login') || !!document.getElementById('loginForm');
+        const isRegisterPage = path.includes('/register') || path.endsWith('register.html') || path.endsWith('/register') || !!document.getElementById('registerForm');
+
+        if (isLoginPage) {
+            authContainer.innerHTML = `
+                <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
+                    <a href="${prefix ? prefix : './'}" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold text-secondary d-none d-sm-inline-flex align-items-center">
+                        <i class="bi bi-house-door me-1"></i> Home
+                    </a>
+                    <a href="${prefix}register" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
+                        <i class="bi bi-person-plus-fill me-1"></i> Register
+                    </a>
+                </div>
+            `;
+            return;
+        }
+
+        if (isRegisterPage) {
+            authContainer.innerHTML = `
+                <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
+                    <a href="${prefix ? prefix : './'}" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold text-secondary d-none d-sm-inline-flex align-items-center">
+                        <i class="bi bi-house-door me-1"></i> Home
+                    </a>
+                    <a href="${prefix}login" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+                    </a>
+                </div>
+            `;
+            return;
+        }
+
         authContainer.innerHTML = `
             <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap auth-logged-out-buttons">
                 <a href="${prefix}login" class="secondary-button btn-sm px-3 py-1 text-nowrap" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;">
