@@ -1035,21 +1035,25 @@
             right: 28px;
             width: 48px;
             height: 48px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            color: #2563eb;
-            box-shadow: 0 10px 25px rgba(11, 19, 42, 0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 50% !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #2563eb !important;
+            box-shadow: 0 10px 25px rgba(11, 19, 42, 0.14) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             font-size: 1.25rem;
             cursor: pointer;
-            z-index: 1040;
+            z-index: 1045;
             opacity: 0;
             visibility: hidden;
             transform: translateY(16px) scale(0.9);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            padding: 0 !important;
+            margin: 0 !important;
+            outline: none !important;
+            box-sizing: border-box !important;
         }
 
         .back-to-top-btn.is-active {
@@ -1059,22 +1063,49 @@
         }
 
         .back-to-top-btn:hover {
-            background: #2563eb;
-            color: #ffffff;
+            background: #2563eb !important;
+            color: #ffffff !important;
             transform: translateY(-4px) scale(1.08);
-            box-shadow: 0 16px 32px rgba(37, 99, 235, 0.32);
+            box-shadow: 0 16px 32px rgba(37, 99, 235, 0.35) !important;
+            border-color: #2563eb !important;
+        }
+
+        .back-to-top-btn:hover .progress-ring__circle {
+            stroke: #ffffff !important;
+        }
+
+        .back-to-top-btn:hover .progress-ring__track {
+            stroke: rgba(255, 255, 255, 0.25) !important;
         }
 
         .back-to-top-btn svg.progress-ring {
             position: absolute;
-            top: 1px;
-            left: 1px;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
             transform: rotate(-90deg);
             pointer-events: none;
+            overflow: visible;
+        }
+
+        .progress-ring__track {
+            transition: stroke 0.2s ease;
         }
 
         .progress-ring__circle {
-            transition: stroke-dashoffset 0.15s ease-out;
+            transition: stroke-dashoffset 0.15s ease-out, stroke 0.2s ease;
+        }
+
+        .back-to-top-btn i {
+            position: relative;
+            z-index: 2;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .back-to-top-btn:hover i {
+            transform: translateY(-2px);
         }
 
         /* Scroll Reveal Animations */
@@ -2695,8 +2726,9 @@
 
     <!-- Floating Back to Top Button with Circular Progress Gauge -->
     <button id="backToTopBtn" class="back-to-top-btn" aria-label="Back to Top" title="Back to top">
-        <svg class="progress-ring" width="46" height="46">
-            <circle class="progress-ring__circle" stroke="#2563eb" stroke-width="3" fill="transparent" r="20" cx="23" cy="23" />
+        <svg class="progress-ring" viewBox="0 0 48 48">
+            <circle class="progress-ring__track" stroke="rgba(37, 99, 235, 0.12)" stroke-width="3" fill="transparent" r="21" cx="24" cy="24" />
+            <circle class="progress-ring__circle" stroke="#2563eb" stroke-width="3" stroke-linecap="round" fill="transparent" r="21" cx="24" cy="24" />
         </svg>
         <i class="bi bi-arrow-up"></i>
     </button>
@@ -2901,7 +2933,7 @@
             const scrollProgressBar = document.getElementById('scrollProgressBar');
             const backToTopBtn = document.getElementById('backToTopBtn');
             const circle = backToTopBtn ? backToTopBtn.querySelector('.progress-ring__circle') : null;
-            let radius = 20;
+            let radius = 21;
             let circumference = 2 * Math.PI * radius;
             if (circle) {
                 circle.style.strokeDasharray = `${circumference} ${circumference}`;
